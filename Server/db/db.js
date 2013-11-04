@@ -33,6 +33,7 @@ var DATABASE = function(servername, port){
 			{ id:3, Name:"Neck3", Category:"Chudidhar", Pic:"Neck3.png" },
 			{ id:4, Name:"Neck4", Category:"Chudidhar", Pic:"Neck4.png" },
 			{ id:5, Name:"Neck5", Category:"Chudidhar", Pic:"Neck5.png" }];
+			{ id:6, Name:"Blouse1", Category:"Blouse", Pic:"Blouse1.png" }];
 
 		_db.collection('designs', function(err, collection){
 		collection.insert(items, {safe:true}, function(err,result){});
