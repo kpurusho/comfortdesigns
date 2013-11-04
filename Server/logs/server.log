@@ -1,0 +1,11 @@
+{"level":"info","message":"server listening on port 3000...","timestamp":"2013-11-03T09:19:51.918Z"}
+{"level":"info","message":"requesting design id 1","timestamp":"2013-11-03T09:20:04.287Z"}
+{"level":"info","message":"requesting design id 2","timestamp":"2013-11-03T09:20:06.064Z"}
+{"level":"info","message":"requesting design id 3","timestamp":"2013-11-03T09:20:08.433Z"}
+{"level":"info","message":"requesting design id 4","timestamp":"2013-11-03T09:20:10.557Z"}
+{"level":"info","message":"requesting design id 5","timestamp":"2013-11-03T09:20:12.303Z"}
+{"level":"info","message":"requesting all designs","timestamp":"2013-11-03T09:20:41.559Z"}
+{"level":"info","message":"server listening on port 3000...","timestamp":"2013-11-03T09:23:24.637Z"}
+{"level":"info","message":"requesting all designs","timestamp":"2013-11-03T09:23:28.113Z"}
+{"level":"info","message":"requesting design id 3","timestamp":"2013-11-03T09:23:31.435Z"}
+{"level":"info","message":"requesting all designs","timestamp":"2013-11-03T09:23:37.808Z"}
