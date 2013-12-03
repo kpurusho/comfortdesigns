@@ -1,5 +1,6 @@
 var express = require('express');
 var design = require('./routes/designs');
+var tasks = require('./routes/tasks');
 var logger = require('./log/log').logger;
 
 var app = express();
@@ -12,9 +13,15 @@ var app = express();
 //};
 //app.use(express.logger({stream : logstream}));
 
-app.get('/', design.getAll);
-app.get('/designs', design.getAll);
-app.get('/designs/:id', design.getById);
+//app.get('/', design.getAll);
+//app.get('/designs', design.getAll);
+//app.get('/designs/:id', design.getById);
+
+app.get('/tasks', tasks.getAllTasks);
+app.get('/tasks/:TaskName', tasks.getByTaskName);
+app.post('/tasks/:TaskName', tasks.addTask);
+app.put('/tasks/:TaskName', tasks.updateTask);
+app.delete('/tasks/:TaskName', tasks.deleteTask);
 
 app.listen(3000);
 
