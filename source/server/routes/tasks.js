@@ -54,7 +54,7 @@ exports.getById = function(req, res){
 
 exports.addTask = function(req, res) {
 	var task = req.body;
-	logger.info('requesting add task - ' + task);
+	logger.info('requesting add task - ' + task.TaskName);
 	db.instance().collection('tasks_master', function (err, collection) {
 		collection.insert(task, { safe: true }, function (err, result) {
 			if (err) {
@@ -63,6 +63,7 @@ exports.addTask = function(req, res) {
 			}
 			else {
 				logger.info('successfully added task - ' + task);
+				res.send(result[0]);
 			}
 		});
 	});
@@ -80,6 +81,7 @@ exports.updateTask = function (req, res) {
 				res.send({'error' : 'An error has occured - ' + err});
 			 } else {
 			 	logger.log('' + result + ' document(s) updated');
+				res.send(taskInfo);
 			 }
 		});
 	});
@@ -95,7 +97,7 @@ exports.deleteTask = function (req, res) {
 				res.send({'error' : 'An error has occured - ' + err});
 			} else {
 			 	logger.log('' + result + ' document(s) deleted');
-				
+				 res.send(req.body);
 			}
 		});
 	});

@@ -1,5 +1,5 @@
 //get by task name
-curl -i -X GET http://localhost:3000/tasks/TaName?TaskName=t1
+curl -i -X GET http://localhost:3000/tasks/TName?TaskName=t1
 //get by id
 curl -i -X GET http://localhost:3000/tasks/52a3181d4813a02c17000001
 //Add
