@@ -14,14 +14,17 @@ exports.getAllTasks = function(req, res){
 		}
 		else {
 			collection.find().toArray(function(err, items){
-				res.jsonp(items);
+				var allTasks = {
+					tasks: items
+				};
+				res.send(allTasks);
 			});
 		}
 	});
 };
 
 exports.getByTaskName = function(req, res){
-	var Name = req.param('TaskName','undefined');
+	var Name = req.param('taskname','undefined');
 	logger.info('requesting task Name ' + Name);
 	db.instance().collection('tasks_master', function(err, collection){
 		if (err){
@@ -29,8 +32,11 @@ exports.getByTaskName = function(req, res){
 			res.send({'error' : 'An error has occured - ' + err});
 		}
 		else {
-			collection.find({'TaskName':Name}).toArray(function(err, items){
-				res.jsonp(items);
+			collection.find({'taskname':Name}).toArray(function(err, items){
+				var matchTasks = {
+					tasks: items
+				};
+				res.send(matchTasks);
 			});
 		}
 	});
@@ -46,15 +52,15 @@ exports.getById = function(req, res){
 		}
 		else {
 			collection.findOne({'_id':BSON.ObjectID(id)}, function(err, item) {
-				res.jsonp(item);
+				res.json({location:item});
 			});
 		}
 	});
 };
 
 exports.addTask = function(req, res) {
-	var task = req.body;
-	logger.info('requesting add task - ' + task.TaskName);
+	var task = req.body.task;
+	logger.info('requesting add task - ' + task.taskname);
 	db.instance().collection('tasks_master', function (err, collection) {
 		collection.insert(task, { safe: true }, function (err, result) {
 			if (err) {
@@ -71,7 +77,7 @@ exports.addTask = function(req, res) {
 
 exports.updateTask = function (req, res) {
 	var taskId = req.params.id;
-	var taskInfo = req.body;
+	var taskInfo = req.body.task;
 	logger.info('requesting update task with id ' + taskId);
 	logger.info(JSON.stringify(taskInfo));
 	db.instance().collection('tasks_master', function (err, collection) {

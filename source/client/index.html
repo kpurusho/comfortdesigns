@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Ember CRUD Demo</title>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <script type="text/x-handlebars" data-template-name="application">
+  <div class="container">
+    <h1>Comfort Designs</h1>
+
+        <div class="navbar">
+          <div class="navbar-inner">
+            <ul class="nav">
+              
+              {{#view App.NavView}}
+                {{#linkTo "index"}}Home{{/linkTo}}
+              {{/view}}
+              
+              {{#view App.NavView}}
+                {{#linkTo "tasks"}}Master Tasks{{/linkTo}}
+              {{/view}}
+              
+
+              {{#view App.NavView}}
+                {{#linkTo "about"}}About{{/linkTo}}
+              {{/view}}
+
+            </ul>
+          </div>
+        </div>
+    {{outlet}}
+  </div>
+  </script>  
+
+  <script type="text/x-handlebars" data-template-name="index" >
+    <p>Welcome to Comfort Designs </p>
+
+  </script>
+
+
+  <script type="text/x-handlebars" data-template-name="tasks/index">
+
+    {{#if tasksPresent}}
+
+      <p>Nr of tasks = {{content.length}}</p>
+
+      {{#if itemsSelected}}
+        <p><button {{action 'removeSelectedTasks'}}>Remove {{editCounter}} selected tasks</button></p>
+      {{/if}}
+
+      <table class="table table-hover">
+      <tr>
+        <th>Selected</th>
+        <th>Sequence Id</th>
+        <th>Task Name</th>
+        <th></th>
+        <th></th>
+      </tr>
+        {{#each task in controller itemController="tasksEdit"}}
+          <tr {{bindAttr class="selected:warning"}}>
+          <td>{{view Ember.Checkbox checkedBinding="selected"}}</td>
+          <td>{{task.seqid}}</td>
+          <td>{{task.taskname}}</td>
+          <td>{{#linkTo "tasks.edit" task}}<img src="images/edit-icon.png"/>{{/linkTo}}</td>
+          <td><a href="#" {{action removeItem task}}><img src="images/delete-icon.png" border="0"/></a></td>
+          </tr>
+        {{/each}}
+      </table>
+
+    {{else}}
+      No tasks present.
+    {{/if}}
+
+    <p>{{#linkTo "tasks.new"}}<img src="images/add-icon.png"/> New task{{/linkTo}}</p>
+
+    
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="_taskForm" >
+      <form class="form-horizontal">
+      <div class="control-group">
+        <label class="control-label" for="latitude">Sequence Id</label>
+        <div class="controls">
+          {{view Ember.TextField valueBinding="seqid"}}
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="longitude">Task Name</label>
+        <div class="controls">
+          {{view Ember.TextField valueBinding="taskname"}}
+        </div>
+      </div>
+    </form>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="tasks/edit" >
+    
+    {{#if controller.isNew}}
+      <h1>New task</h1>
+    {{else}}
+      <h1>Edit task</h1>
+    {{/if}}
+
+      {{partial "taskForm"}}
+
+      <p>
+        <button {{action updateItem this}}>Update record</button>
+      </p>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="about" >
+      <p>This is the about page.</p>
+  </script>
+
+  <script src="js/lib/jquery-1.9.1.js"></script>
+  <script src="js/lib/handlebars-1.0.0-rc.4.js"></script>
+  <script src="js/lib/ember-1.0.0-rc.7.js"></script>
+  <script src="js/lib/ember-data-0.13.js"></script>
+  <script src="js/lib/bootstrap.js"></script>
+  <script src="js/application.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/controller/tasksedit_controller.js"></script>
+  <script src="js/controller/tasksindex_controller.js"></script>
+  <script src="js/models/taskmodel.js"></script>
+  <script src="js/views/navview.js"></script>
+</body>
+</html>
