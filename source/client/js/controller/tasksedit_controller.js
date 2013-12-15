@@ -7,7 +7,7 @@ App.TasksEditController = Ember.ObjectController.extend({
   isNew: function() {
     console.log("calculating isNew");
     return this.get('content').get('id');
-  }.property()
+  }.property() //.property() marks this function as property. check http://emberjs.com/api/classes/Function.html#method_property
 
 
 });

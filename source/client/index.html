@@ -18,6 +18,7 @@
             <ul class="nav">
               
               {{#view App.NavView}}
+                <!--linkTo actually links to route name in router.js-->
                 {{#linkTo "index"}}Home{{/linkTo}}
               {{/view}}
               
@@ -39,7 +40,6 @@
 
   <script type="text/x-handlebars" data-template-name="index" >
     <p>Welcome to Comfort Designs </p>
-
   </script>
 
 
@@ -47,7 +47,7 @@
 
     {{#if tasksPresent}}
 
-      <p>Nr of tasks = {{content.length}}</p>
+      <p>Number of tasks = {{content.length}}</p>
 
       {{#if itemsSelected}}
         <p><button {{action 'removeSelectedTasks'}}>Remove {{editCounter}} selected tasks</button></p>
@@ -117,9 +117,9 @@
       <p>This is the about page.</p>
   </script>
 
-  <script src="js/lib/jquery-1.9.1.js"></script>
-  <script src="js/lib/handlebars-1.0.0-rc.4.js"></script>
-  <script src="js/lib/ember-1.0.0-rc.7.js"></script>
+  <script src="js/lib/jquery-1.10.2.js"></script>
+  <script src="js/lib/handlebars-1.1.2.js"></script>
+  <script src="js/lib/ember-1.2.0.js"></script>
   <script src="js/lib/ember-data-0.13.js"></script>
   <script src="js/lib/bootstrap.js"></script>
   <script src="js/application.js"></script>
