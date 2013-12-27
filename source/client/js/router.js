@@ -9,7 +9,57 @@ App.Router.map(function () {
         //automatically generated - //url: tasks/index, template; tasks/index, Route: TasksIndexRoute, Controller: TasksIndexController
     });
 
+    this.resource('customers', { path: 'customers' }, function () {
+        console.log('Inside customers....');
+        this.route('new', { path: '/new' });
+        this.route('edit', { path: '/:cust_id' });
+    });
 });
+
+
+App.CustomersIndexRoute = Ember.Route.extend({
+
+    setupController: function (controller) {
+
+        var customers = App.Customer.find();
+        customers.on('didLoad', function () {
+            console.log(" +++ Customers loaded!");
+        });
+        controller.set('content', customers);
+    },
+
+    renderTemplate: function () {
+        this.render('customers.index', { into: 'application' });
+    }
+
+
+});
+
+App.CustomersEditRoute = Ember.Route.extend({
+
+    setupController: function (controller, model) {
+        this.controllerFor('customers.edit').setProperties({ isNew: false, content: model });
+    },
+
+    renderTemplate: function () {
+        //this renders the template tasks.edit into application template's outlet
+        this.render('customers.edit', { into: 'application' });
+    }
+
+});
+
+App.CustomersNewRoute = Ember.Route.extend({
+    setupController: function (controller, model) {
+        this.controllerFor('customers.edit').setProperties({ isNew: true, content: App.Customer.createRecord() });
+    },
+    renderTemplate: function () {
+        //this renders the same template tasks.edit into application template's outlet
+        // isNew property is used to determine if it is a new task or an existing task
+        this.render('customers.edit', { into: 'application' });
+    }
+
+});
+
 
 App.TasksIndexRoute = Ember.Route.extend({
 

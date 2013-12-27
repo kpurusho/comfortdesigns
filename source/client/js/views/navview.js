@@ -16,3 +16,11 @@ App.NavView = Ember.View.extend({
     }.property()
   });
 
+//App.RestrictedTextField = Ember.TextField.extend({
+//    attributeBindings: ['size'],
+//    'size': '10'
+//});
+
+//Ember.TextField.reopen({
+//    attributeBindings: ['size']
+//});

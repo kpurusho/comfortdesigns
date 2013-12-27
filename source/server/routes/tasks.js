@@ -13,7 +13,7 @@ exports.getAllTasks = function(req, res){
 			res.send({'error' : 'An error has occured - ' + err});
 		}
 		else {
-			collection.find().toArray(function(err, items){
+		    collection.find().sort({ seqid: 1 }).toArray(function(err, items){
 				var allTasks = {
 					tasks: items
 				};
@@ -52,7 +52,7 @@ exports.getById = function(req, res){
 		}
 		else {
 			collection.findOne({'_id':BSON.ObjectID(id)}, function(err, item) {
-				res.json({location:item});
+				res.json({task:item});
 			});
 		}
 	});

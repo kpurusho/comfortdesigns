@@ -1,6 +1,7 @@
 var express = require('express');
 var design = require('./routes/designs');
 var tasks = require('./routes/tasks');
+var customers = require('./routes/customers');
 var logger = require('./log/log').logger;
 
 var app = express();
@@ -19,7 +20,7 @@ var allowCrossDomain = function(req, res, next) {
     else {
       next();
     }
-};
+};  
 
 app.configure(function () {
     app.use(express.logger('dev'));
@@ -36,10 +37,8 @@ app.configure(function () {
 //};
 //app.use(express.logger({stream : logstream}));
 
-//app.get('/', design.getAll);
-//app.get('/designs', design.getAll);
-//app.get('/designs/:id', design.getById);
 
+//Task related API's
 app.get('/tasks', tasks.getAllTasks);
 app.get('/tasks/TName', tasks.getByTaskName);
 app.get('/tasks/:id', tasks.getById);
@@ -49,6 +48,13 @@ app.post('/tasks', tasks.addTask);
 app.put('/tasks/:id', tasks.updateTask);
 
 app.delete('/tasks/:id', tasks.deleteTask);
+
+//Customer related API's
+app.get('/customers', customers.getAllCustomers);
+app.get('/customers/:id', customers.getById);
+app.post('/customers', customers.addCustomer);
+app.put('/customers/:id', customers.updateCustomer);
+app.delete('/customers/:id', customers.deleteCustomer);
 
 app.listen(3000);
 
