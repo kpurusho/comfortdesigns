@@ -30,12 +30,12 @@ app.configure(function () {
 });
 
 //uncomment following sectionto include express logging into logger
-//var logstream = {
-//	write : function(message, encoding) {
-//			logger.info(message);
-//		}
-//};
-//app.use(express.logger({stream : logstream}));
+var logstream = {
+	write : function(message, encoding) {
+			logger.info(message);
+		}
+};
+app.use(express.logger({stream : logstream}));
 
 
 //Task related API's

@@ -1,4 +1,4 @@
-App.TasksIndexController = Ember.ArrayController.extend({
+App.CustomersIndexController = Ember.ArrayController.extend({
 
     editCounter: function () {
         return this.filterProperty('selected', true).get('length');
@@ -10,13 +10,13 @@ App.TasksIndexController = Ember.ArrayController.extend({
 
     actions: {
 
-        removeItem: function (task) {
-            task.deleteRecord();
-            task.get('isDeleted');
-            task.save();
+        removeItem: function (customer) {
+            customer.deleteRecord();
+            customer.get('isDeleted');
+            customer.save();
         },
 
-        removeSelectedTasks: function () {
+        removeSelectedCustomers: function () {
             arr = this.filterProperty('selected', true);
             if (arr.length == 0) {
                 output = "nothing selected";

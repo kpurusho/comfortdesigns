@@ -1,12 +1,15 @@
 App.TasksEditController = Ember.ObjectController.extend({
-  updateItem: function(task) {
-    task.transaction.commit();
-    this.get("target").transitionTo("tasks");
-  },
+    actions: {
+        updateItem: function () {
+            var task = this.get('model');
+            task.save();
+            this.transitionToRoute('tasks');
+        }
+    },
 
   isNew: function() {
     console.log("calculating isNew");
-    return this.get('content').get('id');
+    return this.get('model').get('id');
   }.property() //.property() marks this function as property. check http://emberjs.com/api/classes/Function.html#method_property
 });
 

@@ -13,107 +13,13 @@ App.Router.map(function () {
         console.log('Inside customers....');
         this.route('new', { path: '/new' });
         this.route('edit', { path: '/:cust_id' });
+
+        this.resource('measurements', { path: 'measurements' }, function () {
+            console.log('Inside measurements....');
+            this.route('new', { path: '/new' });
+            this.route('edit', { path: '/:measurement_id' });
+        });
+
     });
-});
-
-
-App.CustomersIndexRoute = Ember.Route.extend({
-
-    setupController: function (controller) {
-
-        var customers = App.Customer.find();
-        customers.on('didLoad', function () {
-            console.log(" +++ Customers loaded!");
-        });
-        controller.set('content', customers);
-    },
-
-    renderTemplate: function () {
-        this.render('customers.index', { into: 'application' });
-    }
-
-
-});
-
-App.CustomersEditRoute = Ember.Route.extend({
-
-    setupController: function (controller, model) {
-        this.controllerFor('customers.edit').setProperties({ isNew: false, content: model });
-    },
-
-    renderTemplate: function () {
-        //this renders the template tasks.edit into application template's outlet
-        this.render('customers.edit', { into: 'application' });
-    }
-
-});
-
-App.CustomersNewRoute = Ember.Route.extend({
-    setupController: function (controller, model) {
-        this.controllerFor('customers.edit').setProperties({ isNew: true, content: App.Customer.createRecord() });
-    },
-    renderTemplate: function () {
-        //this renders the same template tasks.edit into application template's outlet
-        // isNew property is used to determine if it is a new task or an existing task
-        this.render('customers.edit', { into: 'application' });
-    }
-
-});
-
-
-App.TasksIndexRoute = Ember.Route.extend({
-
-    //model: function() {
-    //sets the content proerty in controller
-    //    return App.Task.find();
-    //},
-
-    //this does exactly what above model property does
-    setupController: function (controller) {
-
-        var tasks = App.Task.find();
-        tasks.on('didLoad', function () {
-            console.log(" +++ Tasks loaded!");
-        });
-
-        //controller is nothing but TasksIndexController
-        //content property in controller provides actual list of objects required
-        //for html binding
-        //any handlebar enumeration done on controller works against the list of objects
-        //returned by content property in controller
-        //hence set content with list of model objects
-        controller.set('content', tasks);
-    },
-
-    renderTemplate: function () {
-        //this renders the template tasks.index into application template's outlet
-        this.render('tasks.index', { into: 'application' });
-    }
-
-});
-
-App.TasksEditRoute = Ember.Route.extend({
-
-    setupController: function (controller, model) {
-        this.controllerFor('tasks.edit').setProperties({ isNew: false, content: model });
-    },
-
-    renderTemplate: function () {
-        //this renders the template tasks.edit into application template's outlet
-        this.render('tasks.edit', { into: 'application' });
-    }
-
-});
-
-App.TasksNewRoute = Ember.Route.extend({
-    setupController: function (controller, model) {
-        this.controllerFor('tasks.edit').setProperties({ isNew: true, content: App.Task.createRecord() });
-    },
-    renderTemplate: function () {
-        //this renders the same template tasks.edit into application template's outlet
-        // isNew property is used to determine if it is a new task or an existing task
-        this.render('tasks.edit', { into: 'application' });
-    }
-
 });
 
