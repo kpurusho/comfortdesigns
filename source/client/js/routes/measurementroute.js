@@ -1,13 +1,13 @@
-﻿App.MeasurementsIndexRoute = Ember.Route.extend({
+﻿//App.MeasurementsIndexRoute = Ember.Route.extend({
 
-    model: function () {
-        return this.store.find('measurement');
-    },
+//    model: function () {
+//        return this.store.find('measurement');
+//    },
 
-    renderTemplate: function () {
-        this.render('measurements.index', { into: 'application' });
-    }
-});
+//    renderTemplate: function () {
+//        this.render('measurements.index', { into: 'application' });
+//    }
+//});
 
 App.MeasurementsEditRoute = Ember.Route.extend({
 

@@ -112,10 +112,13 @@
                             <td>{{view Ember.Checkbox checkedBinding="selected"}}</td>
                             <td>{{measurement.name}}</td>
                             <td>{{measurement.type}}</td>
+                            <td>{{#link-to "measurements.edit" measurement}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
+                            <td><a href="#" {{action removeMeasurement measurement}}><img src="images/delete-icon.png" border="0"/></a></td>
                             </tr>
                         {{/each}}
                     </table>
                 {{/if}}
+                <p><a href="#" {{action createMeasurement}}><img src="images/add-icon.png"/>New measurement</a></p>
             </div>        
         </div>
         <div class="span12 text-center">
@@ -162,16 +165,41 @@
   <script type="text/x-handlebars" data-template-name="measurements/edit" >
     
     {{#if controller.isNew}}
-      <h1>New measurement</h1>
+      <h1>New measurement for customer {{customer.name}}</h1>
     {{else}}
-      <h1>Edit measurement</h1>
+      <h1>Edit measurement for customer {{customer.name}}</h1>
     {{/if}}
 
-      {{partial "taskForm"}}
+    <div class="row">
+        <div class="span12">
+            <div class="row">
+                <div class="span6">      
+                    <form class="form-horizontal">
+                        <div class="control-group">
+                            <label class="control-label" for="type">Type</label>
+                            <div class="controls">
+                                {{view Ember.TextField valueBinding="type"}}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="span6">      
+                    <form class="form-horizontal">
+                        <div class="control-group">
+                            <label class="control-label" for="name">Name</label>
+                            <div class="controls">
+                                {{view Ember.TextField valueBinding="name"}}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-      <p>
-        <button {{action updateItem}}>Update record</button>
-      </p>
+    <p>
+      <button {{action updateItem}}>Update record</button>
+    </p>
   </script>
 
   <script type="text/x-handlebars" data-template-name="tasks/index">
@@ -245,10 +273,12 @@
   <script src="js/router.js"></script>
   <script src="js/routes/taskroute.js"></script>
   <script src="js/routes/customerroute.js"></script>
+  <script src="js/routes/measurementroute.js"></script>
   <script src="js/controller/tasksedit_controller.js"></script>
   <script src="js/controller/tasksindex_controller.js"></script>
   <script src="js/controller/customersedit_controller.js"></script>
   <script src="js/controller/customersindex_controller.js"></script>
+  <script src="js/controller/measurementsedit_controller.js"></script>
   <script src="js/models/customermodel.js"></script>
   <script src="js/models/taskmodel.js"></script>
   <script src="js/views/navview.js"></script>

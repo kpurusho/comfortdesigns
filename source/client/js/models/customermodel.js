@@ -45,7 +45,7 @@ App.Measurement = DS.Model.extend({
     //gatheringw3: DS.attr('number'),
     //gatheringl1: DS.attr('number'),
     //gatheringl2: DS.attr('number'),
-    customer: DS.belongsTo('customer')
+    customer: DS.belongsTo('customer', { async: true })
 });
 
 
@@ -73,20 +73,20 @@ App.Measurement.FIXTURES = [{
     id: 1,
     type: 'SK',
     name: 'main',
-    customer_id: 1
+    customer: 1
 }, {
     id: 2,
     type: 'BL',
     name: 'main',
-    customer_id: 1
+    customer: 1
 }, {
     id: 3,
     type: 'SK',
     name: 'kid',
-    customer_id: 2
+    customer: 2
 }, {
     id: 4,
     type: 'BL',
     name: 'kid',
-    customer_id: 2
+    customer: 2
 }];

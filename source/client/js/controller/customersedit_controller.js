@@ -1,19 +1,29 @@
 App.CustomersEditController = Ember.ObjectController.extend({
 
+    editCounter: function () {
+        return this.filterProperty('selected', true).get('length');
+    }.property('@each.selected'),
+
+    itemsSelected: function () {
+        return this.get("editCounter") > 0;
+    }.property('editCounter'),
+
     actions: {
         updateItem: function () {
-            //var measurement = App.Measurement.createRecord('measurement', {
-            //    type: 'sk',
-            //    name: 'main',
-            //    customer: cust
-            //});
-            //cust.get('measurements').pushObject(measurement);
-            //cust.transaction.commit();
-            //this.get("target").transitionTo("customers");
-
             var customer = this.get('model');
             customer.save();
             this.transitionToRoute('customers');
+        },
+        removeMeasurement: function (measurement) {
+            measurement.deleteRecord();
+            measurement.get('isDeleted');
+            measurement.save();
+        },
+        createMeasurement: function () {
+            var custid = this.get('id');
+            var cust = this.store.find('customer', custid);
+            var measurement = this.store.createRecord('measurement', { customer: cust });
+            this.transitionsToRoute('measurements.edit', cust, measurement);
         }
     },
 
@@ -24,8 +34,7 @@ App.CustomersEditController = Ember.ObjectController.extend({
   }.property(), //.property() marks this function as property. check http://emberjs.com/api/classes/Function.html#method_property
 
   measurementsPresent: function () {
-      var model = this.get('model');
-      var measurements = this.get('measurements');
+      var measurements = this.get('model.measurements');
       console.log(measurements.constructor);
       var itemsPresent = measurements.length;
       console.log(" +++ Computed measurementPresent prop with value " + itemsPresent);
