@@ -8,6 +8,13 @@ App.CustomersEditController = Ember.ObjectController.extend({
         return this.get("editCounter") > 0;
     }.property('editCounter'),
 
+    newMeasurement: function () {
+        var custid = this.get('id');
+        var cust = this.store.find('customer', custid);
+        var measurement = this.store.createRecord('measurement', { customer: cust });
+        return measurement;
+    }.property(),
+
     actions: {
         updateItem: function () {
             var customer = this.get('model');
