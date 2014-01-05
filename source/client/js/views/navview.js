@@ -24,3 +24,4 @@ App.NavView = Ember.View.extend({
 //Ember.TextField.reopen({
 //    attributeBindings: ['size']
 //});
+

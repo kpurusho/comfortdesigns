@@ -37,9 +37,9 @@ App.CustomersEditController = Ember.ObjectController.extend({
             measurement.save();
         },
         createMeasurement: function () {
-            var customer = this.get('model');
-            //var measurement = this.store.createRecord('measurement');
-            var measurement = this.store.createRecord('measurement', { customer: customer });
+            if (this.get('isNewMeasurement')) return;
+
+            var measurement = this.store.createRecord('measurement');
             this.set('currentMeasurement', measurement);
             this.set('isNewMeasurement', true);
         },

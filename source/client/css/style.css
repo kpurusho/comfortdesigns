@@ -67,3 +67,33 @@ body {
   border-right: 0;
   border-radius: 0 3px 3px 0;
 }
+
+.measurementtext
+{
+    width: 40px;
+    height: auto;
+}
+
+.form-small .control-label {
+    width: 70px;
+}
+
+.form-small .controls {
+    margin-left: 80px;
+}
+
+.form-medium .control-label {
+    width: 180px;
+}
+
+.form-medium .controls {
+    margin-left: 200px;
+}
+
+.form-xlarge .control-label {
+    width: 240px;
+}
+
+.form-xlarge .controls {
+    margin-left: 260px;
+}
