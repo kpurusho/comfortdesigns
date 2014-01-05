@@ -3,7 +3,7 @@ App.TasksEditController = Ember.ObjectController.extend({
         updateItem: function () {
             var task = this.get('model');
             task.save();
-            this.transitionToRoute('tasks');
+            this.transitionToRoute('tasks'); //TODO: to move this on success of save
         }
     },
 

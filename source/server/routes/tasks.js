@@ -5,7 +5,7 @@ var BSON = require('mongodb').BSONPure;
 
 
 //get methods
-exports.getAllTasks = function(req, res){
+exports.getAll = function(req, res){
 	logger.info('requesting all tasks');
 	db.instance().collection('tasks_master', function(err, collection){
 		if (err){
@@ -23,7 +23,7 @@ exports.getAllTasks = function(req, res){
 	});
 };
 
-exports.getByTaskName = function(req, res){
+exports.getByName = function(req, res){
 	var Name = req.param('taskname','undefined');
 	logger.info('requesting task Name ' + Name);
 	db.instance().collection('tasks_master', function(err, collection){
@@ -58,7 +58,7 @@ exports.getById = function(req, res){
 	});
 };
 
-exports.addTask = function(req, res) {
+exports.add = function(req, res) {
 	var task = req.body.task;
 	logger.info('requesting add task - ' + task.taskname);
 	db.instance().collection('tasks_master', function (err, collection) {
@@ -69,13 +69,13 @@ exports.addTask = function(req, res) {
 			}
 			else {
 				logger.info('successfully added task - ' + task);
-				res.send(result[0]);
+				res.send({ task: result[0] });
 			}
 		});
 	});
 };
 
-exports.updateTask = function (req, res) {
+exports.update = function (req, res) {
 	var taskId = req.params.id;
 	var taskInfo = req.body.task;
 	logger.info('requesting update task with id ' + taskId);
@@ -87,13 +87,13 @@ exports.updateTask = function (req, res) {
 				res.send({'error' : 'An error has occured - ' + err});
 			 } else {
 			 	logger.log('' + result + ' document(s) updated');
-				res.send(taskInfo);
-			 }
+			 	res.send({ task: result[0] });
+             }
 		});
 	});
 };
 
-exports.deleteTask = function (req, res) {
+exports.delete = function (req, res) {
 	var taskId = req.params.id;
 	logger.info('requesting delete task with id ' + taskId);
 	db.instance().collection('tasks_master', function (err, collection) {

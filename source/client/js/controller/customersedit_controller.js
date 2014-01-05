@@ -1,25 +1,35 @@
 App.CustomersEditController = Ember.ObjectController.extend({
 
-    editCounter: function () {
-        return this.filterProperty('selected', true).get('length');
-    }.property('@each.selected'),
+    cMeasurement: null,
 
-    itemsSelected: function () {
-        return this.get("editCounter") > 0;
-    }.property('editCounter'),
+    isNewMeasurement: false,
 
-    newMeasurement: function () {
-        var custid = this.get('id');
-        var cust = this.store.find('customer', custid);
-        var measurement = this.store.createRecord('measurement', { customer: cust });
-        return measurement;
-    }.property(),
+    currentMeasurement: function () {
+        return this.get('cMeasurement');
+    }.property('cMeasurement'),
+
+    isMeasurementSelected: function () {
+        return this.get('currentMeasurement') != null;
+    }.property('currentMeasurement'),
 
     actions: {
-        updateItem: function () {
+        updateCustomer: function () {
             var customer = this.get('model');
-            customer.save();
-            this.transitionToRoute('customers');
+
+            var onSuccess = function () {
+                console.log('customer saved successfully..');
+            };
+
+            var onFailure = function (error) {
+                window.alert('Failed to save..');
+                console.log(error.message);
+            }
+            customer.save().then(onSuccess, onFailure);
+            this.transitionToRoute('customers');    //TODO; need to put this on success
+        },
+        editMeasurement: function (measurement) {
+            this.set('currentMeasurement', measurement);
+            this.set('isNewMeasurement', false);
         },
         removeMeasurement: function (measurement) {
             measurement.deleteRecord();
@@ -27,10 +37,41 @@ App.CustomersEditController = Ember.ObjectController.extend({
             measurement.save();
         },
         createMeasurement: function () {
-            var custid = this.get('id');
-            var cust = this.store.find('customer', custid);
-            var measurement = this.store.createRecord('measurement', { customer: cust });
-            this.transitionsToRoute('measurements.edit', cust, measurement);
+            var customer = this.get('model');
+            //var measurement = this.store.createRecord('measurement');
+            var measurement = this.store.createRecord('measurement', { customer: customer });
+            this.set('currentMeasurement', measurement);
+            this.set('isNewMeasurement', true);
+        },
+        updateMeasurement: function (measurement) {
+            var customer = this.get('model');
+            var isNew = this.get('isNewMeasurement');
+
+            var onSuccess = function () {
+                if (isNew) {
+                    customer.get('measurements').pushObject(measurement);
+                }
+                console.log('successfully added measurement....');
+            };
+
+            var onFail = function (error) {
+                window.alert('Failed to save..');
+                console.log(error.message);
+            };
+
+            measurement.save().then(onSuccess, onFail);
+
+            this.set('currentMeasurement', null);
+            this.set('isNewMeasurement', false);
+        },
+        cancelMeasurement: function (measurement) {
+            var isNew = this.get('isNewMeasurement');
+            if (isNew) {
+                measurement.deleteRecord();
+                measurement.get('isDeleted');
+            }
+            this.set('currentMeasurement', null);
+            this.set('isNewMeasurement', false);
         }
     },
 
@@ -39,15 +80,5 @@ App.CustomersEditController = Ember.ObjectController.extend({
       var id = this.get('content').get('id');
       return id;
   }.property(), //.property() marks this function as property. check http://emberjs.com/api/classes/Function.html#method_property
-
-  measurementsPresent: function () {
-      var measurements = this.get('model.measurements');
-      console.log(measurements.constructor);
-      var itemsPresent = measurements.length;
-      console.log(" +++ Computed measurementPresent prop with value " + itemsPresent);
-      return itemsPresent;
-  }.property("content.@each")
-
-
 });
 

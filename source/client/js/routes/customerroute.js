@@ -16,14 +16,20 @@ App.CustomersEditRoute = Ember.Route.extend({
     },
 
     setupController: function (controller, model) {
-        this.controllerFor('customers.edit').setProperties({ isNew: false, model: model });
+        this.controllerFor('customers.edit').setProperties({ isNew: false, model: model, currentMeasurement: null });
     },
 
     renderTemplate: function () {
         //this renders the template tasks.edit into application template's outlet
         this.render('customers.edit', { into: 'application' });
-    }
+    },
 
+    actions: {
+    error: function(error, transition) {
+        // handle the error
+        console.log(error.message);
+    }
+}
 });
 
 App.CustomersNewRoute = Ember.Route.extend({
@@ -32,7 +38,7 @@ App.CustomersNewRoute = Ember.Route.extend({
     },
 
     setupController: function (controller, model) {
-        this.controllerFor('customers.edit').setProperties({ isNew: true, model: model });
+        this.controllerFor('customers.edit').setProperties({ isNew: true, model: model, currentMeasurement: null });
     },
 
     renderTemplate: function () {

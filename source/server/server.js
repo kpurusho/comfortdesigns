@@ -2,6 +2,7 @@ var express = require('express');
 var design = require('./routes/designs');
 var tasks = require('./routes/tasks');
 var customers = require('./routes/customers');
+var measurements = require('./routes/measurements');
 var logger = require('./log/log').logger;
 
 var app = express();
@@ -39,22 +40,27 @@ app.use(express.logger({stream : logstream}));
 
 
 //Task related API's
-app.get('/tasks', tasks.getAllTasks);
-app.get('/tasks/TName', tasks.getByTaskName);
+app.get('/tasks', tasks.getAll);
+app.get('/tasks/TName', tasks.getByName);
 app.get('/tasks/:id', tasks.getById);
-
-app.post('/tasks', tasks.addTask);
-
-app.put('/tasks/:id', tasks.updateTask);
-
-app.delete('/tasks/:id', tasks.deleteTask);
+app.post('/tasks', tasks.add);
+app.put('/tasks/:id', tasks.update);
+app.delete('/tasks/:id', tasks.delete);
 
 //Customer related API's
-app.get('/customers', customers.getAllCustomers);
+app.get('/customers', customers.getAll);
 app.get('/customers/:id', customers.getById);
-app.post('/customers', customers.addCustomer);
-app.put('/customers/:id', customers.updateCustomer);
-app.delete('/customers/:id', customers.deleteCustomer);
+app.post('/customers', customers.add);
+app.put('/customers/:id', customers.update);
+app.delete('/customers/:id', customers.delete);
+
+//Customer related API's
+app.get('/measurements', measurements.getAll);
+app.get('/measurements/:id', measurements.getById);
+app.post('/measurements', measurements.add);
+app.put('/measurements/:id', measurements.update);
+app.delete('/measurements/:id', measurements.delete);
+
 
 app.listen(3000);
 
