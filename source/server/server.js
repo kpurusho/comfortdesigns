@@ -3,6 +3,7 @@ var design = require('./routes/designs');
 var tasks = require('./routes/tasks');
 var customers = require('./routes/customers');
 var measurements = require('./routes/measurements');
+var orders = require('./routes/orders');
 var logger = require('./log/log').logger;
 
 var app = express();
@@ -60,6 +61,13 @@ app.get('/measurements/:id', measurements.getById);
 app.post('/measurements', measurements.add);
 app.put('/measurements/:id', measurements.update);
 app.delete('/measurements/:id', measurements.delete);
+
+//Order related API's
+app.get('/orders', orders.getAll);
+app.get('/orders/:id', orders.getById);
+app.post('/orders', orders.add);
+app.put('/orders/:id', orders.update);
+app.delete('/orders/:id', orders.delete);
 
 
 app.listen(3000);

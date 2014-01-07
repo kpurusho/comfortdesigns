@@ -60,5 +60,6 @@ App.Serializer = DS.RESTSerializer.extend({
 App.TaskSerializer = App.Serializer.extend();
 App.CustomerSerializer = App.Serializer.extend();
 App.MeasurementSerializer = App.Serializer.extend();
+App.OrderSerializer = App.Serializer.extend();
 
 

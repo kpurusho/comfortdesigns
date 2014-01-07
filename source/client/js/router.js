@@ -21,5 +21,12 @@ App.Router.map(function () {
         });
 
     });
+
+    this.resource('orders', { path: 'orders' }, function () {
+        console.log('Inside orders....');
+        this.route('new', { path: '/new' });
+        this.route('edit', { path: '/:order_id' });
+    });
+
 });
 

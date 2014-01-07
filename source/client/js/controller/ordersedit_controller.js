@@ -1,4 +1,4 @@
-App.CustomersEditController = Ember.ObjectController.extend({
+App.OrdersEditController = Ember.ObjectController.extend({
 
     cMeasurement: null,
 
@@ -13,20 +13,20 @@ App.CustomersEditController = Ember.ObjectController.extend({
     }.property('currentMeasurement'),
 
     actions: {
-        updateCustomer: function () {
-            var customer = this.get('model');
+        updateOrder: function () {
+            var order = this.get('model');
 
             var that = this;
             var onSuccess = function () {
-                console.log('customer saved successfully..');
-                that.transitionToRoute('customers');
+                console.log('order saved successfully..');
+                that.transitionToRoute('orders');
             };
 
             var onFailure = function (error) {
                 window.alert('Failed to save..');
                 console.log(error.message);
             }
-            customer.save().then(onSuccess, onFailure);
+            order.save().then(onSuccess, onFailure);
         },
         editMeasurement: function (measurement) {
             this.set('currentMeasurement', measurement);
@@ -45,12 +45,12 @@ App.CustomersEditController = Ember.ObjectController.extend({
             this.set('isNewMeasurement', true);
         },
         updateMeasurement: function (measurement) {
-            var customer = this.get('model');
+            var order = this.get('model');
             var isNew = this.get('isNewMeasurement');
 
             var onSuccess = function () {
                 if (isNew) {
-                    customer.get('measurements').pushObject(measurement);
+                    order.get('measurements').pushObject(measurement);
                 }
                 console.log('successfully added measurement....');
             };

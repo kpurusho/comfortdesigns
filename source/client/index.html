@@ -10,13 +10,6 @@
 </head>
 <body>
 
-<style>
-#MyInput {
-width: 50px;
-height: auto;
-}
-
-</style>
 <script type="text/x-handlebars" data-template-name="application">
   <div class="container">
     <h1>Comfort Designs</h1>
@@ -28,6 +21,10 @@ height: auto;
               {{#view App.NavView}}
                 <!--link-to actually links to route name in router.js-->
                 {{#link-to "index"}}Home{{/link-to}}
+              {{/view}}
+
+              {{#view App.NavView}}
+                {{#link-to "orders"}}Orders{{/link-to}}
               {{/view}}
 
               {{#view App.NavView}}
@@ -53,7 +50,180 @@ height: auto;
     <p>Welcome to Comfort Designs </p>
   </script>
 
-<script type="text/x-handlebars" data-template-name="customers/edit" >
+  <script type="text/x-handlebars" data-template-name="orders/index" >
+    {{#if itemsSelected}}
+        <p><button {{action 'removeSelectedOrders'}}>Remove {{editCounter}} selected orders</button></p>
+    {{/if}}
+
+    <table class="table table-hover">
+        <tr>
+            <th>Selected</th>
+            <th>Order No</th>
+            <th>Order Date</th>
+            <th>Customer Name</th>
+            <th>Phone Number</th>
+            <th>Due Date</th>
+            <th>Piece count</th>
+            <th>Status</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        {{#each order in controller itemController="ordersEdit"}}
+            <tr {{bind-attr class="selected:warning"}}>
+            <td>{{view Ember.Checkbox checkedBinding="selected"}}</td>
+            <td>{{order.orderno}}</td>
+            <td>{{order.orderdate}}</td>
+            <td>{{order.customername}}</td>
+            <td>{{order.customerphoneno}}</td>
+            <td>{{order.duedate}}</td>
+            <td>{{order.nopices}}</td>
+            <td>{{order.status}}</td>
+            <td>{{#link-to "orders.edit" order}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
+            <td><a href="#" {{action removeItem order}}><img src="images/delete-icon.png" border="0"/></a></td>
+            </tr>
+        {{/each}}
+    </table>
+
+    <p>{{#link-to "orders.new"}}<img src="images/add-icon.png"/> New order{{/link-to}}</p>
+
+  </script>
+
+    
+  <script type="text/x-handlebars" data-template-name="orders/edit" >
+    <div class="row">
+        <div class="span12">
+            <div class="row">
+                <div class="span4">      
+                    <form class="form-horizontal form-small">
+                        <div class="control-group">
+                            <label class="control-label" for="orderno">Order No.</label>
+                            <div class="controls">
+                                {{view Ember.TextField valueBinding="orderno"}}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="span4">      
+                    <form class="form-horizontal form-small">
+                        <div class="control-group">
+                            <label class="control-label" for="orderdate">Order Date</label>
+                            <div class="controls">
+                                {{view Ember.TextField valueBinding="orderdate"}}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="span4">      
+                    <form class="form-horizontal form-small">
+                        <div class="control-group">
+                            <label class="control-label" for="duedate">Ready Date</label>
+                            <div class="controls">
+                                {{view Ember.TextField valueBinding="duedate"}}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="span4">
+                    <form class="form-horizontal form-small">
+                        <div class="control-group">
+                            <label class="control-label" for="customername">Customer Name</label>
+                            <div class="controls">
+                                {{view Ember.TextField valueBinding="customername"}}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="span4">
+                    <form class="form-horizontal form-small">
+                        <div class="control-group">
+                            <label class="control-label" for="customerphoneno">Phone No</label>
+                            <div class="controls">
+                                {{view Ember.TextField valueBinding="customerphoneno"}}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="span4">
+                    <form class="form-horizontal form-small">
+                        <div class="control-group">
+                            <label class="control-label" for="nopieces">No. pieces</label>
+                            <div class="controls">
+                                {{view Ember.TextField valueBinding="nopieces"}}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="span12">
+            <div class="row">
+                <p><a href="#" {{action createMeasurement}}><img src="images/add-icon.png"/> New measurement</a></p>
+                {{#if measurements.length}}
+                    <table class="table table-hover">
+                        <tr>
+                            <th>Measurement Name</th>
+                            <th>Measurement Type</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                        {{#each measurement in measurements}}
+                            <td>{{measurement.name}}</td>
+                            <td>{{measurement.type}}</td>
+                            <td><a href="#" {{action editMeasurement measurement}}><img src="images/edit-icon.png"/></a></td>
+                            <td><a href="#" {{action removeMeasurement measurement}}><img src="images/delete-icon.png" border="0"/></a></td>
+                            </tr>
+                        {{/each}}
+                    </table>
+                {{/if}}
+            </div>        
+        </div>
+
+        {{partial "measurementForm"}}
+        
+        <div class="span12 text-center">
+            {{#if controller.isNew}}
+                <button class="btn btn-large btn-primary" type="button" {{action updateOrder this}}>Create order</button>
+            {{else}}
+                <button class="btn btn-large btn-primary" type="button" {{action updateOrder this}}>Update order</button>
+            {{/if}}
+        </div>
+    </div>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="customers/index" >
+    {{#if itemsSelected}}
+        <p><button {{action 'removeSelectedCustomers'}}>Remove {{editCounter}} selected customers</button></p>
+    {{/if}}
+
+    <table class="table table-hover">
+        <tr>
+            <th>Selected</th>
+            <th>Customer Name</th>
+            <th>Phone Number</th>
+            <th>Email Id</th>
+            <th>Measurement count</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        {{#each customer in controller itemController="customersEdit"}}
+            <tr {{bind-attr class="selected:warning"}}>
+            <td>{{view Ember.Checkbox checkedBinding="selected"}}</td>
+            <td>{{customer.name}}</td>
+            <td>{{customer.phoneno}}</td>
+            <td>{{customer.emailid}}</td>
+            <td>{{customer.measurements.length}}</td>
+            <td>{{#link-to "customers.edit" customer}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
+            <td><a href="#" {{action removeItem customer}}><img src="images/delete-icon.png" border="0"/></a></td>
+            </tr>
+        {{/each}}
+    </table>
+
+    <p>{{#link-to "customers.new"}}<img src="images/add-icon.png"/> New customer{{/link-to}}</p>
+
+  </script>
+
+    
+  <script type="text/x-handlebars" data-template-name="customers/edit" >
     <div class="row">
         <div class="span12">
             <div class="row">
@@ -136,7 +306,65 @@ height: auto;
             {{/if}}
         </div>
     </div>
-</script>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="tasks/index">
+    {{#if itemsSelected}}
+        <p><button {{action 'removeSelectedTasks'}}>Remove {{editCounter}} selected tasks</button></p>
+    {{/if}}
+
+    <table class="table table-hover">
+      <tr>
+        <th>Selected</th>
+        <th>Sequence Id</th>
+        <th>Task Name</th>
+        <th></th>
+        <th></th>
+      </tr>
+        {{#each task in controller itemController="tasksEdit"}}
+          <tr {{bind-attr class="selected:warning"}}>
+          <td>{{view Ember.Checkbox checkedBinding="selected"}}</td>
+          <td>{{task.seqid}}</td>
+          <td>{{task.taskname}}</td>
+          <td>{{#link-to "tasks.edit" task}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
+          <td><a href="#" {{action removeItem task}}><img src="images/delete-icon.png" border="0"/></a></td>
+          </tr>
+        {{/each}}
+      </table>
+    <p>{{#link-to "tasks.new"}}<img src="images/add-icon.png"/> New task{{/link-to}}</p>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="_taskForm" >
+      <form class="form-horizontal">
+      <div class="control-group">
+        <label class="control-label" for="seqid">Sequence Id</label>
+        <div class="controls">
+          {{view Ember.TextField valueBinding="seqid"}}
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="taskname">Task Name</label>
+        <div class="controls">
+          {{view Ember.TextField valueBinding="taskname"}}
+        </div>
+      </div>
+    </form>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="tasks/edit" >
+    
+    {{#if controller.isNew}}
+      <h1>New task</h1>
+    {{else}}
+      <h1>Edit task</h1>
+    {{/if}}
+
+      {{partial "taskForm"}}
+
+      <p>
+        <button {{action updateItem}}>Update record</button>
+      </p>
+  </script>
 
     
   <script type="text/x-handlebars" data-template-name="_measurementForm" >
@@ -473,11 +701,11 @@ height: auto;
             </div>
 
             <div class="span6">      
-                <form class="form-horizontal">
+                <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="additionalnote">Additional note</label>
                         <div class="controls">
-                            {{view Ember.TextField  valueBinding="currentMeasurement.additionalnote"}}
+                            {{view Ember.TextArea  valueBinding="currentMeasurement.additionalnote"}}
                         </div>
                     </div>
                 </form>
@@ -496,96 +724,6 @@ height: auto;
   </script>
 
 
-  <script type="text/x-handlebars" data-template-name="customers/index" >
-    {{#if itemsSelected}}
-        <p><button {{action 'removeSelectedCustomers'}}>Remove {{editCounter}} selected customers</button></p>
-    {{/if}}
-
-    <table class="table table-hover">
-        <tr>
-            <th>Selected</th>
-            <th>Customer Name</th>
-            <th>Phone Number</th>
-            <th>Email Id</th>
-            <th>Measurement count</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
-        {{#each customer in controller itemController="customersEdit"}}
-            <tr {{bind-attr class="selected:warning"}}>
-            <td>{{view Ember.Checkbox checkedBinding="selected"}}</td>
-            <td>{{customer.name}}</td>
-            <td>{{customer.phoneno}}</td>
-            <td>{{customer.emailid}}</td>
-            <td>{{customer.measurements.length}}</td>
-            <td>{{#link-to "customers.edit" customer}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
-            <td><a href="#" {{action removeItem customer}}><img src="images/delete-icon.png" border="0"/></a></td>
-            </tr>
-        {{/each}}
-    </table>
-
-    <p>{{#link-to "customers.new"}}<img src="images/add-icon.png"/> New customer{{/link-to}}</p>
-
-  </script>
-
-  <script type="text/x-handlebars" data-template-name="tasks/index">
-    {{#if itemsSelected}}
-        <p><button {{action 'removeSelectedTasks'}}>Remove {{editCounter}} selected tasks</button></p>
-    {{/if}}
-
-    <table class="table table-hover">
-      <tr>
-        <th>Selected</th>
-        <th>Sequence Id</th>
-        <th>Task Name</th>
-        <th></th>
-        <th></th>
-      </tr>
-        {{#each task in controller itemController="tasksEdit"}}
-          <tr {{bind-attr class="selected:warning"}}>
-          <td>{{view Ember.Checkbox checkedBinding="selected"}}</td>
-          <td>{{task.seqid}}</td>
-          <td>{{task.taskname}}</td>
-          <td>{{#link-to "tasks.edit" task}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
-          <td><a href="#" {{action removeItem task}}><img src="images/delete-icon.png" border="0"/></a></td>
-          </tr>
-        {{/each}}
-      </table>
-    <p>{{#link-to "tasks.new"}}<img src="images/add-icon.png"/> New task{{/link-to}}</p>
-  </script>
-
-  <script type="text/x-handlebars" data-template-name="_taskForm" >
-      <form class="form-horizontal">
-      <div class="control-group">
-        <label class="control-label" for="seqid">Sequence Id</label>
-        <div class="controls">
-          {{view Ember.TextField valueBinding="seqid"}}
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="taskname">Task Name</label>
-        <div class="controls">
-          {{view Ember.TextField valueBinding="taskname"}}
-        </div>
-      </div>
-    </form>
-  </script>
-
-  <script type="text/x-handlebars" data-template-name="tasks/edit" >
-    
-    {{#if controller.isNew}}
-      <h1>New task</h1>
-    {{else}}
-      <h1>Edit task</h1>
-    {{/if}}
-
-      {{partial "taskForm"}}
-
-      <p>
-        <button {{action updateItem}}>Update record</button>
-      </p>
-  </script>
-
   <script type="text/x-handlebars" data-template-name="about" >
       <p>This is the about page.</p>
   </script>
@@ -599,12 +737,17 @@ height: auto;
   <script src="js/router.js"></script>
   <script src="js/routes/taskroute.js"></script>
   <script src="js/routes/customerroute.js"></script>
+  <script src="js/routes/orderroute.js"></script>
   <script src="js/controller/tasksedit_controller.js"></script>
   <script src="js/controller/tasksindex_controller.js"></script>
   <script src="js/controller/customersedit_controller.js"></script>
   <script src="js/controller/customersindex_controller.js"></script>
+  <script src="js/controller/ordersedit_controller.js"></script>
+  <script src="js/controller/ordersindex_controller.js"></script>
   <script src="js/models/customermodel.js"></script>
+  <script src="js/models/measurementmodel.js"></script>
   <script src="js/models/taskmodel.js"></script>
+  <script src="js/models/ordermodel.js"></script>
   <script src="js/views/navview.js"></script>
 </body>
 </html>
