@@ -72,11 +72,11 @@
             <tr {{bind-attr class="selected:warning"}}>
             <td>{{view Ember.Checkbox checkedBinding="selected"}}</td>
             <td>{{order.orderno}}</td>
-            <td>{{order.orderdate}}</td>
+            <td>{{format-date order.orderdate}}</td>
             <td>{{order.customername}}</td>
             <td>{{order.customerphoneno}}</td>
-            <td>{{order.duedate}}</td>
-            <td>{{order.nopices}}</td>
+            <td>{{format-date order.duedate}}</td>
+            <td>{{order.nopieces}}</td>
             <td>{{order.status}}</td>
             <td>{{#link-to "orders.edit" order}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
             <td><a href="#" {{action removeItem order}}><img src="images/delete-icon.png" border="0"/></a></td>
@@ -108,7 +108,7 @@
                         <div class="control-group">
                             <label class="control-label" for="orderdate">Order Date</label>
                             <div class="controls">
-                                {{view Ember.TextField valueBinding="orderdate"}}
+                                {{view App.DatePicker dateBinding="orderdate"}}
                             </div>
                         </div>
                     </form>
@@ -118,7 +118,7 @@
                         <div class="control-group">
                             <label class="control-label" for="duedate">Ready Date</label>
                             <div class="controls">
-                                {{view Ember.TextField valueBinding="duedate"}}
+                                {{view App.DatePicker dateBinding="duedate"}}
                             </div>
                         </div>
                     </form>
@@ -733,8 +733,10 @@
   <script src="js/lib/ember.js"></script>
   <script src="js/lib/ember-data.js"></script>
   <script src="js/lib/bootstrap.js"></script>
+  <script src="js/lib/bootstrap-datepicker.js"></script>
   <script src="js/application.js"></script>
   <script src="js/router.js"></script>
+  <script src="js/helper.js"></script>
   <script src="js/routes/taskroute.js"></script>
   <script src="js/routes/customerroute.js"></script>
   <script src="js/routes/orderroute.js"></script>
