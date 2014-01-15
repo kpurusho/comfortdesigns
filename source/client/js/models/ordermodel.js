@@ -8,3 +8,13 @@
     status: DS.attr('string'),
     measurements: DS.hasMany('measurement', { async: true })
 });
+
+App.Order.FIXTURES = [{
+    id: 1,
+    orderno: 1,
+    orderdate: new Date(),
+    customername: 'lavanya',
+    customerphoneno: '9500037396',
+    duedate: new Date(),
+    measurements: [3]
+}];

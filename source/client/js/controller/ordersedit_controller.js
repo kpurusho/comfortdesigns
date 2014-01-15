@@ -44,6 +44,34 @@ App.OrdersEditController = Ember.ObjectController.extend({
             this.set('currentMeasurement', measurement);
             this.set('isNewMeasurement', true);
         },
+        getMeasurement: function () {
+            //var customers = this.store.find('customer', { phoneno: this.get('customerphoneno') });
+            var order = this.get('model');
+            var self = this;
+            this.store.find('customer', { phoneno: this.get('customerphoneno') }).then(function (customers) {
+                if (customers.get('length') > 0) {
+                    var customer = customers.objectAt(0);
+
+                    customer.get('measurements').then(function(measurements) {
+                        measurements.forEach(function (measurement) {
+                            var newMeasurement = self.store.createRecord('measurement', measurement.toJSON());
+
+                            var onSuccess = function () {
+                                order.get('measurements').pushObject(newMeasurement);
+                                console.log('successfully added measurement....');
+                            };
+
+                            var onFail = function (error) {
+                                window.alert('Failed to save..');
+                                console.log(error.message);
+                            };
+
+                            newMeasurement.save().then(onSuccess, onFail);
+                        });
+                    });
+                }
+            });
+        },
         updateMeasurement: function (measurement) {
             var order = this.get('model');
             var isNew = this.get('isNewMeasurement');

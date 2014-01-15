@@ -45,6 +45,12 @@ App.Serializer = DS.RESTSerializer.extend({
         return this._super(type, json, property);
     },
 
+    extractArray: function(store, type, payload, id, requestType) {
+
+
+        return this._super(store, type, payload, id, requestType);
+    },
+
     serializeHasMany: function(record, json, relationship) {
         var key = relationship.key;
 

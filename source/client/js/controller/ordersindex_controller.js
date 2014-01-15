@@ -8,7 +8,26 @@ App.OrdersIndexController = Ember.ArrayController.extend({
         return this.get("editCounter") > 0;
     }.property('editCounter'),
 
+    searchedContent: function () {
+        var regexp = new RegExp(this.get('search'), 'i');
+
+        this.get('model').set('content', this.store.filter('order', function (item) {
+            return regexp.test(item.get('customername')) || regexp.test(item.get('customerphoneno'));
+        }));
+
+    }.observes('search'),
+
+
     actions: {
+
+        searchItem: function () {
+            var con = this.get('content.length');
+            var searchvalue = this.get('search');
+            var regexp = new RegExp(searchvalue);
+            var filtered = this.get('model').filter(function (item) {
+                return regexp.test(item.get('customername'));
+            });
+        },
 
         removeItem: function (order) {
             order.deleteRecord();

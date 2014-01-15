@@ -51,6 +51,11 @@
   </script>
 
   <script type="text/x-handlebars" data-template-name="orders/index" >
+    <div class="search-bar">
+        <!--{{view Ember.TextField value=search}}-->
+        {{input type="text" placeholder="Customer name or phone no." value=search}}
+    </div>
+
     {{#if itemsSelected}}
         <p><button {{action 'removeSelectedOrders'}}>Remove {{editCounter}} selected orders</button></p>
     {{/if}}
@@ -157,7 +162,12 @@
         </div>
         <div class="span12">
             <div class="row">
+                <div class="span6">
                 <p><a href="#" {{action createMeasurement}}><img src="images/add-icon.png"/> New measurement</a></p>
+                </div>
+                <div class="span6">
+                <p><a href="#" {{action getMeasurement}}><img src="images/get-icon.png"/> Get measurement</a></p>
+                </div>
                 {{#if measurements.length}}
                     <table class="table table-hover">
                         <tr>

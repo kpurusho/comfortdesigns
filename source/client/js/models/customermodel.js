@@ -11,7 +11,7 @@
 App.Customer.FIXTURES = [{
     id: 1,
     name: 'lavanya',
-    phoneno: '95000373796',
+    phoneno: '9500037396',
     emailid: 'lavrajan@gmail.com',
     addressline1: '',
     addressline2: '',

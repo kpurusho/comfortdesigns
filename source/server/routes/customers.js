@@ -7,18 +7,42 @@ var BSON = require('mongodb').BSONPure;
 //get methods
 exports.getAll = function (req, res) {
     logger.info('requesting all customers');
+    var phoneno = req.query.phoneno;
+    var name = req.query.name;
+
+    logger.info('phoneno = ' + phoneno);
+    logger.info('name = ' + name);
+    //var phno = req.param('phoneno', 'undefined');
     db.instance().collection('customers', function (err, collection) {
         if (err) {
             logger.error('no table by name customers found in db');
             res.send({ 'error': 'An error has occured - ' + err });
         }
         else {
-            collection.find().sort({ name: 1 }).toArray(function (err, items) {
-                var allCustomers = {
-                    customers: items
-                };
-                res.send(allCustomers);
-            });
+            if (name) {
+                collection.find({ 'name': name }).toArray(function (err, items) {
+                    var matchCustomers = {
+                        customers: items
+                    };
+                    res.send(matchCustomers);
+                });
+            }
+            else if (phoneno) {
+                collection.find({ 'phoneno': phoneno }).toArray(function (err, items) {
+                    var matchCustomers = {
+                        customers: items
+                    };
+                    res.send(matchCustomers);
+                });
+            }
+            else {
+                collection.find().sort({ name: 1 }).toArray(function (err, items) {
+                    var allCustomers = {
+                        customers: items
+                    };
+                    res.send(allCustomers);
+                });
+            }
         }
     });
 };
