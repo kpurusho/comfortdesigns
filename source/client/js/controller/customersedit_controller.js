@@ -4,13 +4,13 @@ App.CustomersEditController = Ember.ObjectController.extend({
 
     isNewMeasurement: false,
 
-    currentMeasurement: function () {
+    editableMeasurement: function () {
         return this.get('cMeasurement');
     }.property('cMeasurement'),
 
     isMeasurementSelected: function () {
-        return this.get('currentMeasurement') != null;
-    }.property('currentMeasurement'),
+        return this.get('editableMeasurement') != null;
+    }.property('editableMeasurement'),
 
     actions: {
         updateCustomer: function () {
@@ -29,7 +29,7 @@ App.CustomersEditController = Ember.ObjectController.extend({
             customer.save().then(onSuccess, onFailure);
         },
         editMeasurement: function (measurement) {
-            this.set('currentMeasurement', measurement);
+            this.set('editableMeasurement', measurement);
             this.set('isNewMeasurement', false);
         },
         removeMeasurement: function (measurement) {
@@ -41,7 +41,7 @@ App.CustomersEditController = Ember.ObjectController.extend({
             if (this.get('isNewMeasurement')) return;
 
             var measurement = this.store.createRecord('measurement');
-            this.set('currentMeasurement', measurement);
+            this.set('editableMeasurement', measurement);
             this.set('isNewMeasurement', true);
         },
         updateMeasurement: function (measurement) {
@@ -62,7 +62,7 @@ App.CustomersEditController = Ember.ObjectController.extend({
 
             measurement.save().then(onSuccess, onFail);
 
-            this.set('currentMeasurement', null);
+            this.set('editableMeasurement', null);
             this.set('isNewMeasurement', false);
         },
         cancelMeasurement: function (measurement) {
@@ -71,7 +71,7 @@ App.CustomersEditController = Ember.ObjectController.extend({
                 measurement.deleteRecord();
                 measurement.get('isDeleted');
             }
-            this.set('currentMeasurement', null);
+            this.set('editableMeasurement', null);
             this.set('isNewMeasurement', false);
         }
     },

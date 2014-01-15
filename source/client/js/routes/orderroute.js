@@ -16,7 +16,7 @@ App.OrdersEditRoute = Ember.Route.extend({
     },
 
     setupController: function (controller, model) {
-        this.controllerFor('orders.edit').setProperties({ isNew: false, model: model, currentMeasurement: null });
+        this.controllerFor('orders.edit').setProperties({ isNew: false, model: model, editableMeasurement: null, removedMeasurements: [] });
     },
 
     renderTemplate: function () {
@@ -40,7 +40,7 @@ App.OrdersNewRoute = Ember.Route.extend({
     },
 
     setupController: function (controller, model) {
-        this.controllerFor('orders.edit').setProperties({ isNew: true, model: model, currentMeasurement: null });
+        this.controllerFor('orders.edit').setProperties({ isNew: true, model: model, editableMeasurement: null, removedMeasurements: [] });
     },
 
     renderTemplate: function () {

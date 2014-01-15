@@ -196,6 +196,7 @@
             {{else}}
                 <button class="btn btn-large btn-primary" type="button" {{action updateOrder this}}>Update order</button>
             {{/if}}
+            <button class="btn btn-large btn-primary" type="button" {{action cancelOrder this}}>Cancel</button>
         </div>
     </div>
   </script>
@@ -387,7 +388,7 @@
                     <div class="control-group">
                         <label class="control-label" for="name">Name</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.name"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.name"}}
                         </div>
                     </div>
                 </form>
@@ -397,7 +398,7 @@
                     <div class="control-group">
                         <label class="control-label" for="type">Type</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.type"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.type"}}
                         </div>
                     </div>
                 </form>
@@ -407,7 +408,7 @@
                     <div class="control-group">
                         <label class="control-label" for="length">Length</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.length"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.length"}}
                         </div>
                     </div>
                 </form>
@@ -417,7 +418,7 @@
                     <div class="control-group">
                         <label class="control-label" for="shoulder">Shoulder</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.shoulder"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.shoulder"}}
                         </div>
                     </div>
                 </form>
@@ -428,7 +429,7 @@
                     <div class="control-group">
                         <label class="control-label" for="shouldercut">Shoulder cut</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.shouldercut"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.shouldercut"}}
                         </div>
                     </div>
                 </form>
@@ -438,7 +439,7 @@
                     <div class="control-group">
                         <label class="control-label" for="chest">Chest</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.chest"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.chest"}}
                         </div>
                     </div>
                 </form>
@@ -448,7 +449,7 @@
                     <div class="control-group">
                         <label class="control-label" for="chestmnt">Chest mnt</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.chestmnt"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.chestmnt"}}
                         </div>
                     </div>
                 </form>
@@ -458,7 +459,7 @@
                     <div class="control-group">
                         <label class="control-label" for="chestfinishedmnt">Chest finished</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.chestfinishedmnt"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.chestfinishedmnt"}}
                         </div>
                     </div>
                 </form>
@@ -469,7 +470,7 @@
                     <div class="control-group">
                         <label class="control-label" for="waist">Waist</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.waist"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.waist"}}
                         </div>
                     </div>
                 </form>
@@ -479,7 +480,7 @@
                     <div class="control-group">
                         <label class="control-label" for="bb">bb</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.bb"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.bb"}}
                         </div>
                     </div>
                 </form>
@@ -489,7 +490,7 @@
                     <div class="control-group">
                         <label class="control-label" for="backneck">Back neck</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.backneck"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.backneck"}}
                         </div>
                     </div>
                 </form>
@@ -499,7 +500,7 @@
                     <div class="control-group">
                         <label class="control-label" for="frontneck">Front neck</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.frontneck"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.frontneck"}}
                         </div>
                     </div>
                 </form>
@@ -510,7 +511,7 @@
                     <div class="control-group">
                         <label class="control-label" for="sllength">sl length</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.sllength"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.sllength"}}
                         </div>
                     </div>
                 </form>
@@ -520,7 +521,7 @@
                     <div class="control-group">
                         <label class="control-label" for="slcircum1">sl circum1</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.slcircum1"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.slcircum1"}}
                         </div>
                     </div>
                 </form>
@@ -530,7 +531,7 @@
                     <div class="control-group">
                         <label class="control-label" for="slcircum2">sl circum2</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.slcircum2"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.slcircum2"}}
                         </div>
                     </div>
                 </form>
@@ -540,7 +541,7 @@
                     <div class="control-group">
                         <label class="control-label" for="arm">Arm</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.arm"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.arm"}}
                         </div>
                     </div>
                 </form>
@@ -551,7 +552,7 @@
                     <div class="control-group">
                         <label class="control-label" for="armcut">Arm cut</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.armcut"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.armcut"}}
                         </div>
                     </div>
                 </form>
@@ -561,7 +562,7 @@
                     <div class="control-group">
                         <label class="control-label" for="armslant">Arm slant</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.armslant"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.armslant"}}
                         </div>
                     </div>
                 </form>
@@ -571,7 +572,7 @@
                     <div class="control-group">
                         <label class="control-label" for="bl">bl</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.bl"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.bl"}}
                         </div>
                     </div>
                 </form>
@@ -581,7 +582,7 @@
                     <div class="control-group">
                         <label class="control-label" for="blsplit">bl split</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.blsplit"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.blsplit"}}
                         </div>
                     </div>
                 </form>
@@ -592,7 +593,7 @@
                     <div class="control-group">
                         <label class="control-label" for="lc">lc</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.lc"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.lc"}}
                         </div>
                     </div>
                 </form>
@@ -602,7 +603,7 @@
                     <div class="control-group">
                         <label class="control-label" for="seat">Seat</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.seat"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.seat"}}
                         </div>
                     </div>
                 </form>
@@ -612,7 +613,7 @@
                     <div class="control-group">
                         <label class="control-label" for="wb">wb</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.wb"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.wb"}}
                         </div>
                     </div>
                 </form>
@@ -622,7 +623,7 @@
                     <div class="control-group">
                         <label class="control-label" for="seatlength">Seat length</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.seatlength"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.seatlength"}}
                         </div>
                     </div>
                 </form>
@@ -633,7 +634,7 @@
                     <div class="control-group">
                         <label class="control-label" for="topsflair">Tops flair</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.topsflair"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.topsflair"}}
                         </div>
                     </div>
                 </form>
@@ -643,7 +644,7 @@
                     <div class="control-group">
                         <label class="control-label" for="slitfrom">Slit from</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.slitfrom"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.slitfrom"}}
                         </div>
                     </div>
                 </form>
@@ -653,7 +654,7 @@
                     <div class="control-group">
                         <label class="control-label" for="bottomflair">Bottom flair</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.bottomflair"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.bottomflair"}}
                         </div>
                     </div>
                 </form>
@@ -663,7 +664,7 @@
                     <div class="control-group">
                         <label class="control-label" for="gatheringw1">Gathering w1</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.gatheringw1"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.gatheringw1"}}
                         </div>
                     </div>
                 </form>
@@ -674,7 +675,7 @@
                     <div class="control-group">
                         <label class="control-label" for="gatheringw2">Gathering w2</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.gatheringw2"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.gatheringw2"}}
                         </div>
                     </div>
                 </form>
@@ -684,7 +685,7 @@
                     <div class="control-group">
                         <label class="control-label" for="gatheringw3">Gathering w3</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.gatheringw3"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.gatheringw3"}}
                         </div>
                     </div>
                 </form>
@@ -694,7 +695,7 @@
                     <div class="control-group">
                         <label class="control-label" for="gatheringl1">Gathering l1</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.gatheringl1"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.gatheringl1"}}
                         </div>
                     </div>
                 </form>
@@ -704,7 +705,7 @@
                     <div class="control-group">
                         <label class="control-label" for="gatheringl2">Gathering l2</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="currentMeasurement.gatheringl2"}}
+                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.gatheringl2"}}
                         </div>
                     </div>
                 </form>
@@ -715,7 +716,7 @@
                     <div class="control-group">
                         <label class="control-label" for="additionalnote">Additional note</label>
                         <div class="controls">
-                            {{view Ember.TextArea  valueBinding="currentMeasurement.additionalnote"}}
+                            {{view Ember.TextArea  valueBinding="editableMeasurement.additionalnote"}}
                         </div>
                     </div>
                 </form>
@@ -725,8 +726,8 @@
     </div>
     <div class="span12 text-center">
         <form class="form-horizontal">
-            <button type="button" class="btn btn-default" {{action updateMeasurement currentMeasurement}}>Update measurement</button>
-            <button type="button" class="btn btn-default" {{action cancelMeasurement currentMeasurement}}>Cancel</button>
+            <button type="button" class="btn btn-default" {{action updateMeasurement editableMeasurement}}>Update measurement</button>
+            <button type="button" class="btn btn-default" {{action cancelMeasurement editableMeasurement}}>Cancel</button>
         </form>
     </div>
 

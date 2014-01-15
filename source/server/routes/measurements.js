@@ -1,29 +1,45 @@
 ﻿var logger = require('../log/log').logger;
 var db = require('../db/db').db;
 var BSON = require('mongodb').BSONPure;
-//var print = require('../../../../../js/jslearning/printprops.js');
+var print = require('../../../../../js/jslearning/printprops.js');
 
 
 //get methods
 exports.getAll = function (req, res) {
     logger.info('requesting all measurements');
+    var ids = req.query.ids;
     db.instance().collection('measurements', function (err, collection) {
         if (err) {
             logger.error('no table by name measurements found in db');
             res.send({ 'error': 'An error has occured - ' + err });
         }
         else {
-            collection.find().sort({ name: 1 }).toArray(function (err, items) {
-                var allCustomers = {
-                    measurements: items
-                };
-                res.send(allCustomers);
-            });
+            if (ids) {
+                var idArr = [];
+                ids.forEach(function (id) {
+                    idArr.push(BSON.ObjectID(id));
+                });
+
+                collection.find({ '_id': { $in: idArr }}).sort({ name: 1 }).toArray(function (err, items) {
+                    var matchMeasurements = {
+                        measurements: items
+                    };
+                    res.send(matchMeasurements);
+                });
+            }
+            else {
+                collection.find().sort({ name: 1 }).toArray(function (err, items) {
+                    var allMeasurements = {
+                        measurements: items
+                    };
+                    res.send(allMeasurements);
+                });
+            }
         }
     });
 };
 
-exports.getByCustomerName = function (req, res) {
+exports.getByMeasurementName = function (req, res) {
     var Name = req.param('name', 'undefined');
     logger.info('requesting measurement Name ' + Name);
     db.instance().collection('measurements', function (err, collection) {
@@ -33,10 +49,10 @@ exports.getByCustomerName = function (req, res) {
         }
         else {
             collection.find({ 'name': Name }).toArray(function (err, items) {
-                var matchCustomers = {
+                var matchMeasurements = {
                     measurements: items
                 };
-                res.send(matchCustomers);
+                res.send(matchMeasurements);
             });
         }
     });
@@ -99,7 +115,7 @@ exports.delete = function (req, res) {
     db.instance().collection('measurements', function (err, collection) {
         collection.remove({ '_id': new BSON.ObjectID(measurementId) }, { safe: true }, function (err, result) {
             if (err) {
-                logger.error('Error deleting Customer: ' + err);
+                logger.error('Error deleting Measurement: ' + err);
                 res.send({ 'error': 'An error has occured - ' + err });
             } else {
                 logger.log('' + result + ' document(s) deleted');
