@@ -35,7 +35,7 @@ App.OrdersEditRoute = Ember.Route.extend({
 App.OrdersNewRoute = Ember.Route.extend({
     model: function () {
         return this.store.createRecord('order', {
-            status: 'new'
+            status: 'New'
         });
     },
 

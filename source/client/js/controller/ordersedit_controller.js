@@ -1,5 +1,7 @@
 App.OrdersEditController = Ember.ObjectController.extend({
 
+    states: ["New", "InProgress", "Done"],
+
     eMeasurement: null,
 
     currentMeasurement: null,
@@ -24,6 +26,71 @@ App.OrdersEditController = Ember.ObjectController.extend({
 
             var onOrderSaveSuccess = function () {
                 console.log('order saved successfully..');
+
+                var order = self.get('model');
+                self.store.find('customer', { phoneno: self.get('customerphoneno') }).then(function (customers) {
+                    if (customers.get('length') > 0) {//TODO: handle multiple customer record
+                        var customer = customers.objectAt(0);
+
+                        var customerMeasurements = [];
+                        var orderMeasurements = [];
+                        var saveMeasurements = new Array();
+                        customer.get('measurements').then(function (measurements) {
+                            measurements.forEach(function (measurement) {
+                                customerMeasurements.push(measurement);
+                            });
+                        }).then(function () {
+                            order.get('measurements').then(function (measurements) {
+                                measurements.forEach(function (measurement) {
+                                    orderMeasurements.push(measurement);
+                                });
+                            });
+                        }).then(function () {
+                            orderMeasurements.forEach(function (oMeasurement) {
+                                var matchFound = false;
+                                customerMeasurements.forEach(function (cMeasurement) {
+                                    if (cMeasurement.get('name') === oMeasurement.get('name') &&
+                                        cMeasurement.get('type') === oMeasurement.get('type')) {
+                                        cMeasurement.setProperties(oMeasurement.toJSON());
+                                        saveMeasurements.push(cMeasurement.save());
+                                        matchFound = true;
+                                    }
+                                });
+                                if (!matchFound) {
+                                    var newMeasurement = self.store.createRecord('measurement', oMeasurement.toJSON());
+                                    saveMeasurements.push(newMeasurement.save());
+                                    customer.get('measurements').pushObject(newMeasurement);
+                                }
+                            });
+                            Ember.RSVP.all(saveMeasurements).then(function () {
+                                customer.save();
+                            });
+                        });
+                    }
+                    else {
+                        var customer = self.store.createRecord('customer', { name: self.get('customername'), phoneno: self.get('customerphoneno'), emailid: self.get('customeremailid') });
+                        var saveMeasurements = new Array();
+                        var newMeasurements = [];
+                        order.get('measurements').then(function (measurements) {
+                            measurements.forEach(function (measurement) {
+                                var cMeasurement = self.store.createRecord('measurement', measurement.toJSON());
+                                newMeasurements.push(cMeasurement);
+                                saveMeasurements.push(cMeasurement.save());
+                            });
+                        }).then(function () {
+                            Ember.RSVP.all(saveMeasurements).then(function () {
+                                customer.get('measurements').then(function (measurements) {
+                                    newMeasurements.forEach(function (measurement) {
+                                        measurements.pushObject(measurement);
+                                    });
+                                    customer.save();
+                                });
+                            });
+                        });
+
+                    }
+                });
+
                 self.transitionToRoute('orders');
             };
 

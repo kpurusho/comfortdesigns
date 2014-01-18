@@ -51,18 +51,23 @@
   </script>
 
   <script type="text/x-handlebars" data-template-name="orders/index" >
-    <div class="search-bar">
-        <!--{{view Ember.TextField value=search}}-->
-        {{input type="text" placeholder="Customer name or phone no." value=search}}
+    <div class="span12">
+        <div class="row">
+            <div class="span2">
+                <p>{{#link-to "orders.new"}}<img src="images/add-icon.png"/> New order{{/link-to}}</p>
+            </div>
+
+            <div class="span10">
+                <div class="search-bar">
+                    {{input type="text" placeholder="Search by name or phone no." value=search}}
+                </div>
+            </div>
+        </div>
     </div>
 
-    {{#if itemsSelected}}
-        <p><button {{action 'removeSelectedOrders'}}>Remove {{editCounter}} selected orders</button></p>
-    {{/if}}
 
     <table class="table table-hover">
         <tr>
-            <th>Selected</th>
             <th>Order No</th>
             <th>Order Date</th>
             <th>Customer Name</th>
@@ -75,7 +80,6 @@
         </tr>
         {{#each order in controller itemController="ordersEdit"}}
             <tr {{bind-attr class="selected:warning"}}>
-            <td>{{view Ember.Checkbox checkedBinding="selected"}}</td>
             <td>{{order.orderno}}</td>
             <td>{{format-date order.orderdate}}</td>
             <td>{{order.customername}}</td>
@@ -89,7 +93,6 @@
         {{/each}}
     </table>
 
-    <p>{{#link-to "orders.new"}}<img src="images/add-icon.png"/> New order{{/link-to}}</p>
 
   </script>
 
@@ -98,62 +101,82 @@
     <div class="row">
         <div class="span12">
             <div class="row">
-                <div class="span4">      
+                <div class="span3">      
                     <form class="form-horizontal form-small">
                         <div class="control-group">
                             <label class="control-label" for="orderno">Order No.</label>
                             <div class="controls">
-                                {{view Ember.TextField valueBinding="orderno"}}
+                                {{view Ember.TextField class="input-small" valueBinding="orderno"}}
                             </div>
                         </div>
                     </form>
                 </div>
-                <div class="span4">      
+                <div class="span3">      
                     <form class="form-horizontal form-small">
                         <div class="control-group">
                             <label class="control-label" for="orderdate">Order Date</label>
                             <div class="controls">
-                                {{view App.DatePicker dateBinding="orderdate"}}
+                                {{view App.DatePicker class="input-small" dateBinding="orderdate"}}
                             </div>
                         </div>
                     </form>
                 </div>
-                <div class="span4">      
+                <div class="span3">      
                     <form class="form-horizontal form-small">
                         <div class="control-group">
                             <label class="control-label" for="duedate">Ready Date</label>
                             <div class="controls">
-                                {{view App.DatePicker dateBinding="duedate"}}
+                                {{view App.DatePicker class="input-small" dateBinding="duedate"}}
                             </div>
                         </div>
                     </form>
                 </div>
-                <div class="span4">
-                    <form class="form-horizontal form-small">
-                        <div class="control-group">
-                            <label class="control-label" for="customername">Customer Name</label>
-                            <div class="controls">
-                                {{view Ember.TextField valueBinding="customername"}}
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="span4">
-                    <form class="form-horizontal form-small">
-                        <div class="control-group">
-                            <label class="control-label" for="customerphoneno">Phone No</label>
-                            <div class="controls">
-                                {{view Ember.TextField valueBinding="customerphoneno"}}
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="span4">
+                <div class="span3">
                     <form class="form-horizontal form-small">
                         <div class="control-group">
                             <label class="control-label" for="nopieces">No. pieces</label>
                             <div class="controls">
-                                {{view Ember.TextField valueBinding="nopieces"}}
+                                {{view Ember.TextField class="input-small" valueBinding="nopieces"}}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="span3">
+                    <form class="form-horizontal form-small">
+                        <div class="control-group">
+                            <label class="control-label" for="customerphoneno">Phone No</label>
+                            <div class="controls">
+                                {{view Ember.TextField class="input-small" valueBinding="customerphoneno"}}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="span3">
+                    <form class="form-horizontal form-small">
+                        <div class="control-group">
+                            <label class="control-label" for="customername">Customer Name</label>
+                            <div class="controls">
+                                {{view Ember.TextField class="input-small" valueBinding="customername"}}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="span3">
+                    <form class="form-horizontal form-small">
+                        <div class="control-group">
+                            <label class="control-label" for="customeremailid">Email Id</label>
+                            <div class="controls">
+                                {{view Ember.TextField class="input-small" valueBinding="customeremailid"}}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="span3">
+                    <form class="form-horizontal form-small">
+                        <div class="control-group">
+                            <label class="control-label" for="status">Status</label>
+                            <div class="controls">
+                                {{view Ember.Select class="input-small" content=states valueBinding="status"}}
                             </div>
                         </div>
                     </form>
@@ -162,12 +185,15 @@
         </div>
         <div class="span12">
             <div class="row">
-                <div class="span6">
+                <div class="span3">
                 <p><a href="#" {{action createMeasurement}}><img src="images/add-icon.png"/> New measurement</a></p>
                 </div>
-                <div class="span6">
-                <p><a href="#" {{action getMeasurement}}><img src="images/get-icon.png"/> Get measurement</a></p>
+                <div class="span3">
+                <p><a href="#" {{action getMeasurement}}><img src="images/get-icon.png"/> Get recent measurement</a></p>
                 </div>
+                <div class="span6">
+                </div>
+                <div class="span12">
                 {{#if measurements.length}}
                     <table class="table table-hover">
                         <tr>
@@ -185,10 +211,23 @@
                         {{/each}}
                     </table>
                 {{/if}}
+                </div>
             </div>        
         </div>
 
         {{partial "measurementForm"}}
+
+        <div class="span12">      
+            <form class="form-horizontal">
+                <div class="control-group">
+                    <label class="control-label" for="additionalnote">Measurement note</label>
+                    <div class="controls">
+                        {{view Ember.TextArea  class="measurementnotetext" valueBinding="additionalnote"}}
+                    </div>
+                </div>
+            </form>
+        </div>
+
         
         <div class="span12 text-center">
             {{#if controller.isNew}}
@@ -383,345 +422,351 @@
       
     <div class="span12">
         <div class="row">
-            <div class="span3">      
+            <div class="span4">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="name">Name</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.name"}}
+                            {{view Ember.TextField  class="input-medium" valueBinding="editableMeasurement.name"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+            <div class="span4">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="type">Type</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.type"}}
+                            {{view Ember.TextField  class="input-medium" valueBinding="editableMeasurement.type"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+        </div>
+    </div>
+    <div class="span12">
+        <div class="row">
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="length">Length</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.length"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.length"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="shoulder">Shoulder</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.shoulder"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.shoulder"}}
                         </div>
                     </div>
                 </form>
             </div>
 
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="shouldercut">Shoulder cut</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.shouldercut"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.shouldercut"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="chest">Chest</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.chest"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.chest"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="chestmnt">Chest mnt</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.chestmnt"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.chestmnt"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="chestfinishedmnt">Chest finished</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.chestfinishedmnt"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.chestfinishedmnt"}}
                         </div>
                     </div>
                 </form>
             </div>
-
-            <div class="span3">      
+        </div>
+    </div>
+    <div class="span12">
+        <div class="row">
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="waist">Waist</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.waist"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.waist"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="bb">bb</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.bb"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.bb"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="backneck">Back neck</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.backneck"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.backneck"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="frontneck">Front neck</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.frontneck"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.frontneck"}}
                         </div>
                     </div>
                 </form>
             </div>
 
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="sllength">sl length</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.sllength"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.sllength"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="slcircum1">sl circum1</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.slcircum1"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.slcircum1"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+        </div>
+    </div>
+    <div class="span12">
+        <div class="row">
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="slcircum2">sl circum2</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.slcircum2"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.slcircum2"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="arm">Arm</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.arm"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.arm"}}
                         </div>
                     </div>
                 </form>
             </div>
 
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="armcut">Arm cut</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.armcut"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.armcut"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="armslant">Arm slant</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.armslant"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.armslant"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="bl">bl</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.bl"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.bl"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="blsplit">bl split</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.blsplit"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.blsplit"}}
                         </div>
                     </div>
                 </form>
             </div>
-
-            <div class="span3">      
+        </div>
+    </div>
+    <div class="span12">
+        <div class="row">
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="lc">lc</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.lc"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.lc"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="seat">Seat</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.seat"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.seat"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="wb">wb</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.wb"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.wb"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="seatlength">Seat length</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.seatlength"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.seatlength"}}
                         </div>
                     </div>
                 </form>
             </div>
 
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="topsflair">Tops flair</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.topsflair"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.topsflair"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="slitfrom">Slit from</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.slitfrom"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.slitfrom"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+        </div>
+    </div>
+    <div class="span12">
+        <div class="row">
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="bottomflair">Bottom flair</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.bottomflair"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.bottomflair"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="gatheringw1">Gathering w1</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.gatheringw1"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.gatheringw1"}}
                         </div>
                     </div>
                 </form>
             </div>
 
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="gatheringw2">Gathering w2</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.gatheringw2"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.gatheringw2"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="gatheringw3">Gathering w3</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.gatheringw3"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.gatheringw3"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="gatheringl1">Gathering l1</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.gatheringl1"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.gatheringl1"}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="span3">      
+            <div class="span2">      
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="gatheringl2">Gathering l2</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-small" valueBinding="editableMeasurement.gatheringl2"}}
+                            {{view Ember.TextField  class="measurementtext" valueBinding="editableMeasurement.gatheringl2"}}
                         </div>
                     </div>
                 </form>
             </div>
-
-            <div class="span6">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="additionalnote">Additional note</label>
-                        <div class="controls">
-                            {{view Ember.TextArea  valueBinding="editableMeasurement.additionalnote"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-
         </div>
     </div>
     <div class="span12 text-center">

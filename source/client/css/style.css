@@ -68,18 +68,24 @@ body {
   border-radius: 0 3px 3px 0;
 }
 
+.measurementnotetext
+{
+    width: 500px;
+    height: 50px;
+}
+
 .measurementtext
 {
-    width: 40px;
+    width: 50px;
     height: auto;
 }
 
 .form-small .control-label {
-    width: 70px;
+    width: 90px;
 }
 
 .form-small .controls {
-    margin-left: 80px;
+    margin-left: 95px;
 }
 
 .form-medium .control-label {
