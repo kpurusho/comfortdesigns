@@ -1,6 +1,8 @@
 App.OrdersEditController = Ember.ObjectController.extend({
 
-    states: ["New", "InProgress", "Done"],
+    states: [App.Consts.OrderState.New, App.Consts.OrderState.InProgress, App.Consts.OrderState.Done, App.Consts.OrderState.Delivered],
+
+    measurementtypes : [App.Consts.MeasurementType.Blouse, App.Consts.MeasurementType.Chudidhar],
 
     eMeasurement: null,
 
@@ -170,7 +172,7 @@ App.OrdersEditController = Ember.ObjectController.extend({
         createMeasurement: function () {
             if (this.get('isNewMeasurement')) return;
 
-            var measurement = this.store.createRecord('measurement');
+            var measurement = this.store.createRecord('measurement', { name: this.get('customername')});
             this.set('editableMeasurement', measurement);
             this.set('isNewMeasurement', true);
         },

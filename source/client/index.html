@@ -57,9 +57,15 @@
                 <p>{{#link-to "orders.new"}}<img src="images/add-icon.png"/> New order{{/link-to}}</p>
             </div>
 
-            <div class="span10">
+            <div class="span3">
                 <div class="search-bar">
-                    {{input type="text" placeholder="Search by name or phone no." value=search}}
+                    {{input type="text" placeholder="Search by order number" value=searchorder}}
+                </div>
+            </div>
+
+            <div class="span3">
+                <div class="search-bar">
+                    {{input type="text" placeholder="Search by name or phone no." value=searchcustomer}}
                 </div>
             </div>
         </div>
@@ -106,7 +112,7 @@
                         <div class="control-group">
                             <label class="control-label" for="orderno">Order No.</label>
                             <div class="controls">
-                                {{view Ember.TextField class="input-small" valueBinding="orderno"}}
+                                {{view Ember.TextField disabled="true" class="input-small" valueBinding="orderno"}}
                             </div>
                         </div>
                     </form>
@@ -432,12 +438,12 @@
                     </div>
                 </form>
             </div>
-            <div class="span4">      
+            <div class="span4">
                 <form class="form-horizontal form-small">
                     <div class="control-group">
                         <label class="control-label" for="type">Type</label>
                         <div class="controls">
-                            {{view Ember.TextField  class="input-medium" valueBinding="editableMeasurement.type"}}
+                            {{view Ember.Select class="input-medium" content=measurementtypes valueBinding="editableMeasurement.type"}}
                         </div>
                     </div>
                 </form>
@@ -783,6 +789,7 @@
   <script type="text/x-handlebars" data-template-name="about" >
       <p>This is the about page.</p>
   </script>
+
 
   <script src="js/lib/jquery-1.10.2.js"></script>
   <script src="js/lib/handlebars-1.1.2.js"></script>

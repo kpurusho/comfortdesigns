@@ -13,7 +13,7 @@ exports.getAll = function (req, res) {
             res.send({ 'error': 'An error has occured - ' + err });
         }
         else {
-            collection.find().sort({ orderdate: 1 }).toArray(function (err, items) {
+            collection.find().sort({ orderno: -1 }).toArray(function (err, items) {
                 var allOrders = {
                     orders: items
                 };
@@ -63,15 +63,20 @@ exports.add = function (req, res) {
     logger.info('order add body - ' + req.body);
     logger.info('requesting add order - ' + order.name);
     db.instance().collection('orders', function (err, collection) {
-        collection.insert(order, { safe: true }, function (err, result) {
-            if (err) {
-                logger.error('failed to add order' + order);
-                res.send({ 'error': 'An error has occured - ' + err });
-            }
-            else {
-                logger.info('successfully added order - ' + order);
-                res.send({order: result[0]});
-            }
+        collection.find().sort({ orderno: -1 }).limit(1).toArray(function (err, items) {
+            if (items.length > 0)
+                order.orderno = items[0].orderno + 1;
+
+            collection.insert(order, { safe: true }, function (err, result) {
+                if (err) {
+                    logger.error('failed to add order' + order);
+                    res.send({ 'error': 'An error has occured - ' + err });
+                }
+                else {
+                    logger.info('successfully added order - ' + order);
+                    res.send({ order: result[0] });
+                }
+            });
         });
     });
 };

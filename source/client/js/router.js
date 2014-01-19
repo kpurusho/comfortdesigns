@@ -14,11 +14,11 @@ App.Router.map(function () {
         this.route('new', { path: '/new' });
         this.route('edit', { path: '/:cust_id' });
 
-        this.resource('measurements', { path: 'measurements' }, function () {
-            console.log('Inside measurements....');
-            this.route('new', { path: '/new' });
-            this.route('edit', { path: '/:measurement_id' });
-        });
+        //this.resource('measurements', { path: 'measurements' }, function () {
+        //    console.log('Inside measurements....');
+        //    this.route('new', { path: '/new' });
+        //    this.route('edit', { path: '/:measurement_id' });
+        //});
 
     });
 

@@ -8,15 +8,23 @@ App.OrdersIndexController = Ember.ArrayController.extend({
         return this.get("editCounter") > 0;
     }.property('editCounter'),
 
-    searchedContent: function () {
-        var regexp = new RegExp(this.get('search'), 'i');
+    searchedCustomer: function () {
+        var regexp = new RegExp(this.get('searchcustomer'), 'i');
 
         this.get('model').set('content', this.store.filter('order', function (item) {
             return regexp.test(item.get('customername')) || regexp.test(item.get('customerphoneno'));
         }));
 
-    }.observes('search'),
+    }.observes('searchcustomer'),
 
+    searchedOrder: function () {
+        var regexp = new RegExp(this.get('searchorder'), 'i');
+
+        this.get('model').set('content', this.store.filter('order', function (item) {
+            return regexp.test(item.get('orderno'));
+        }));
+
+    }.observes('searchorder'),
 
     actions: {
 

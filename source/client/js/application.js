@@ -95,4 +95,17 @@ App.CustomerSerializer = App.Serializer.extend();
 App.MeasurementSerializer = App.Serializer.extend();
 App.OrderSerializer = App.Serializer.extend();
 
+App.Consts = {
+    OrderState: {
+        New: "New", 
+        InProgress: "InProgress", 
+        Done: "Done",
+        Delivered: "Delivered",
+    },
+
+    MeasurementType: {
+        Blouse: "Blouse",
+        Chudidhar: "Chudidhar"
+    }
+};
 
