@@ -26,6 +26,7 @@ App.Router.map(function () {
         console.log('Inside orders....');
         this.route('new', { path: '/new' });
         this.route('edit', { path: '/:order_id' });
+        this.route('print', { path: '/print/:order_id' });
     });
 
 });

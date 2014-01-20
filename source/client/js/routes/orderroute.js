@@ -52,3 +52,26 @@ App.OrdersNewRoute = Ember.Route.extend({
     }
 });
 
+
+App.OrdersPrintRoute = Ember.Route.extend({
+    model: function (params) {
+        return this.store.find('order', params.order_id);
+    },
+
+    setupController: function (controller, model) {
+        console.log('setting controller for print page');
+        this.controllerFor('orders.print').setProperties({ model: model});
+    },
+
+    renderTemplate: function () {
+        //this renders the template tasks.edit into application template's outlet
+        this.render('orders.print', { into: 'application' });
+    },
+
+    actions: {
+        error: function (error, transition) {
+            // handle the error
+            console.log(error.message);
+        }
+    }
+});
