@@ -6,6 +6,7 @@
 <title>Comfort Designs</title>
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
+  <link rel="stylesheet" href="css/bootstrap.min.css" media="print">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -72,35 +73,92 @@
     </div>
 
 
-    <table class="table table-hover">
-        <tr>
-            <th>Order No</th>
-            <th>Order Date</th>
-            <th>Customer Name</th>
-            <th>Phone Number</th>
-            <th>Due Date</th>
-            <th>Piece count</th>
-            <th>Status</th>
-            <th>Edit</th>
-            <th>Delete</th>
-            <th>Print</th>
-        </tr>
-        {{#each order in controller itemController="ordersEdit"}}
-            <tr {{bind-attr class="selected:warning"}}>
-            <td>{{order.orderno}}</td>
-            <td>{{format-date order.orderdate}}</td>
-            <td>{{order.customername}}</td>
-            <td>{{order.customerphoneno}}</td>
-            <td>{{format-date order.duedate}}</td>
-            <td>{{order.nopieces}}</td>
-            <td>{{order.status}}</td>
-            <td>{{#link-to "orders.edit" order}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
-            <td><a href="#" {{action removeItem order}}><img src="images/delete-icon.png" border="0"/></a></td>
-            <td>{{#link-to "orders.print" order}}<img src="images/print-icon.png"/>{{/link-to}}</td>
-            </tr>
-        {{/each}}
-    </table>
+    <div class="span12">
+        <div class="row">
+            <div class="span2">
+                <form>
+                    <fieldset>
+                        <span class="help-block">Filter by status:</span>
+                        
+                        <label>
+                            {{view Ember.Checkbox checkedBinding="filterByStatusNew"}} 
+                            New
+                        </label>
+                        <label>
+                            {{view Ember.Checkbox checkedBinding="filterByStatusInProgress"}}
+                            In Progress
+                        </label>
+                        <label>
+                            {{view Ember.Checkbox checkedBinding="filterByStatusDone"}}
+                            Done
+                        </label>
+                        <label>
+                            {{view Ember.Checkbox checkedBinding="filterByStatusDelivered"}}
+                            Delivered
+                        </label>
+                    </fieldset>
 
+                    <fieldset>
+                        <span class="help-block">Filter by due date:</span>
+                        
+                        <label class="checkbox">
+                            <input type="checkbox"> Next 1 week
+                        </label>
+                        <label class="checkbox">
+                            <input type="checkbox"> Next 2 weeks
+                        </label>
+                        <label class="checkbox">
+                            <input type="checkbox"> Next 1 month
+                        </label>
+                    </fieldset>
+
+                    <fieldset>
+                        <span class="help-block">Filter by order date:</span>
+                        
+                        <label class="checkbox">
+                            <input type="checkbox"> Last 1 week
+                        </label>
+                        <label class="checkbox">
+                            <input type="checkbox"> Last 2 weeks
+                        </label>
+                        <label class="checkbox">
+                            <input type="checkbox"> Last 1 month
+                        </label>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="span10">
+                <table class="table table-hover">
+                    <tr>
+                        <th>Order No</th>
+                        <th>Order Date</th>
+                        <th>Customer Name</th>
+                        <th>Phone Number</th>
+                        <th>Due Date</th>
+                        <th>Piece count</th>
+                        <th>Status</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                        <th>Print</th>
+                    </tr>
+                    {{#each order in controller itemController="ordersEdit"}}
+                        <tr {{bind-attr class="selected:warning"}}>
+                        <td>{{order.orderno}}</td>
+                        <td>{{format-date order.orderdate}}</td>
+                        <td>{{order.customername}}</td>
+                        <td>{{order.customerphoneno}}</td>
+                        <td>{{format-date order.duedate}}</td>
+                        <td>{{order.nopieces}}</td>
+                        <td>{{order.status}}</td>
+                        <td>{{#link-to "orders.edit" order}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
+                        <td><a href="#" {{action removeItem order}}><img src="images/delete-icon.png" border="0"/></a></td>
+                        <td>{{#link-to "orders.print" order}}<img src="images/print-icon.png"/>{{/link-to}}</td>
+                        </tr>
+                    {{/each}}
+                </table>
+            </div>
+        </div>
+    </div>
 
   </script>
 
@@ -394,22 +452,29 @@
         <h4>Measurement Notes:</h4>
         {{additionalnote}}
     </div>
-    <div class="span12">
-        <h4>Order Tracking:</h4>
-        <table class="table table-bordered">
-            <tr>
-                <th>Work Step</th>
-                <th>Completed Date</th>
-                <th>Completed by</th>
-            </tr>                    
-            {{#each task in tasks}}
+    
+    <div class="pagebreak">
+        <div class="span12">
+            <h4>Order Tracking:</h4>
+            <table class="table table-condensed">
                 <tr>
-                    <td>{{task.taskname}}</td>
-                    <td></td>
-                    <td></td>
+                    <th>Work Step</th>
+                    <th>Completed Date</th>
+                    <th>Completed by</th>
                 </tr>
-            {{/each}}
-        </table>
+                {{#each task in tasks}}
+                    <tr>
+                        <td>{{task.taskname}}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {{/each}}
+            </table>
+        </div>
+        <div class="span12 text-center">
+            <button class="btn btn-large btn-primary" type="button" {{action print}}>Print order</button>
+            <button class="btn btn-large btn-primary" type="button" {{action close}}>Close</button>
+        </div>
     </div>
   </script>
 

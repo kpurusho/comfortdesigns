@@ -1,9 +1,11 @@
 ﻿App.OrdersPrintController = Ember.ObjectController.extend({
     actions: {
-        printOrder: function () {
+        print: function () {
+            window.print();
+            this.transitionToRoute('orders');
         },
 
-        cancel: function () {
+        close: function () {
             this.transitionToRoute('orders');
         }
     },
