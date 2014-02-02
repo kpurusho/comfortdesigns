@@ -4,6 +4,13 @@
         return this.store.find('order');
     },
 
+    setupController: function (controller, model) {
+        this.controllerFor('orders.index').setProperties({
+            model: model, filterByStatusNew: true, filterByStatusInProgress: true,
+            filterByStatusDone: true, filterByDueDate: "0"
+        });
+    },
+
     renderTemplate: function () {
         this.render('orders.index', { into: 'application' });
     }

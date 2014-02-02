@@ -20,7 +20,22 @@ App.OrdersEditController = Ember.ObjectController.extend({
         return this.get('editableMeasurement') != null;
     }.property('editableMeasurement'),
 
+
     actions: {
+        updateCustomerDetails: function (phno) {
+            var self = this;
+            var phno = this.get('customerphoneno');
+            if (!phno) return;
+
+            this.store.find('customer', { phoneno: phno }).then(function (customers) {
+                if (customers.get('length') > 0) {//TODO: handle multiple customer record
+                    var customer = customers.objectAt(0);
+                    self.set('customername', customer.get('name'));
+                    self.set('customeremailid', customer.get('emailid'));
+                }
+            });
+        },
+
         updateOrder: function () {
             var order = this.get('model');
 
@@ -48,22 +63,27 @@ App.OrdersEditController = Ember.ObjectController.extend({
                                 });
                             });
                         }).then(function () {
-                            orderMeasurements.forEach(function (oMeasurement) {
+                            for(oIdx = 0; oIdx < orderMeasurements.length; oIdx++) {
+                                var oMeasurement = orderMeasurements[oIdx];
+
                                 var matchFound = false;
-                                customerMeasurements.forEach(function (cMeasurement) {
+                                for(cIdx = 0; cIdx < customerMeasurements.length; cIdx++) {
+                                    cMeasurement = customerMeasurements[cIdx];
+
                                     if (cMeasurement.get('name') === oMeasurement.get('name') &&
                                         cMeasurement.get('type') === oMeasurement.get('type')) {
                                         cMeasurement.setProperties(oMeasurement.toJSON());
                                         saveMeasurements.push(cMeasurement.save());
                                         matchFound = true;
                                     }
-                                });
+                                }
+
                                 if (!matchFound) {
                                     var newMeasurement = self.store.createRecord('measurement', oMeasurement.toJSON());
                                     saveMeasurements.push(newMeasurement.save());
                                     customer.get('measurements').pushObject(newMeasurement);
                                 }
-                            });
+                            }
                             Ember.RSVP.all(saveMeasurements).then(function () {
                                 customer.save();
                             });
@@ -177,18 +197,28 @@ App.OrdersEditController = Ember.ObjectController.extend({
             this.set('isNewMeasurement', true);
         },
         getMeasurement: function () {
+            var customerphno = this.get('customerphoneno');
+
+            if (!customerphno) {
+                window.alert('Enter customer phone numbers to get measurements');
+                return;
+            }
+
             var order = this.get('model');
             var self = this;
-            this.store.find('customer', { phoneno: this.get('customerphoneno') }).then(function (customers) {
+
+            this.store.find('customer', { phoneno: customerphno }).then(function (customers) {
                 if (customers.get('length') > 0) {//TODO: handle multiple customer record
                     var customer = customers.objectAt(0);
 
-                    customer.get('measurements').then(function(measurements) {
+                    customer.get('measurements').then(function (measurements) {
                         measurements.forEach(function (measurement) {
                             var newMeasurement = self.store.createRecord('measurement', measurement.toJSON());
                             order.get('measurements').pushObject(newMeasurement);
                         });
                     });
+                } else {
+                    window.alert('No measurements found for customer with phone no ' + customerphno);
                 }
             });
         },

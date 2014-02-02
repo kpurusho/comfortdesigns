@@ -1,12 +1,18 @@
 App.CustomersEditController = Ember.ObjectController.extend({
 
-    cMeasurement: null,
+    measurementtypes: [App.Consts.MeasurementType.Blouse, App.Consts.MeasurementType.Chudidhar],
+
+    eMeasurement: null,
+
+    currentMeasurement: null,
+
+    removedMeasurements: [],
 
     isNewMeasurement: false,
 
     editableMeasurement: function () {
-        return this.get('cMeasurement');
-    }.property('cMeasurement'),
+        return this.get('eMeasurement');
+    }.property('eMeasurement'),
 
     isMeasurementSelected: function () {
         return this.get('editableMeasurement') != null;
@@ -16,20 +22,65 @@ App.CustomersEditController = Ember.ObjectController.extend({
         updateCustomer: function () {
             var customer = this.get('model');
 
-            var that = this;
-            var onSuccess = function () {
-                console.log('customer saved successfully..');
-                that.transitionToRoute('customers');
-            };
-
-            var onFailure = function (error) {
-                window.alert('Failed to save..');
+            var self = this;
+            var onCustomerSaveFailure = function (error) {
+                window.alert('Failed to save customer..');
                 console.log(error.message);
             }
-            customer.save().then(onSuccess, onFailure);
+
+            var onCustomerSaveSuccess = function () {
+                console.log('customer saved successfully..');
+                self.transitionToRoute('customers');
+            }
+
+            var onMeasurementsSaveSuccess = function () {
+                console.log('all measurements saved successfully..');
+            };
+
+            var onMeasurementsSaveFailure = function () {
+                window.alert('Failed to save measurements..');
+                console.log(error.message);
+            };
+
+            customer.get('measurements').then(function (measurements) {
+                measurements.save().then(onMeasurementsSaveSuccess, onMeasurementsSaveFailure).then(function () {
+                    self.get('removedMeasurements').forEach(function (measurement) {
+                        measurement.save();
+                    });
+                }).then(function () {
+                    customer.save().then(onCustomerSaveSuccess, onCustomerSaveFailure);
+                });
+            });
+        },
+        cancelCustomer: function () {
+            var customer = this.get('model');
+
+            customer.get('measurements').then(function (measurements) {
+                measurements.forEach(function (measurement) {
+                    if (measurement.get('isNew')) {
+                        customer.get('measurements').removeObject(measurement);
+                        measurement.deleteRecord();
+                    }
+                    else {
+                        measurement.rollback();
+                    }
+                });
+            });
+
+            if (customer.get('isNew')) {
+                customer.deleteRecord();
+            }
+            else {
+                customer.rollback();
+            }
+
+            this.transitionToRoute('customers');
         },
         editMeasurement: function (measurement) {
-            this.set('editableMeasurement', measurement);
+            var editableMeasurement = this.store.createRecord('measurement', measurement.toJSON());
+
+            this.set('currentMeasurement', measurement);
+            this.set('editableMeasurement', editableMeasurement);
             this.set('isNewMeasurement', false);
         },
         removeMeasurement: function (measurement) {
@@ -40,37 +91,27 @@ App.CustomersEditController = Ember.ObjectController.extend({
         createMeasurement: function () {
             if (this.get('isNewMeasurement')) return;
 
-            var measurement = this.store.createRecord('measurement');
+            var measurement = this.store.createRecord('measurement', { name: this.get('name') });
             this.set('editableMeasurement', measurement);
             this.set('isNewMeasurement', true);
         },
         updateMeasurement: function (measurement) {
             var customer = this.get('model');
             var isNew = this.get('isNewMeasurement');
-
-            var onSuccess = function () {
-                if (isNew) {
-                    customer.get('measurements').pushObject(measurement);
-                }
-                console.log('successfully added measurement....');
-            };
-
-            var onFail = function (error) {
-                window.alert('Failed to save..');
-                console.log(error.message);
-            };
-
-            measurement.save().then(onSuccess, onFail);
-
+            if (isNew) {
+                customer.get('measurements').pushObject(measurement);
+            }
+            else {
+                this.get('currentMeasurement').setProperties(measurement.toJSON());
+                measurement.deleteRecord();
+            }
+            this.set('currentMeasurement', null);
             this.set('editableMeasurement', null);
             this.set('isNewMeasurement', false);
         },
         cancelMeasurement: function (measurement) {
-            var isNew = this.get('isNewMeasurement');
-            if (isNew) {
-                measurement.deleteRecord();
-                measurement.get('isDeleted');
-            }
+            measurement.deleteRecord();
+            this.set('currentMeasurement', null);
             this.set('editableMeasurement', null);
             this.set('isNewMeasurement', false);
         }

@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
   <link rel="stylesheet" href="css/bootstrap.min.css" media="print">
+  <link rel="stylesheet" href="css/bootstrap-responsive.min.css" media="screen">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -100,35 +101,36 @@
 
                     <fieldset>
                         <span class="help-block">Filter by due date:</span>
-                        
-                        <label class="checkbox">
-                            <input type="checkbox"> Next 1 week
+                        <label>
+                            {{view Ember.RadioButton name="DueDateFilter" selectionBinding="filterByDueDate" value="0"}}
+                            None
                         </label>
-                        <label class="checkbox">
-                            <input type="checkbox"> Next 2 weeks
+
+                        <label>
+                            {{view Ember.RadioButton name="DueDateFilter" selectionBinding="filterByDueDate" value="1"}}
+                            Next 1 week
                         </label>
-                        <label class="checkbox">
-                            <input type="checkbox"> Next 1 month
-                        </label>
+    
+                        <label>
+                            {{view Ember.RadioButton name="DueDateFilter" selectionBinding="filterByDueDate" value="2"}}
+                            Next 2 weeks
+                        </label>                  
+
+                        <label>
+                            {{view Ember.RadioButton name="DueDateFilter" selectionBinding="filterByDueDate" value="3"}}
+                            Next 3 weeks
+                        </label>                  
+
+                        <label>
+                            {{view Ember.RadioButton name="DueDateFilter" selectionBinding="filterByDueDate" value="4"}}
+                            Next 1 Month
+                        </label>                  
                     </fieldset>
 
-                    <fieldset>
-                        <span class="help-block">Filter by order date:</span>
-                        
-                        <label class="checkbox">
-                            <input type="checkbox"> Last 1 week
-                        </label>
-                        <label class="checkbox">
-                            <input type="checkbox"> Last 2 weeks
-                        </label>
-                        <label class="checkbox">
-                            <input type="checkbox"> Last 1 month
-                        </label>
-                    </fieldset>
                 </form>
             </div>
             <div class="span10">
-                <table class="table table-hover">
+                <table class="table table-condensed">
                     <tr>
                         <th>Order No</th>
                         <th>Order Date</th>
@@ -136,7 +138,9 @@
                         <th>Phone Number</th>
                         <th>Due Date</th>
                         <th>Piece count</th>
+                        <th></th>
                         <th>Status</th>
+                        <th></th>
                         <th>Edit</th>
                         <th>Delete</th>
                         <th>Print</th>
@@ -149,7 +153,9 @@
                         <td>{{order.customerphoneno}}</td>
                         <td>{{format-date order.duedate}}</td>
                         <td>{{order.nopieces}}</td>
+                        <td><a href="#" {{action orderStatusPrevious order}}><img src="images/previous-icon.png"/></a></td>
                         <td>{{order.status}}</td>
+                        <td><a href="#" {{action orderStatusNext order}}><img src="images/next-icon.png"/></a></td>
                         <td>{{#link-to "orders.edit" order}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
                         <td><a href="#" {{action removeItem order}}><img src="images/delete-icon.png" border="0"/></a></td>
                         <td>{{#link-to "orders.print" order}}<img src="images/print-icon.png"/>{{/link-to}}</td>
@@ -172,7 +178,7 @@
                         <div class="control-group">
                             <label class="control-label" for="orderno">Order No.</label>
                             <div class="controls">
-                                {{view Ember.TextField disabled="true" class="input-small" valueBinding="orderno"}}
+                                {{view Ember.TextField disabled="true" class="input-medium" valueBinding="orderno"}}
                             </div>
                         </div>
                     </form>
@@ -182,7 +188,7 @@
                         <div class="control-group">
                             <label class="control-label" for="orderdate">Order Date</label>
                             <div class="controls">
-                                {{view App.DatePicker class="input-small" dateBinding="orderdate"}}
+                                {{view App.DatePicker class="input-medium" dateBinding="orderdate"}}
                             </div>
                         </div>
                     </form>
@@ -192,7 +198,7 @@
                         <div class="control-group">
                             <label class="control-label" for="duedate">Ready Date</label>
                             <div class="controls">
-                                {{view App.DatePicker class="input-small" dateBinding="duedate"}}
+                                {{view App.DatePicker class="input-medium" dateBinding="duedate"}}
                             </div>
                         </div>
                     </form>
@@ -202,7 +208,7 @@
                         <div class="control-group">
                             <label class="control-label" for="nopieces">No. pieces</label>
                             <div class="controls">
-                                {{view Ember.TextField class="input-small" valueBinding="nopieces"}}
+                                {{view Ember.TextField class="input-medium" valueBinding="nopieces"}}
                             </div>
                         </div>
                     </form>
@@ -212,7 +218,7 @@
                         <div class="control-group">
                             <label class="control-label" for="customerphoneno">Phone No</label>
                             <div class="controls">
-                                {{view Ember.TextField class="input-small" valueBinding="customerphoneno"}}
+                                {{view App.TextFieldEx class="input-medium" valueBinding="customerphoneno" targetAction="updateCustomerDetails"}}
                             </div>
                         </div>
                     </form>
@@ -222,7 +228,7 @@
                         <div class="control-group">
                             <label class="control-label" for="customername">Customer Name</label>
                             <div class="controls">
-                                {{view Ember.TextField class="input-small" valueBinding="customername"}}
+                                {{view Ember.TextField class="input-medium" valueBinding="customername"}}
                             </div>
                         </div>
                     </form>
@@ -232,7 +238,7 @@
                         <div class="control-group">
                             <label class="control-label" for="customeremailid">Email Id</label>
                             <div class="controls">
-                                {{view Ember.TextField class="input-small" valueBinding="customeremailid"}}
+                                {{view Ember.TextField class="input-medium" valueBinding="customeremailid"}}
                             </div>
                         </div>
                     </form>
@@ -242,7 +248,7 @@
                         <div class="control-group">
                             <label class="control-label" for="status">Status</label>
                             <div class="controls">
-                                {{view Ember.Select class="input-small" content=states valueBinding="status"}}
+                                {{view Ember.Select class="input-medium" content=states valueBinding="status"}}
                             </div>
                         </div>
                     </form>
@@ -261,7 +267,7 @@
                 </div>
                 <div class="span12">
                 {{#if measurements.length}}
-                    <table class="table table-hover">
+                    <table class="table table-condensed">
                         <tr>
                             <th>Measurement Name</th>
                             <th>Measurement Type</th>
@@ -479,34 +485,42 @@
   </script>
 
   <script type="text/x-handlebars" data-template-name="customers/index" >
-    {{#if itemsSelected}}
-        <p><button {{action 'removeSelectedCustomers'}}>Remove {{editCounter}} selected customers</button></p>
-    {{/if}}
+    <div class="span12">
+        <div class="row">
+            <div class="span2">
+                <p>{{#link-to "customers.new"}}<img src="images/add-icon.png"/> New customer{{/link-to}}</p>
+            </div>
+            <div class="span3">
+                <div class="search-bar">
+                    {{input type="text" placeholder="Search by name or phone no." value=searchcustomer}}
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <table class="table table-hover">
-        <tr>
-            <th>Selected</th>
-            <th>Customer Name</th>
-            <th>Phone Number</th>
-            <th>Email Id</th>
-            <th>Measurement count</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
-        {{#each customer in controller itemController="customersEdit"}}
-            <tr {{bind-attr class="selected:warning"}}>
-            <td>{{view Ember.Checkbox checkedBinding="selected"}}</td>
-            <td>{{customer.name}}</td>
-            <td>{{customer.phoneno}}</td>
-            <td>{{customer.emailid}}</td>
-            <td>{{customer.measurements.length}}</td>
-            <td>{{#link-to "customers.edit" customer}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
-            <td><a href="#" {{action removeItem customer}}><img src="images/delete-icon.png" border="0"/></a></td>
+    <div class="span12">
+        <table class="table table-condensed">
+            <tr>
+                <th>Customer Name</th>
+                <th>Phone Number</th>
+                <th>Email Id</th>
+                <th>Measurement count</th>
+                <th>Edit</th>
+                <th>Delete</th>
             </tr>
-        {{/each}}
-    </table>
+            {{#each customer in controller itemController="customersEdit"}}
+                <tr {{bind-attr class="selected:warning"}}>
+                <td>{{customer.name}}</td>
+                <td>{{customer.phoneno}}</td>
+                <td>{{customer.emailid}}</td>
+                <td>{{customer.measurements.length}}</td>
+                <td>{{#link-to "customers.edit" customer}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
+                <td><a href="#" {{action removeItem customer}}><img src="images/delete-icon.png" border="0"/></a></td>
+                </tr>
+            {{/each}}
+        </table>
+    </div>
 
-    <p>{{#link-to "customers.new"}}<img src="images/add-icon.png"/> New customer{{/link-to}}</p>
 
   </script>
 
@@ -565,7 +579,7 @@
             <div class="row">
                 <p><a href="#" {{action createMeasurement}}><img src="images/add-icon.png"/> New measurement</a></p>
                 {{#if measurements.length}}
-                    <table class="table table-hover">
+                    <table class="table table-condensed">
                         <tr>
                             <th>Measurement Name</th>
                             <th>Measurement Type</th>
@@ -592,34 +606,33 @@
             {{else}}
                 <button class="btn btn-large btn-primary" type="button" {{action updateCustomer this}}>Update customer</button>
             {{/if}}
+            <button class="btn btn-large btn-primary" type="button" {{action cancelCustomer this}}>Cancel</button>
         </div>
     </div>
   </script>
 
   <script type="text/x-handlebars" data-template-name="tasks/index">
-    {{#if itemsSelected}}
-        <p><button {{action 'removeSelectedTasks'}}>Remove {{editCounter}} selected tasks</button></p>
-    {{/if}}
-
-    <table class="table table-hover">
-      <tr>
-        <th>Selected</th>
-        <th>Sequence Id</th>
-        <th>Task Name</th>
-        <th></th>
-        <th></th>
-      </tr>
+    <div class="span12">
+        <p>{{#link-to "tasks.new"}}<img src="images/add-icon.png"/> New task{{/link-to}}</p>
+    </div>
+    <div class="span12">
+        <table class="table table-condensed">
+        <tr>
+            <th>Sequence Id</th>
+            <th>Task Name</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
         {{#each task in controller itemController="tasksEdit"}}
-          <tr {{bind-attr class="selected:warning"}}>
-          <td>{{view Ember.Checkbox checkedBinding="selected"}}</td>
-          <td>{{task.seqid}}</td>
-          <td>{{task.taskname}}</td>
-          <td>{{#link-to "tasks.edit" task}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
-          <td><a href="#" {{action removeItem task}}><img src="images/delete-icon.png" border="0"/></a></td>
-          </tr>
+            <tr {{bind-attr class="selected:warning"}}>
+            <td>{{task.seqid}}</td>
+            <td>{{task.taskname}}</td>
+            <td>{{#link-to "tasks.edit" task}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
+            <td><a href="#" {{action removeItem task}}><img src="images/delete-icon.png" border="0"/></a></td>
+            </tr>
         {{/each}}
       </table>
-    <p>{{#link-to "tasks.new"}}<img src="images/add-icon.png"/> New task{{/link-to}}</p>
+    </div>
   </script>
 
   <script type="text/x-handlebars" data-template-name="_taskForm" >
@@ -1047,5 +1060,7 @@
   <script src="js/models/taskmodel.js"></script>
   <script src="js/models/ordermodel.js"></script>
   <script src="js/views/navview.js"></script>
+  <script src="js/views/radiobutton.js"></script>
+  <script src="js/views/textfieldex.js"></script>
 </body>
 </html>

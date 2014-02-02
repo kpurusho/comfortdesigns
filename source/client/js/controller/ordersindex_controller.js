@@ -1,11 +1,13 @@
 App.OrdersIndexController = Ember.ArrayController.extend({
+    states: [App.Consts.OrderState.New, App.Consts.OrderState.InProgress, App.Consts.OrderState.Done, App.Consts.OrderState.Delivered],
 
     filterByStatusNew: false,
     filterByStatusInProgress: false,
     filterByStatusDone: false,
     filterByStatusDelivered: false,
+    filterByDueDate: "0",
 
-    filterByStatus: function () {
+    filter: function () {
         var filterNew = this.get('filterByStatusNew');
         var filterInProgress = this.get('filterByStatusInProgress');
         var filterDone = this.get('filterByStatusDone');
@@ -19,13 +21,46 @@ App.OrdersIndexController = Ember.ArrayController.extend({
 
         pattern = pattern.substring(0, pattern.length - 1);
 
-        var regExp = new RegExp(pattern);
+        var statuRegExp = new RegExp(pattern);
+        var customerRegExp = new RegExp(this.get('searchcustomer'), 'i');
+        var orderRegExp = new RegExp(this.get('searchorder'), 'i');
+
+        var startDate = new Date();
+        var endDate = new Date();
+
+        var filterDueDate = this.get('filterByDueDate');
+        switch (filterDueDate) {
+            case "0":
+                startDate = null;
+                endDate = null;
+                break;
+            case "1":
+                endDate.setDate(endDate.getDate() + 7);
+                break;
+            case "2":
+                endDate.setDate(endDate.getDate() + 14);
+                break;
+            case "3":
+                endDate.setDate(endDate.getDate() + 21);
+                break;
+            case "4":
+                endDate.setDate(endDate.getDate() + 31);
+                break;
+        };
+
 
         this.get('model').set('content', this.store.filter('order', function (item) {
-            return regExp.test(item.get('status'));
+            return statuRegExp.test(item.get('status')) &&
+                (startDate ? (startDate <= item.get('duedate') && item.get('duedate') <= endDate) : true) &&
+                (customerRegExp.test(item.get('customername')) || customerRegExp.test(item.get('customerphoneno'))) &&
+                orderRegExp.test(item.get('orderno'));
         }));
-    }.observes('filterByStatusNew', 'filterByStatusInProgress', 'filterByStatusDone', 'filterByStatusDelivered'),
 
+    }.observes('filterByStatusNew', 'filterByStatusInProgress',
+                'filterByStatusDone', 'filterByStatusDelivered',
+                'filterByDueDate',
+                'searchcustomer',
+                'searchorder'),
 
     editCounter: function () {
         return this.filterProperty('selected', true).get('length');
@@ -34,24 +69,6 @@ App.OrdersIndexController = Ember.ArrayController.extend({
     itemsSelected: function () {
         return this.get("editCounter") > 0;
     }.property('editCounter'),
-
-    searchedCustomer: function () {
-        var regexp = new RegExp(this.get('searchcustomer'), 'i');
-
-        this.get('model').set('content', this.store.filter('order', function (item) {
-            return regexp.test(item.get('customername')) || regexp.test(item.get('customerphoneno'));
-        }));
-
-    }.observes('searchcustomer'),
-
-    searchedOrder: function () {
-        var regexp = new RegExp(this.get('searchorder'), 'i');
-
-        this.get('model').set('content', this.store.filter('order', function (item) {
-            return regexp.test(item.get('orderno'));
-        }));
-
-    }.observes('searchorder'),
 
     actions: {
 
@@ -83,7 +100,40 @@ App.OrdersIndexController = Ember.ArrayController.extend({
                     arr[i].save();
                 }
             }
+        },
+
+        orderStatusNext: function (order) {
+            var length = this.states.length;
+            var nextIdx = 0;
+            for (var i = 0; i < length; i++) {
+                if (this.states[i] === order.get('status')) {
+                    if (i === (length - 1)) {
+                        nextIdx = i;
+                    }
+                    else {
+                        nextIdx = i + 1;
+                    }
+                }
+            }
+            order.set('status', this.states[nextIdx]);
+            order.save();
+        },
+        orderStatusPrevious: function (order) {
+            var length = this.states.length;
+            var nextIdx = 0;
+            for (var i = 0; i < length; i++) {
+                if (this.states[i] === order.get('status')) {
+                    if (i === 0) {
+                        nextIdx = i;
+                    }
+                    else {
+                        nextIdx = i - 1;
+                    }
+                }
+            }
+            order.set('status', this.states[nextIdx]);
+            order.save();
         }
-    },
+},
 });
 
