@@ -1,22 +1,6 @@
 App.CustomersEditController = Ember.ObjectController.extend({
 
-    measurementtypes: [App.Consts.MeasurementType.Blouse, App.Consts.MeasurementType.Chudidhar],
-
-    eMeasurement: null,
-
-    currentMeasurement: null,
-
     removedMeasurements: [],
-
-    isNewMeasurement: false,
-
-    editableMeasurement: function () {
-        return this.get('eMeasurement');
-    }.property('eMeasurement'),
-
-    isMeasurementSelected: function () {
-        return this.get('editableMeasurement') != null;
-    }.property('editableMeasurement'),
 
     actions: {
         updateCustomer: function () {
@@ -77,43 +61,32 @@ App.CustomersEditController = Ember.ObjectController.extend({
             this.transitionToRoute('customers');
         },
         editMeasurement: function (measurement) {
+            var customer = this.get('model');
             var editableMeasurement = this.store.createRecord('measurement', measurement.toJSON());
 
-            this.set('currentMeasurement', measurement);
-            this.set('editableMeasurement', editableMeasurement);
-            this.set('isNewMeasurement', false);
+            this.send('openModal', 'measurement', editableMeasurement, measurement, customer, false);
         },
         removeMeasurement: function (measurement) {
-            measurement.deleteRecord();
-            measurement.get('isDeleted');
-            measurement.save();
-        },
-        createMeasurement: function () {
-            if (this.get('isNewMeasurement')) return;
-
-            var measurement = this.store.createRecord('measurement', { name: this.get('name') });
-            this.set('editableMeasurement', measurement);
-            this.set('isNewMeasurement', true);
-        },
-        updateMeasurement: function (measurement) {
             var customer = this.get('model');
-            var isNew = this.get('isNewMeasurement');
-            if (isNew) {
-                customer.get('measurements').pushObject(measurement);
+
+            customer.get('measurements').removeObject(measurement);
+
+            var isRecordNew = measurement.get('isNew');
+
+            measurement.deleteRecord();
+
+            if (isRecordNew) {
+                console.log('deleting new record');
             }
             else {
-                this.get('currentMeasurement').setProperties(measurement.toJSON());
-                measurement.deleteRecord();
+                console.log('deleting saved record');
+                this.get('removedMeasurements').push(measurement);
             }
-            this.set('currentMeasurement', null);
-            this.set('editableMeasurement', null);
-            this.set('isNewMeasurement', false);
         },
-        cancelMeasurement: function (measurement) {
-            measurement.deleteRecord();
-            this.set('currentMeasurement', null);
-            this.set('editableMeasurement', null);
-            this.set('isNewMeasurement', false);
+        createMeasurement: function () {
+            var measurement = this.store.createRecord('measurement', { name: this.get('name') });
+            var customer = this.get('model');
+            this.send('openModal', 'measurement', measurement, null, customer, true);
         }
     },
 

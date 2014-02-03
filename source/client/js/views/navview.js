@@ -26,7 +26,6 @@ App.NavView = Ember.View.extend({
 //});
 
 
-
 App.DateField = Ember.TextField.extend({
     didInsertElement: function () {
         var that = this;

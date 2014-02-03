@@ -106,3 +106,11 @@ body {
 .pagebreak { 
     page-break-before: always; 
 }
+
+body .modal {
+  width: 96%; /* desired relative width */
+  left: 2%; /* (100%-width)/2 */
+  /* place center */
+  margin-left:auto;
+  margin-right:auto; 
+}

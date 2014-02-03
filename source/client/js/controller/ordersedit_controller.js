@@ -2,24 +2,7 @@ App.OrdersEditController = Ember.ObjectController.extend({
 
     states: [App.Consts.OrderState.New, App.Consts.OrderState.InProgress, App.Consts.OrderState.Done, App.Consts.OrderState.Delivered],
 
-    measurementtypes : [App.Consts.MeasurementType.Blouse, App.Consts.MeasurementType.Chudidhar],
-
-    eMeasurement: null,
-
-    currentMeasurement: null,
-
     removedMeasurements: [],
-
-    isNewMeasurement: false,
-
-    editableMeasurement: function () {
-        return this.get('eMeasurement');
-    }.property('eMeasurement'),
-
-    isMeasurementSelected: function () {
-        return this.get('editableMeasurement') != null;
-    }.property('editableMeasurement'),
-
 
     actions: {
         updateCustomerDetails: function (phno) {
@@ -165,11 +148,10 @@ App.OrdersEditController = Ember.ObjectController.extend({
             this.transitionToRoute('orders');
         },
         editMeasurement: function (measurement) {
+            var order = this.get('model');
             var editableMeasurement = this.store.createRecord('measurement', measurement.toJSON());
 
-            this.set('currentMeasurement', measurement);
-            this.set('editableMeasurement', editableMeasurement);
-            this.set('isNewMeasurement', false);
+            this.send('openModal', 'measurement', editableMeasurement, measurement, order, false);
         },
         removeMeasurement: function (measurement) {
             var order = this.get('model');
@@ -190,11 +172,9 @@ App.OrdersEditController = Ember.ObjectController.extend({
             }
         },
         createMeasurement: function () {
-            if (this.get('isNewMeasurement')) return;
-
-            var measurement = this.store.createRecord('measurement', { name: this.get('customername')});
-            this.set('editableMeasurement', measurement);
-            this.set('isNewMeasurement', true);
+            var measurement = this.store.createRecord('measurement', { name: this.get('name') });
+            var order = this.get('model');
+            this.send('openModal', 'measurement', measurement, null, order, true);
         },
         getMeasurement: function () {
             var customerphno = this.get('customerphoneno');
@@ -222,26 +202,6 @@ App.OrdersEditController = Ember.ObjectController.extend({
                 }
             });
         },
-        updateMeasurement: function (measurement) {
-            var order = this.get('model');
-            var isNew = this.get('isNewMeasurement');
-            if (isNew) {
-                order.get('measurements').pushObject(measurement);
-            }
-            else {
-                this.get('currentMeasurement').setProperties(measurement.toJSON());
-                measurement.deleteRecord();
-            }
-            this.set('currentMeasurement', null);
-            this.set('editableMeasurement', null);
-            this.set('isNewMeasurement', false);
-        },
-        cancelMeasurement: function (measurement) {
-            measurement.deleteRecord();
-            this.set('currentMeasurement', null);
-            this.set('editableMeasurement', null);
-            this.set('isNewMeasurement', false);
-        }
     },
 
   isNew: function() {
