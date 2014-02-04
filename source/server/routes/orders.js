@@ -115,3 +115,28 @@ exports.delete = function (req, res) {
     });
 };
 
+exports.getSummary = function (req, res) {
+    var keyf = function (doc) { duedate: doc.duedate };
+    db.instance().collection('orders', function (err, collection) {
+        collection.group(
+            { duedate: true },
+            { status: { $ne: 'Delivered' } },
+            { "newcount": 0, "inprogresscount": 0, "donecount": 0 },
+            function (curr, result) {
+                if (curr.status === 'New')
+                    result.newcount += 1;
+                if (curr.status === 'InProgress')
+                    result.inprogresscount += 1;
+                if (curr.status === 'Done')
+                    result.donecount += 1;
+            },
+            true,
+            function (err, results) {
+                var ordersummary = {
+                    ordersummarys: results
+                };
+                res.send(ordersummary);
+            }
+        );
+    });
+};

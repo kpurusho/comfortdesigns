@@ -4,6 +4,10 @@ App.OrdersEditController = Ember.ObjectController.extend({
 
     removedMeasurements: [],
 
+    ordersummary: function () {
+        return this.store.find('ordersummary');
+    }.property(),
+
     actions: {
         updateCustomerDetails: function (phno) {
             var self = this;

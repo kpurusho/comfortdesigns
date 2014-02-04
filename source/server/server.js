@@ -69,6 +69,8 @@ app.post('/orders', orders.add);
 app.put('/orders/:id', orders.update);
 app.delete('/orders/:id', orders.delete);
 
+//Order summary
+app.get('/ordersummaries', orders.getSummary);
 
 app.listen(3000);
 
