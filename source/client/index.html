@@ -71,6 +71,11 @@
                     {{input type="text" placeholder="Search by name or phone no." value=searchcustomer}}
                 </div>
             </div>
+            <div class="span4 text-center">
+                <p>
+                    <marquee behavior="scroll" direction="right"><a href="#" {{action openModal 'ordersummary' ordersummary}}>Order summary : {{ordersummary.totalnewcount}} New, {{ordersummary.totalinprogresscount}} In Progress, {{ordersummary.totaldonecount}} Done</a></marquee>
+                </p>
+            </div>
         </div>
     </div>
 
@@ -109,7 +114,7 @@
 
                         <label>
                             {{view Ember.RadioButton name="DueDateFilter" selectionBinding="filterByDueDate" value="1"}}
-                            Next 1 week
+                            This week
                         </label>
     
                         <label>
@@ -124,10 +129,14 @@
 
                         <label>
                             {{view Ember.RadioButton name="DueDateFilter" selectionBinding="filterByDueDate" value="4"}}
-                            Next 1 Month
-                        </label>                  
-                    </fieldset>
+                            Next 4 weeks
+                        </label>
 
+                        <label>
+                            {{view Ember.RadioButton name="DueDateFilter" selectionBinding="filterByDueDate" value="-1"}}
+                            Past
+                        </label>
+                    </fieldset>
                 </form>
             </div>
             <div class="span10">
@@ -172,12 +181,12 @@
     
   <script type="text/x-handlebars" data-template-name="orders/edit" >
     <div class="row">
+        <div class="span12 text-center">
+            <p>
+                <marquee behavior="scroll" direction="right"><a href="#" {{action openModal 'ordersummary' ordersummary}}>Order summary : {{ordersummary.totalnewcount}} New, {{ordersummary.totalinprogresscount}} In Progress, {{ordersummary.totaldonecount}} Done</a></marquee>
+            </p>
+        </div>
         <div class="span12">
-            <div class="span12 text-center">
-                <p>
-                <a href="#" {{action openModal 'ordersummary' ordersummary}}>Order summary</a>
-                </p>
-            </div>
                 <div class="row">
                     <div class="span3">      
                         <form class="form-horizontal form-small">
@@ -320,7 +329,48 @@
     <div class="modal-header">
       <button type="button" class="close" {{action close target="view"}}>&times;</button>
     </div>
-    <div class="span3">
+      <div class="span6">
+          <div class="row">
+              <div class="span6">
+                  <h4>Overall summary</h4>
+                  <table class="table table-condensed table-bordered">
+                      <tr>
+                          <th></th>
+                          <th>New</th>
+                          <th>In Progress</th>
+                          <th>Done</th>
+                      </tr>
+                      <tr>
+                          <td>Total</td>
+                          <td>{{model.totalnewcount}}</td>
+                          <td>{{model.totalinprogresscount}}</td>
+                          <td>{{model.totaldonecount}}</td>
+                      </tr>
+                  </table>
+              </div>
+              <div class="span6">
+                  <h4>Week wise summary</h4>
+                  <table class="table table-condensed table-bordered">
+                      <tr>
+                          <th>Week</th>
+                          <th>New</th>
+                          <th>In Progress</th>
+                          <th>Done</th>
+                      </tr>
+                      {{#each rec in model.weekwisesummary}}
+                      <tr>
+                          <td>{{rec.week}}</td>
+                          <td>{{rec.newcount}}</td>
+                          <td>{{rec.inprogresscount}}</td>
+                          <td>{{rec.donecount}}</td>
+                      </tr>
+                      {{/each}}
+                  </table>
+              </div>
+          </div>
+      </div>
+    <div class="span6">
+        <h4>Day wise summary</h4>
         <table class="table table-condensed table-bordered">
             <tr>
                 <th>Due Date</th>
@@ -328,7 +378,7 @@
                 <th>In Progress</th>
                 <th>Done</th>
             </tr>
-            {{#each rec in model}}
+            {{#each rec in model.daywisesummary}}
             <tr>
                 <td>{{format-date rec.duedate}}</td>
                 <td>{{rec.newcount}}</td>
@@ -1081,6 +1131,7 @@
     </div>
   </script>
 
+
   <script src="js/lib/jquery-1.10.2.js"></script>
   <script src="js/lib/handlebars-1.1.2.js"></script>
   <script src="js/lib/ember.js"></script>
@@ -1090,6 +1141,7 @@
   <script src="js/application.js"></script>
   <script src="js/router.js"></script>
   <script src="js/helper.js"></script>
+  <script src="js/ordersummaryservice.js"></script>
   <script src="js/routes/taskroute.js"></script>
   <script src="js/routes/customerroute.js"></script>
   <script src="js/routes/orderroute.js"></script>

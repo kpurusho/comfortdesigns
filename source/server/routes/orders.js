@@ -121,7 +121,7 @@ exports.getSummary = function (req, res) {
         collection.group(
             { duedate: true },
             { status: { $ne: 'Delivered' } },
-            { "newcount": 0, "inprogresscount": 0, "donecount": 0 },
+            { "_id": 0, "newcount": 0, "inprogresscount": 0, "donecount": 0 },
             function (curr, result) {
                 if (curr.status === 'New')
                     result.newcount += 1;
@@ -130,8 +130,16 @@ exports.getSummary = function (req, res) {
                 if (curr.status === 'Done')
                     result.donecount += 1;
             },
+	    function (result) {
+	    	result._id = (new Date(result.duedate)).getTime().toString();
+	    },
             true,
             function (err, results) {
+                results.sort(function (a, b){
+                    var d1 = new Date(a.duedate).getTime();
+                    var d2 = new Date(b.duedate).getTime();
+                    return d1 - d2;
+                });
                 var ordersummary = {
                     ordersummarys: results
                 };

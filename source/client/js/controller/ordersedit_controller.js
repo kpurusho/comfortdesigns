@@ -5,8 +5,12 @@ App.OrdersEditController = Ember.ObjectController.extend({
     removedMeasurements: [],
 
     ordersummary: function () {
-        return this.store.find('ordersummary');
-    }.property(),
+        //return this.store.find('ordersummary');
+        var summary = App.OrdersummaryService.create();
+        summary.set('store', this.store);
+        summary.computesummary();
+        return summary;
+    }.property('model'),
 
     actions: {
         updateCustomerDetails: function (phno) {
@@ -205,13 +209,14 @@ App.OrdersEditController = Ember.ObjectController.extend({
                     window.alert('No measurements found for customer with phone no ' + customerphno);
                 }
             });
-        },
+        }
     },
 
   isNew: function() {
       console.log("calculating isNew");
       var id = this.get('content').get('id');
       return id;
-  }.property(), //.property() marks this function as property. check http://emberjs.com/api/classes/Function.html#method_property
+  }.property() //.property() marks this function as property. check http://emberjs.com/api/classes/Function.html#method_property
 });
+
 

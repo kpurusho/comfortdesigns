@@ -7,6 +7,14 @@ App.OrdersIndexController = Ember.ArrayController.extend({
     filterByStatusDelivered: false,
     filterByDueDate: "0",
 
+    ordersummary: function () {
+        //return this.store.find('ordersummary');
+        var summary = App.OrdersummaryService.create();
+        summary.set('store', this.store);
+        summary.computesummary();
+        return summary;
+    }.property('model.@each.status'),
+
     filter: function () {
         var filterNew = this.get('filterByStatusNew');
         var filterInProgress = this.get('filterByStatusInProgress');
@@ -26,32 +34,45 @@ App.OrdersIndexController = Ember.ArrayController.extend({
         var orderRegExp = new RegExp(this.get('searchorder'), 'i');
 
         var startDate = new Date();
-        var endDate = new Date();
+        startDate.setHours(0);
+        startDate.setMinutes(0);
+        startDate.setSeconds(0);
+        startDate.setMilliseconds(0);
+
+        var endDate = new Date(startDate);
+
+        //week is from monday to sunday
+
+        var daysleftthisweek = ((6 - startDate.getDay() + 1)%7) + 1;
 
         var filterDueDate = this.get('filterByDueDate');
         switch (filterDueDate) {
             case "0":
-                startDate = null;
-                endDate = null;
+                startDate = undefined;
+                endDate = undefined;
+                break;
+            case "-1":
+                startDate = undefined;
                 break;
             case "1":
-                endDate.setDate(endDate.getDate() + 7);
+                endDate.setDate(startDate.getDate() + daysleftthisweek);
                 break;
             case "2":
-                endDate.setDate(endDate.getDate() + 14);
+                endDate.setDate(startDate.getDate() + daysleftthisweek + 7);
                 break;
             case "3":
-                endDate.setDate(endDate.getDate() + 21);
+                endDate.setDate(startDate.getDate() + daysleftthisweek + 14);
                 break;
             case "4":
-                endDate.setDate(endDate.getDate() + 31);
+                endDate.setDate(startDate.getDate() + daysleftthisweek + 21);
                 break;
         };
 
 
         this.get('model').set('content', this.store.filter('order', function (item) {
             return statuRegExp.test(item.get('status')) &&
-                (startDate ? (startDate <= item.get('duedate') && item.get('duedate') <= endDate) : true) &&
+                (startDate != undefined ? (startDate.getTime() <= item.get('duedate').getTime()) : true) &&
+                (endDate != undefined ? (item.get('duedate').getTime() < endDate.getTime()) : true) &&
                 (customerRegExp.test(item.get('customername')) || customerRegExp.test(item.get('customerphoneno'))) &&
                 orderRegExp.test(item.get('orderno'));
         }));
@@ -134,6 +155,6 @@ App.OrdersIndexController = Ember.ArrayController.extend({
             order.set('status', this.states[nextIdx]);
             order.save();
         }
-},
+}
 });
 
