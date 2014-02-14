@@ -1,6 +1,7 @@
 ﻿var logger = require('../log/log').logger;
 var db = require('../db/db').db;
 var BSON = require('mongodb').BSONPure;
+var nodemailer = require('nodemailer');
 //var print = require('../../../../../js/jslearning/printprops.js');
 
 
@@ -93,6 +94,7 @@ exports.update = function (req, res) {
                 res.send({ 'error': 'An error has occured - ' + err });
             } else {
                 logger.log('' + result + ' document(s) updated');
+                //sendmail('karthik.purushothaman@gmail.com');
                 res.send({order: result[0]});
             }
         });
@@ -148,3 +150,35 @@ exports.getSummary = function (req, res) {
         );
     });
 };
+
+sendmail = function(mailid) {
+// create reusable transport method (opens pool of SMTP connections)
+    var smtpTransport = nodemailer.createTransport("SMTP",{
+        service: "Gmail",
+        auth: {
+            user: "karthik.purushothaman@gmail.com",
+            pass: "3Prodigy##"
+        }
+    });
+
+// setup e-mail data with unicode symbols
+    var mailOptions = {
+        from: "Karthik P<karthik.purushothaman@gmail.com>", // sender address
+        to: "karthik.purushothaman@gmail.com", // list of receivers
+        subject: "Order Status", // Subject line
+        text: "Your order is ready for pickup", // plaintext body
+        html: "<b>Your order is ready for pickup</b>" // html body
+    }
+
+// send mail with defined transport object
+    smtpTransport.sendMail(mailOptions, function(error, response){
+        if(error){
+            console.log(error);
+        }else{
+            console.log("Message sent: " + response.message);
+        }
+
+        // if you don't want to use this transport object anymore, uncomment following line
+        smtpTransport.close(); // shut down the connection pool, no more messages
+    });
+}

@@ -8,11 +8,14 @@
   <link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
   <link rel="stylesheet" href="css/bootstrap.min.css" media="print">
   <link rel="stylesheet" href="css/bootstrap-responsive.min.css" media="screen">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" media="screen">
+  <link rel="stylesheet" href="css/style.css" media="print">
 </head>
 <body>
 
+
 <script type="text/x-handlebars" data-template-name="application">
+
   <div class="container">
     <h1>Comfort Designs</h1>
 
@@ -32,7 +35,7 @@
               {{#view App.NavView}}
                 {{#link-to "customers"}}Customers{{/link-to}}
               {{/view}}
-              
+
               {{#view App.NavView}}
                 {{#link-to "tasks"}}Master Tasks{{/link-to}}
               {{/view}}
@@ -140,23 +143,27 @@
                 </form>
             </div>
             <div class="span10">
-                <table class="table table-condensed">
+                <div class="table-main">
+                <table class="tablesorter">
+                    <thead>
                     <tr>
-                        <th>Order No</th>
-                        <th>Order Date</th>
-                        <th>Customer Name</th>
-                        <th>Phone Number</th>
-                        <th>Due Date</th>
-                        <th>Piece count</th>
-                        <th></th>
-                        <th>Status</th>
+                        <th {{action sortColumn 'orderno'}}>Order No</th>
+                        <th {{action sortColumn 'orderdate'}}>Order Date</th>
+                        <th {{action sortColumn 'customername'}}>Customer Name</th>
+                        <th {{action sortColumn 'customerphoneno'}}>Phone Number</th>
+                        <th {{action sortColumn 'duedate'}}>Due Date</th>
+                        <th {{action sortColumn 'nopieces'}}>Piece count</th>
+                        <th {{action sortColumn 'orderno'}}></th>
+                        <th {{action sortColumn 'status'}}>Status</th>
                         <th></th>
                         <th>Edit</th>
                         <th>Delete</th>
                         <th>Print</th>
                     </tr>
+                    </thead>
+                    <tbody>
                     {{#each order in controller itemController="ordersEdit"}}
-                        <tr {{bind-attr class="selected:warning"}}>
+                        <tr>
                         <td>{{order.orderno}}</td>
                         <td>{{format-date order.orderdate}}</td>
                         <td>{{order.customername}}</td>
@@ -171,14 +178,14 @@
                         <td>{{#link-to "orders.print" order}}<img src="images/print-icon.png"/>{{/link-to}}</td>
                         </tr>
                     {{/each}}
+                    </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>
 
   </script>
-
-    
   <script type="text/x-handlebars" data-template-name="orders/edit" >
     <div class="row">
         <div class="span12 text-center">
@@ -282,13 +289,16 @@
                     </div>
                     <div class="span12">
                     {{#if measurements.length}}
-                        <table class="table table-condensed">
+                        <table class="tablesorter">
+                            <thead>
                             <tr>
                                 <th>Measurement Name</th>
                                 <th>Measurement Type</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
+                            </thead>
+                            <tbody>
                             {{#each measurement in measurements}}
                                 <td>{{measurement.name}}</td>
                                 <td>{{measurement.type}}</td>
@@ -296,6 +306,7 @@
                                 <td><a href="#" {{action removeMeasurement measurement}}><img src="images/delete-icon.png" border="0"/></a></td>
                                 </tr>
                             {{/each}}
+                            </tbody>
                         </table>
                     {{/if}}
                     </div>
@@ -327,36 +338,46 @@
 
   <script type="text/x-handlebars" data-template-name="ordersummary">
     <div class="modal-header">
-      <button type="button" class="close" {{action close target="view"}}>&times;</button>
+        <button type="button" class="close" {{action close target="view"}}>&times;</button>
+        <h4>Order summary</h4>
     </div>
+    <div class="modal-body">
       <div class="span6">
           <div class="row">
               <div class="span6">
-                  <h4>Overall summary</h4>
-                  <table class="table table-condensed table-bordered">
+                  <h5>Overall summary</h5>
+                  <table class="tablesorter">
+                      <thead>
                       <tr>
-                          <th></th>
-                          <th>New</th>
-                          <th>In Progress</th>
-                          <th>Done</th>
+                          <th width="25%"></th>
+                          <th width="25%">New</th>
+                          <th width="25%">In Progress</th>
+                          <th width="25%">Done</th>
                       </tr>
+                      </thead>
+                      <tbody>
                       <tr>
                           <td>Total</td>
                           <td>{{model.totalnewcount}}</td>
                           <td>{{model.totalinprogresscount}}</td>
                           <td>{{model.totaldonecount}}</td>
                       </tr>
+                      </tbody>
                   </table>
               </div>
               <div class="span6">
-                  <h4>Week wise summary</h4>
-                  <table class="table table-condensed table-bordered">
+                  <h5>Week wise summary</h5>
+                  <div class="table-weeks">
+                  <table class="tablesorter">
+                      <thead>
                       <tr>
-                          <th>Week</th>
-                          <th>New</th>
-                          <th>In Progress</th>
-                          <th>Done</th>
+                          <th width="25%">Week</th>
+                          <th width="25%">New</th>
+                          <th width="25%">In Progress</th>
+                          <th width="25%">Done</th>
                       </tr>
+                      </thead>
+                      <tbody>
                       {{#each rec in model.weekwisesummary}}
                       <tr>
                           <td>{{rec.week}}</td>
@@ -365,28 +386,37 @@
                           <td>{{rec.donecount}}</td>
                       </tr>
                       {{/each}}
+                      </tbody>
                   </table>
+                  </div>
               </div>
           </div>
       </div>
     <div class="span6">
-        <h4>Day wise summary</h4>
-        <table class="table table-condensed table-bordered">
-            <tr>
-                <th>Due Date</th>
-                <th>New</th>
-                <th>In Progress</th>
-                <th>Done</th>
-            </tr>
-            {{#each rec in model.daywisesummary}}
-            <tr>
-                <td>{{format-date rec.duedate}}</td>
-                <td>{{rec.newcount}}</td>
-                <td>{{rec.inprogresscount}}</td>
-                <td>{{rec.donecount}}</td>
-            </tr>
-            {{/each}}
-        </table>
+        <h5>Day wise summary</h5>
+        <div class="table-days">
+            <table class="tablesorter">
+                <thead>
+                <tr>
+                    <th width="25%">Due Date</th>
+                    <th width="25%">New</th>
+                    <th width="25%">In Progress</th>
+                    <th width="25%">Done</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each rec in model.daywisesummary}}
+                <tr>
+                    <td>{{format-date rec.duedate}}</td>
+                    <td>{{rec.newcount}}</td>
+                    <td>{{rec.inprogresscount}}</td>
+                    <td>{{rec.donecount}}</td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
     </div>
     <div class="modal-footer">
     <div class="span12 text-center">
@@ -401,7 +431,7 @@
     <div class="span12">
         <h4>Order details</h4>
 
-        <table class="table table-condensed">
+        <table class="tablesorter">
         <thead>  
             <tr>
                 <th>Order No</th>
@@ -429,13 +459,16 @@
 
         {{#each measurement in measurements}}
             <div class="span5">
-                <table class="table table-condensed">
+                <table class="tablesorter">
+                    <thead>
                     <tr>
                         <th>Measurement</th>
                         <th>Value</th>
                         <th>Measurement</th>
                         <th>Value</th>
                     </tr>
+                    </thead>
+                    <tbody>
                     <tr>
                         <td>Name</td>
                         <td>{{measurement.name}}</td>
@@ -536,6 +569,7 @@
                         <td>slitfrom</td>
                         <td>{{measurement.slitfrom}}</td>
                     </tr>
+                    </tbody>
                 </table>
             </div>
         {{/each}}
@@ -548,12 +582,15 @@
     <div class="pagebreak">
         <div class="span12">
             <h4>Order Tracking:</h4>
-            <table class="table table-condensed">
+            <table class="tablesorter">
+                <thead>
                 <tr>
                     <th>Work Step</th>
                     <th>Completed Date</th>
                     <th>Completed by</th>
                 </tr>
+                </thead>
+                <tbody>
                 {{#each task in tasks}}
                     <tr>
                         <td>{{task.taskname}}</td>
@@ -561,6 +598,7 @@
                         <td></td>
                     </tr>
                 {{/each}}
+                </tbody>
             </table>
         </div>
         <div class="span12 text-center">
@@ -585,7 +623,8 @@
     </div>
 
     <div class="span12">
-        <table class="table table-condensed">
+        <table class="tablesorter">
+            <thead>
             <tr>
                 <th>Customer Name</th>
                 <th>Phone Number</th>
@@ -594,6 +633,8 @@
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
+            </thead>
+            <tbody>
             {{#each customer in controller itemController="customersEdit"}}
                 <tr {{bind-attr class="selected:warning"}}>
                 <td>{{customer.name}}</td>
@@ -604,6 +645,7 @@
                 <td><a href="#" {{action removeItem customer}}><img src="images/delete-icon.png" border="0"/></a></td>
                 </tr>
             {{/each}}
+            </tbody>
         </table>
     </div>
   </script>
@@ -663,13 +705,16 @@
             <div class="row">
                 <p><a href="#" {{action createMeasurement}}><img src="images/add-icon.png"/> New measurement</a></p>
                 {{#if measurements.length}}
-                    <table class="table table-condensed">
+                    <table class="tablesorter">
+                        <thead>
                         <tr>
                             <th>Measurement Name</th>
                             <th>Measurement Type</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
+                        </thead>
+                        <tbody>
                         {{#each measurement in measurements}}
                             <td>{{measurement.name}}</td>
                             <td>{{measurement.type}}</td>
@@ -677,6 +722,7 @@
                             <td><a href="#" {{action removeMeasurement measurement}}><img src="images/delete-icon.png" border="0"/></a></td>
                             </tr>
                         {{/each}}
+                        </tbody>
                     </table>
                 {{/if}}
             </div>        
@@ -698,21 +744,25 @@
         <p>{{#link-to "tasks.new"}}<img src="images/add-icon.png"/> New task{{/link-to}}</p>
     </div>
     <div class="span12">
-        <table class="table table-condensed">
-        <tr>
-            <th>Sequence Id</th>
-            <th>Task Name</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
-        {{#each task in controller itemController="tasksEdit"}}
-            <tr {{bind-attr class="selected:warning"}}>
-            <td>{{task.seqid}}</td>
-            <td>{{task.taskname}}</td>
-            <td>{{#link-to "tasks.edit" task}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
-            <td><a href="#" {{action removeItem task}}><img src="images/delete-icon.png" border="0"/></a></td>
-            </tr>
-        {{/each}}
+        <table class="tablesorter">
+            <thead>
+                <tr>
+                    <th>Sequence Id</th>
+                    <th>Task Name</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each task in controller itemController="tasksEdit"}}
+                    <tr {{bind-attr class="selected:warning"}}>
+                    <td>{{task.seqid}}</td>
+                    <td>{{task.taskname}}</td>
+                    <td>{{#link-to "tasks.edit" task}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
+                    <td><a href="#" {{action removeItem task}}><img src="images/delete-icon.png" border="0"/></a></td>
+                    </tr>
+                {{/each}}
+            </tbody>
       </table>
     </div>
   </script>
@@ -752,6 +802,7 @@
     <script type="text/x-handlebars" data-template-name="measurement">
     <div class="modal-header">
       <button type="button" class="close" {{action close target="view"}}>&times;</button>
+        <h4>Edit Measurement</h4>
     </div>
 
     <div class="modal-body">

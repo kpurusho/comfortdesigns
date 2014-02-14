@@ -12,9 +12,22 @@ App.NavView = Ember.View.extend({
     },
 
     active: function() {
-      return this.get('childViews.firstObject.active');
+        return this.get('childViews.firstObject.active');
     }.property()
   });
+
+//App.ViewBase = Ember.View.extend({
+//    //templateName : 'orders/index',
+//    didInsertElement: function(){
+//        $("table").tablesorter({dateFormat: "uk"});
+//    }
+//
+//
+//});
+//
+//App.OrdersIndexView = App.ViewBase.extend();
+//App.CustomersIndexView = App.ViewBase.extend();
+//App.TasksIndexView = App.ViewBase.extend();
 
 //App.RestrictedTextField = Ember.TextField.extend({
 //    attributeBindings: ['size'],

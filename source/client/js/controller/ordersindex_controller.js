@@ -1,6 +1,11 @@
 App.OrdersIndexController = Ember.ArrayController.extend({
     states: [App.Consts.OrderState.New, App.Consts.OrderState.InProgress, App.Consts.OrderState.Done, App.Consts.OrderState.Delivered],
 
+    //contentBinding: Ember.Binding.oneway("App.OrdersIndexController.content"),
+
+    sortProperties: ['orderno'],
+    sortAscending: false,
+
     filterByStatusNew: false,
     filterByStatusInProgress: false,
     filterByStatusDone: false,
@@ -68,7 +73,6 @@ App.OrdersIndexController = Ember.ArrayController.extend({
                 break;
         };
 
-
         this.get('model').set('content', this.store.filter('order', function (item) {
             return statuRegExp.test(item.get('status')) &&
                 (startDate != undefined ? (startDate.getTime() <= item.get('duedate').getTime()) : true) &&
@@ -76,6 +80,12 @@ App.OrdersIndexController = Ember.ArrayController.extend({
                 (customerRegExp.test(item.get('customername')) || customerRegExp.test(item.get('customerphoneno'))) &&
                 orderRegExp.test(item.get('orderno'));
         }));
+
+        console.log(this.get('model').get('length'));
+
+
+        $("table").trigger("update");
+
 
     }.observes('filterByStatusNew', 'filterByStatusInProgress',
                 'filterByStatusDone', 'filterByStatusDelivered',
@@ -92,6 +102,19 @@ App.OrdersIndexController = Ember.ArrayController.extend({
     }.property('editCounter'),
 
     actions: {
+
+        sortColumn: function (colname){
+            var sp = this.get('sortProperties');
+            if (sp.length === 1 && sp[0]===colname){
+                var sortorder = this.get('sortAscending');
+                sortorder = sortorder ? false : true;
+                this.set('sortAscending', sortorder);
+            }
+            else{
+                this.set('sortProperties', [colname]);
+                this.set('sortAscending', true);
+            }
+        },
 
         searchItem: function () {
             var con = this.get('content.length');

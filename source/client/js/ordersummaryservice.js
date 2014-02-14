@@ -28,15 +28,65 @@ App.OrdersummaryService = Ember.Object.extend({
         this.computedayandweekwisesummary();
     },
 
+//    computedayandweekwisesummary: function (){
+//
+//        var daysummary = {};
+//        var weeksummary = {};
+//        var items = this.store.all('order');
+//
+//        var self = this;
+//
+//        items.forEach(function(item){
+//            var daykey = daysummary[item.get('duedate')];
+//            if (!daykey){
+//                daykey = App.StatusSummary.create();
+//                daysummary[item.get('duedate')] = daykey;
+//            }
+//
+//            self.updatecounts(daykey,item);
+//
+//            var weekno = self.getweek(new Date(item.get('duedate')));
+//            var weekkey = weeksummary[weekno];
+//            if (!weekkey){
+//                weekkey = App.StatusSummary.create();
+//                weeksummary[weekno] = weekkey;
+//            }
+//
+//            self.updatecounts(weekkey, item);
+//        });
+//
+//        var daysummarytable = [];
+//        var weeksummarytable = [];
+//
+//        for (var key in daysummary){
+//            daysummarytable.push({
+//                duedate: new Date(key),
+//                newcount: daysummary[key].newcount,
+//                inprogresscount: daysummary[key].inprogresscount,
+//                donecount: daysummary[key].donecount
+//            });
+//        }
+//        this.set('daywisesummary', daysummarytable);
+//
+//        for (var key in weeksummary){
+//            weeksummarytable.push({
+//                week: self.getWeekAsString(key),
+//                newcount: weeksummary[key].newcount,
+//                inprogresscount: weeksummary[key].inprogresscount,
+//                donecount: weeksummary[key].donecount
+//            });
+//        }
+//        this.set('weekwisesummary', weeksummarytable);
+//    },
+
     computedayandweekwisesummary: function (){
 
         var daysummary = {};
         var weeksummary = {};
-        var items = this.store.all('order');
 
         var self = this;
 
-        items.forEach(function(item){
+        var items = this.store.filter('order', function(item){
             var daykey = daysummary[item.get('duedate')];
             if (!daykey){
                 daykey = App.StatusSummary.create();
@@ -53,6 +103,7 @@ App.OrdersummaryService = Ember.Object.extend({
             }
 
             self.updatecounts(weekkey, item);
+            return true;
         });
 
         var daysummarytable = [];
@@ -112,13 +163,12 @@ App.OrdersummaryService = Ember.Object.extend({
         today.setSeconds(0);
         today.setMilliseconds(0);
 
-        var days = this.daysbetween(today, date);
-        return Math.round(days/7);
+        return this.weeksbetween(today, date);
     },
 
-    daysbetween : function( date1, date2 ) {
+    weeksbetween : function( date1, date2 ) {
         //Get 1 day in milliseconds
-        var one_day=1000*60*60*24;
+        var one_week=1000*60*60*24*7;
 
         // Convert both dates to milliseconds
         var date1_ms = date1.getTime();
@@ -128,7 +178,7 @@ App.OrdersummaryService = Ember.Object.extend({
         var difference_ms = date2_ms - date1_ms;
 
         // Convert back to days and return
-        return Math.round(difference_ms/one_day);
+        return Math.floor(difference_ms/one_week);
     },
 
     computecount: function(){
