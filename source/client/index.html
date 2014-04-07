@@ -57,6 +57,9 @@
   </script>
 
   <script type="text/x-handlebars" data-template-name="orders/index" >
+      {{partial "orderForm"}}
+  </script>
+  <script type="text/x-handlebars" data-template-name="_orderForm" >
     <div class="span12">
         <div class="row">
             <div class="span2">
@@ -184,8 +187,8 @@
             </div>
         </div>
     </div>
+    </script>
 
-  </script>
   <script type="text/x-handlebars" data-template-name="orders/edit" >
     <div class="row">
         <div class="span12 text-center">

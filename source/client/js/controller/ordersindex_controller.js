@@ -73,18 +73,29 @@ App.OrdersIndexController = Ember.ArrayController.extend({
                 break;
         };
 
-        this.get('model').set('content', this.store.filter('order', function (item) {
-            return statuRegExp.test(item.get('status')) &&
-                (startDate != undefined ? (startDate.getTime() <= item.get('duedate').getTime()) : true) &&
-                (endDate != undefined ? (item.get('duedate').getTime() < endDate.getTime()) : true) &&
-                (customerRegExp.test(item.get('customername')) || customerRegExp.test(item.get('customerphoneno'))) &&
-                orderRegExp.test(item.get('orderno'));
-        }));
-
-        console.log(this.get('model').get('length'));
-
-
-        $("table").trigger("update");
+        var self = this;
+        if (filterDelivered) {
+            this.store.find('order').then(function (orders) {
+                self.get('model').set('content', self.store.filter('order', function (item) {
+                    return statuRegExp.test(item.get('status')) &&
+                        (startDate != undefined ? (startDate.getTime() <= item.get('duedate').getTime()) : true) &&
+                        (endDate != undefined ? (item.get('duedate').getTime() < endDate.getTime()) : true) &&
+                        (customerRegExp.test(item.get('customername')) || customerRegExp.test(item.get('customerphoneno'))) &&
+                        orderRegExp.test(item.get('orderno'));
+                }));
+                $("table").trigger("update");
+            });
+        }
+        else {
+            self.get('model').set('content', self.store.filter('order', function (item) {
+                return statuRegExp.test(item.get('status')) &&
+                    (startDate != undefined ? (startDate.getTime() <= item.get('duedate').getTime()) : true) &&
+                    (endDate != undefined ? (item.get('duedate').getTime() < endDate.getTime()) : true) &&
+                    (customerRegExp.test(item.get('customername')) || customerRegExp.test(item.get('customerphoneno'))) &&
+                    orderRegExp.test(item.get('orderno'));
+            }));
+            $("table").trigger("update");
+        }
 
 
     }.observes('filterByStatusNew', 'filterByStatusInProgress',

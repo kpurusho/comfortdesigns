@@ -8,18 +8,30 @@ var nodemailer = require('nodemailer');
 //get methods
 exports.getAll = function (req, res) {
     logger.info('requesting all orders');
+    var status = req.query.status;
     db.instance().collection('orders', function (err, collection) {
         if (err) {
             logger.error('no table by name orders found in db');
             res.send({ 'error': 'An error has occured - ' + err });
         }
         else {
-            collection.find().sort({ orderno: -1 }).toArray(function (err, items) {
-                var allOrders = {
-                    orders: items
-                };
-                res.send(allOrders);
-            });
+            if (status) {
+                collection.find({ 'status': { $in: status }}).sort({ orderno: 1 }).toArray(function (err, items) {
+                    var allOrders = {
+                        orders: items
+                    };
+                    res.send(allOrders);
+                });
+            }
+            else {
+
+                collection.find().sort({ orderno: -1 }).toArray(function (err, items) {
+                    var allOrders = {
+                        orders: items
+                    };
+                    res.send(allOrders);
+                });
+            }
         }
     });
 };
@@ -67,6 +79,8 @@ exports.add = function (req, res) {
         collection.find().sort({ orderno: -1 }).limit(1).toArray(function (err, items) {
             if (items.length > 0)
                 order.orderno = items[0].orderno + 1;
+            else
+                order.orderno = 1;
 
             collection.insert(order, { safe: true }, function (err, result) {
                 if (err) {

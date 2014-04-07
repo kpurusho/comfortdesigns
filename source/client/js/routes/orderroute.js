@@ -1,7 +1,7 @@
 ﻿App.OrdersIndexRoute = Ember.Route.extend({
 
     model: function () {
-        return this.store.find('order');
+        return this.store.find('order', {'status' : ['New','InProgress','Done']});
     },
 
     setupController: function (controller, model) {

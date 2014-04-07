@@ -180,7 +180,7 @@ App.OrdersEditController = Ember.ObjectController.extend({
             }
         },
         createMeasurement: function () {
-            var measurement = this.store.createRecord('measurement', { name: this.get('name') });
+            var measurement = this.store.createRecord('measurement', { name: this.get('customername') });
             var order = this.get('model');
             this.send('openModal', 'measurement', measurement, null, order, true);
         },
