@@ -106,7 +106,8 @@ App.Consts = {
 
     MeasurementType: {
         Blouse: "Blouse",
-        Chudidhar: "Chudidhar"
+        Salwar: "Salwar",
+        Skirt: "Skirt"
     }
 };
 

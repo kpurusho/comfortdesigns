@@ -1,5 +1,6 @@
 ﻿App.MeasurementController = Ember.ObjectController.extend({
-    measurementtypes: [App.Consts.MeasurementType.Blouse, App.Consts.MeasurementType.Chudidhar],
+    measurementtypes: [App.Consts.MeasurementType.Blouse, App.Consts.MeasurementType.Salwar,
+        App.Consts.MeasurementType.Skirt],
 
     parentModel: null,
     isNew: false,
