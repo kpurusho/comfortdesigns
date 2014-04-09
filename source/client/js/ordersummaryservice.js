@@ -87,10 +87,10 @@ App.OrdersummaryService = Ember.Object.extend({
         var self = this;
 
         var items = this.store.filter('order', function(item){
-            var daykey = daysummary[item.get('duedate')];
+            var daykey = daysummary[item.get('duedate').toDateString()];
             if (!daykey){
                 daykey = App.StatusSummary.create();
-                daysummary[item.get('duedate')] = daykey;
+                daysummary[item.get('duedate').toDateString()] = daykey;
             }
 
             self.updatecounts(daykey,item);

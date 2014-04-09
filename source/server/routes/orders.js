@@ -171,8 +171,8 @@ sendmail = function(mailid) {
         service: "Gmail",
         auth: {
             user: "karthik.purushothaman@gmail.com",
-            pass: "3Prodigy##"
-        }
+            pass: ""
+    }
     });
 
 // setup e-mail data with unicode symbols
