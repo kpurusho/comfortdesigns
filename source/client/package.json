@@ -1,0 +1,10 @@
+{
+	"name": "comfort-designs-client",
+	"description": "comfort design client",
+	"version": "0.0.1",
+	"private": true,
+	"dependencies": {
+		"async": "*"
+	}
+}
+

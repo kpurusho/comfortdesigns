@@ -17,6 +17,10 @@ App.Order.FIXTURES = [{
     orderdate: new Date(),
     customername: 'lavanya',
     customerphoneno: '9500037396',
+    customeremailid: '',
     duedate: new Date(),
+    nopieces : 2,
+    status: 'New',
+    additionalnote: '',
     measurements: [3]
 }];

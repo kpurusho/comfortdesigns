@@ -32,15 +32,15 @@ App = Ember.Application.create({
 });
 
 ////////////////////
-//local adapter
+////local adapter
 //App.ApplicationAdapter = DS.FixtureAdapter.extend();
 //DS.JSONSerializer.reopen({
 //    serializeHasMany: function (record, json, relationship) {
 //        var key = relationship.key;
-
+//
 //        var relationshipType = DS.RelationshipChange.determineRelationshipType(
 //                record.constructor, relationship);
-
+//
 //        if (relationshipType === 'manyToNone'
 //                || relationshipType === 'manyToMany'
 //                || relationshipType === 'manyToOne') {
@@ -95,13 +95,16 @@ App.CustomerSerializer = App.Serializer.extend();
 App.MeasurementSerializer = App.Serializer.extend();
 App.OrderSerializer = App.Serializer.extend();
 App.OrdersummarySerializer = App.Serializer.extend();
+App.MeasurementconfigSerializer = App.Serializer.extend();
+App.MeasurementitemconfigSerializer = App.Serializer.extend();
+App.MeasurementitemSerializer = App.Serializer.extend();
 
 App.Consts = {
     OrderState: {
-        New: "New", 
+        New: "New",
         InProgress: "InProgress", 
         Done: "Done",
-        Delivered: "Delivered",
+        Delivered: "Delivered"
     },
 
     MeasurementType: {

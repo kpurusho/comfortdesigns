@@ -27,45 +27,38 @@ App.CustomersEditController = Ember.ObjectController.extend({
             };
 
             customer.get('measurements').then(function (measurements) {
-                measurements.save().then(onMeasurementsSaveSuccess, onMeasurementsSaveFailure).then(function () {
-                    self.get('removedMeasurements').forEach(function (measurement) {
-                        measurement.save();
-                    });
-                }).then(function () {
-                    customer.save().then(onCustomerSaveSuccess, onCustomerSaveFailure);
-                });
+                var marr = measurements.toArray();
+                async.forEach(marr,
+                    function(measurement, done) {
+                        App.Measurementhelper.saveMeasurement(measurement, done);
+                    },
+                    function done() {
+                        console.log('measurements saved successfully..');
+                        console.log('Trying to save customer..');
+                        customer.save().then(onCustomerSaveSuccess, onCustomerSaveFailure);
+                    }
+                );
             });
         },
+
         cancelCustomer: function () {
             var customer = this.get('model');
+            var self = this;
 
-            customer.get('measurements').then(function (measurements) {
-                measurements.forEach(function (measurement) {
-                    if (measurement.get('isNew')) {
-                        customer.get('measurements').removeObject(measurement);
-                        measurement.deleteRecord();
-                    }
-                    else {
-                        measurement.rollback();
-                    }
-                });
+            App.OrderCustomerCommonHelper.cancel(customer, function(){
+                self.transitionToRoute('customers');
             });
-
-            if (customer.get('isNew')) {
-                customer.deleteRecord();
-            }
-            else {
-                customer.rollback();
-            }
-
-            this.transitionToRoute('customers');
         },
+
         editMeasurement: function (measurement) {
             var customer = this.get('model');
-            var editableMeasurement = this.store.createRecord('measurement', measurement.toJSON());
+            var self = this;
 
-            this.send('openModal', 'measurement', editableMeasurement, measurement, customer, false);
+            App.Measurementhelper.cloneMeasurement(measurement, self.store, function (editableMeasurement){
+                self.send('openModal', 'measurement', editableMeasurement, measurement, customer, false);
+            });
         },
+
         removeMeasurement: function (measurement) {
             var customer = this.get('model');
 
@@ -73,20 +66,20 @@ App.CustomersEditController = Ember.ObjectController.extend({
 
             var isRecordNew = measurement.get('isNew');
 
-            measurement.deleteRecord();
+            App.Measurementhelper.deleteMeasurement(measurement, false);
 
-            if (isRecordNew) {
-                console.log('deleting new record');
-            }
-            else {
-                console.log('deleting saved record');
+            if (!isRecordNew) {
                 this.get('removedMeasurements').push(measurement);
             }
         },
+
         createMeasurement: function () {
-            var measurement = this.store.createRecord('measurement', { name: this.get('name') });
+            var self = this;
             var customer = this.get('model');
-            this.send('openModal', 'measurement', measurement, null, customer, true);
+            var measurement = self.store.createRecord('measurement');
+            measurement.set('type', '');
+            measurement.set('name', self.get('name') );
+            self.send('openModal', 'measurement', measurement, null, customer, true);
         }
     },
 

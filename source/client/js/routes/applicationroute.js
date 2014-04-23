@@ -1,11 +1,12 @@
 ﻿App.ApplicationRoute = Ember.Route.extend({
     actions: {
         openModal: function (modalName, model, originalModel, parentModel, isNew) {
-            this.controllerFor(modalName).set('model', model);
-
-            if (isNew) {
+            if (isNew != undefined) {
                 this.controllerFor(modalName).set('isNew', isNew);
             }
+
+            this.controllerFor(modalName).set('model', model);
+
             if (parentModel) {
                 this.controllerFor(modalName).set('parentModel', parentModel);
             }

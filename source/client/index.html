@@ -14,7 +14,7 @@
 <body>
 
 
-<script type="text/x-handlebars" data-template-name="application">
+  <script type="text/x-handlebars" data-template-name="application">
 
   <div class="container">
     <h1>Comfort Designs</h1>
@@ -37,7 +37,7 @@
               {{/view}}
 
               {{#view App.NavView}}
-                {{#link-to "tasks"}}Master Tasks{{/link-to}}
+                {{#link-to "tasks"}}Tasks Config{{/link-to}}
               {{/view}}
 
               {{#view App.NavView}}
@@ -59,6 +59,7 @@
   <script type="text/x-handlebars" data-template-name="orders/index" >
       {{partial "orderForm"}}
   </script>
+
   <script type="text/x-handlebars" data-template-name="_orderForm" >
     <div class="span12">
         <div class="row">
@@ -467,111 +468,15 @@
                     <tr>
                         <th>Measurement</th>
                         <th>Value</th>
-                        <th>Measurement</th>
-                        <th>Value</th>
                     </tr>
                     </thead>
                     <tbody>
+                    {{#each measurementitem in measurement.measurementitems}}
                     <tr>
-                        <td>Name</td>
-                        <td>{{measurement.name}}</td>
-                        <td>Type</td>
-                        <td>{{measurement.type}}</td>
+                        <td>{{measurementitem.itemname}}</td>
+                        <td>{{measurementitem.itemvalue}}</td>
                     </tr>
-                    <tr>
-                        <td>length</td>
-                        <td>{{measurement.length}}</td>
-                        <td>shoulder</td>
-                        <td>{{measurement.shoulder}}</td>
-                    </tr>
-                    <tr>
-                        <td>shouldercut</td>
-                        <td>{{measurement.shouldercut}}</td>
-                        <td>chest</td>
-                        <td>{{measurement.chest}}</td>
-                    </tr>
-                    <tr>
-                        <td>chestmnt</td>
-                        <td>{{measurement.chestmnt}}</td>
-                        <td>chestfinishedmnt</td>
-                        <td>{{measurement.chestfinishedmnt}}</td>
-                    </tr>
-                    <tr>
-                        <td>waist</td>
-                        <td>{{measurement.waist}}</td>
-                        <td>bb</td>
-                        <td>{{measurement.bb}}</td>
-                    </tr>
-                    <tr>
-                        <td>backneck</td>
-                        <td>{{measurement.backneck}}</td>
-                        <td>frontneck</td>
-                        <td>{{measurement.frontneck}}</td>
-                    </tr>
-                    <tr>
-                        <td>sllength</td>
-                        <td>{{measurement.sllength}}</td>
-                        <td>slcircum1</td>
-                        <td>{{measurement.slcircum1}}</td>
-                    </tr>
-                    <tr>
-                        <td>slcircum2</td>
-                        <td>{{measurement.slcircum2}}</td>
-                        <td>arm</td>
-                        <td>{{measurement.arm}}</td>
-                    </tr>
-                    <tr>
-                        <td>armcut</td>
-                        <td>{{measurement.armcut}}</td>
-                        <td>armslant</td>
-                        <td>{{measurement.armslant}}</td>
-                    </tr>
-                    <tr>
-                        <td>bl</td>
-                        <td>{{measurement.bl}}</td>
-                        <td>blsplit</td>
-                        <td>{{measurement.blsplit}}</td>
-                    </tr>
-                    <tr>
-                        <td>lc</td>
-                        <td>{{measurement.lc}}</td>
-                        <td>seat</td>
-                        <td>{{measurement.seat}}</td>
-                    </tr>
-                    <tr>
-                        <td>wb</td>
-                        <td>{{measurement.wb}}</td>
-                        <td>seatlength</td>
-                        <td>{{measurement.seatlength}}</td>
-                    </tr>
-                    <tr>
-                        <td>topsflair</td>
-                        <td>{{measurement.topsflair}}</td>
-                        <td>slitfrom</td>
-                        <td>{{measurement.slitfrom}}</td>
-                    </tr>
-                    <tr>
-                        <td>bottomflair</td>
-                        <td>{{measurement.bottomflair}}</td>
-                        <td>gatheringw1</td>
-                        <td>{{measurement.gatheringw1}}</td>
-                    </tr>
-                    <tr>
-                        <td>gatheringw2</td>
-                        <td>{{measurement.gatheringw2}}</td>
-                        <td>gatheringw3</td>
-                        <td>{{measurement.gatheringw3}}</td>
-                    </tr>
-                    <tr>
-                        <td>gatheringl1</td>
-                        <td>{{measurement.gatheringl1}}</td>
-                        <td>gatheringl2</td>
-                        <td>{{measurement.gatheringl2}}</td>
-                    </tr>
-                    <tr>
-                        <td>slitfrom</td>
-                        <td>{{measurement.slitfrom}}</td>
-                    </tr>
+                    {{/each}}
                     </tbody>
                 </table>
             </div>
@@ -653,7 +558,6 @@
     </div>
   </script>
 
-    
   <script type="text/x-handlebars" data-template-name="customers/edit" >
     <div class="row">
         <div class="span12">
@@ -802,7 +706,7 @@
       </p>
   </script>
 
-    <script type="text/x-handlebars" data-template-name="measurement">
+  <script type="text/x-handlebars" data-template-name="measurement">
     <div class="modal-header">
       <button type="button" class="close" {{action close target="view"}}>&times;</button>
         <h4>Edit Measurement</h4>
@@ -824,341 +728,37 @@
             <div class="span4">
                 <form class="form-horizontal form-small">
                     <div class="control-group">
-                        <label class="control-label" for="type">Type</label>
+                        <label class="control-label">Type</label>
                         <div class="controls">
-                            {{view Ember.Select class="input-medium" content=measurementtypes valueBinding="type"}}
+                            {{#if controller.isNew}}
+                                {{view Ember.Select class="input-medium" content=measurementtypes selection=measurementtype prompt="Select type"}}
+                            {{else}}
+                                <label class="control-label">{{type}}</label>
+                            {{/if}}
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
     <div class="span12">
         <div class="row">
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="length">Length</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="length"}}
+            {{#each measurementitem in measurementitems}}
+                <div class="span2">
+                    <form class="form-horizontal form-small">
+                        <div class="control-group">
+                            <label class="control-label">{{measurementitem.itemname}}</label>
+                            <div class="controls">
+                                {{view Ember.TextField  class="measurementtext" valueBinding="measurementitem.itemvalue"}}
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="shoulder">Shoulder</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="shoulder"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="shouldercut">Shoulder cut</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="shouldercut"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="chest">Chest</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="chest"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="chestmnt">Chest mnt</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="chestmnt"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="chestfinishedmnt">Chest finished</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="chestfinishedmnt"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
+                    </form>
+                </div>
+            {{/each}}
         </div>
     </div>
-    <div class="span12">
-        <div class="row">
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="waist">Waist</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="waist"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="bb">bb</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="bb"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="backneck">Back neck</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="backneck"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="frontneck">Front neck</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="frontneck"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
 
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="sllength">sl length</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="sllength"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="slcircum1">sl circum1</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="slcircum1"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="span12">
-        <div class="row">
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="slcircum2">sl circum2</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="slcircum2"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="arm">Arm</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="arm"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="armcut">Arm cut</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="armcut"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="armslant">Arm slant</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="armslant"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="bl">bl</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="bl"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="blsplit">bl split</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="blsplit"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="span12">
-        <div class="row">
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="lc">lc</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="lc"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="seat">Seat</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="seat"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="wb">wb</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="wb"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="seatlength">Seat length</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="seatlength"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="topsflair">Tops flair</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="topsflair"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="slitfrom">Slit from</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="slitfrom"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="span12">
-        <div class="row">
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="bottomflair">Bottom flair</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="bottomflair"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="gatheringw1">Gathering w1</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="gatheringw1"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="gatheringw2">Gathering w2</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="gatheringw2"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="gatheringw3">Gathering w3</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="gatheringw3"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="gatheringl1">Gathering l1</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="gatheringl1"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="span2">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="gatheringl2">Gathering l2</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="measurementtext" valueBinding="gatheringl2"}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    </div>
     <div class="modal-footer">
     <div class="span12 text-center">
         <form class="form-horizontal">
@@ -1168,7 +768,6 @@
     </div>
     </div>
   </script>
-
 
   <script type="text/x-handlebars" data-template-name="about" >
       <p>This is the about page.</p>
@@ -1185,16 +784,18 @@
     </div>
   </script>
 
-
   <script src="js/lib/jquery-1.10.2.js"></script>
   <script src="js/lib/handlebars-1.1.2.js"></script>
   <script src="js/lib/ember.js"></script>
   <script src="js/lib/ember-data.js"></script>
   <script src="js/lib/bootstrap.js"></script>
   <script src="js/lib/bootstrap-datepicker.js"></script>
+  <script src="node_modules/async/lib/async.js"></script>
   <script src="js/application.js"></script>
   <script src="js/router.js"></script>
-  <script src="js/helper.js"></script>
+  <script src="js/helpers/handlebarhelper.js"></script>
+  <script src="js/helpers/ordercustomercommonhelper.js"></script>
+  <script src="js/helpers/measurementhelper.js"></script>
   <script src="js/ordersummaryservice.js"></script>
   <script src="js/routes/taskroute.js"></script>
   <script src="js/routes/customerroute.js"></script>
@@ -1211,9 +812,11 @@
   <script src="js/controller/ordersummary_controller.js"></script>
   <script src="js/models/customermodel.js"></script>
   <script src="js/models/measurementmodel.js"></script>
+  <script src="js/models/measurementconfigmodel.js"></script>
   <script src="js/models/taskmodel.js"></script>
   <script src="js/models/ordermodel.js"></script>
   <script src="js/models/ordersummarymodel.js"></script>
+  <script src="js/models/measurementcon.js"></script>
   <script src="js/views/navview.js"></script>
   <script src="js/views/modalview.js"></script>
   <script src="js/views/radiobutton.js"></script>

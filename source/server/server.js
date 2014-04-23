@@ -3,6 +3,9 @@ var design = require('./routes/designs');
 var tasks = require('./routes/tasks');
 var customers = require('./routes/customers');
 var measurements = require('./routes/measurements');
+var measurementitems = require('./routes/measurementitems');
+var measurementconfigs = require('./routes/measurementconfigs');
+var measurementitemconfigs = require('./routes/measurementitemconfigs');
 var orders = require('./routes/orders');
 var logger = require('./log/log').logger;
 
@@ -55,12 +58,35 @@ app.post('/customers', customers.add);
 app.put('/customers/:id', customers.update);
 app.delete('/customers/:id', customers.delete);
 
-//Customer related API's
+//Measurement related API's
 app.get('/measurements', measurements.getAll);
 app.get('/measurements/:id', measurements.getById);
 app.post('/measurements', measurements.add);
 app.put('/measurements/:id', measurements.update);
 app.delete('/measurements/:id', measurements.delete);
+
+
+//Measurement related API's
+app.get('/measurementitems', measurementitems.getAll);
+app.get('/measurementitems/:id', measurementitems.getById);
+app.post('/measurementitems', measurementitems.add);
+app.put('/measurementitems/:id', measurementitems.update);
+app.delete('/measurementitems/:id', measurementitems.delete);
+
+//Measurement config related API's
+app.get('/measurementconfigs', measurementconfigs.getAll);
+app.get('/measurementconfigs/:id', measurementconfigs.getById);
+app.post('/measurementconfigs', measurementconfigs.add);
+app.put('/measurementconfigs/:id', measurementconfigs.update);
+app.delete('/measurementconfigs/:id', measurementconfigs.delete);
+
+
+//Measurement config related API's
+app.get('/measurementitemconfigs', measurementitemconfigs.getAll);
+app.get('/measurementitemconfigs/:id', measurementitemconfigs.getById);
+app.post('/measurementitemconfigs', measurementitemconfigs.add);
+app.put('/measurementitemconfigs/:id', measurementitemconfigs.update);
+app.delete('/measurementitemconfigs/:id', measurementitemconfigs.delete);
 
 //Order related API's
 app.get('/orders', orders.getAll);

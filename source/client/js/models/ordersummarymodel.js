@@ -7,3 +7,12 @@
 
 
 
+App.Ordersummary.FIXTURES  = [
+    {
+        id: 1,
+        duedate: new Date(),
+        newcount: 1,
+        inprogresscount: 1,
+        donecount: 1
+    }
+];
