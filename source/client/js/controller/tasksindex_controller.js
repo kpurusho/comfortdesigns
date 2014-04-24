@@ -14,21 +14,7 @@ App.TasksIndexController = Ember.ArrayController.extend({
             task.deleteRecord();
             task.get('isDeleted');
             task.save();
-        },
-
-        removeSelectedTasks: function () {
-            arr = this.filterProperty('selected', true);
-            if (arr.length == 0) {
-                output = "nothing selected";
-            } else {
-                output = "";
-                for (i = 0 ; i < arr.length ; i++) {
-                    arr[i].deleteRecord();
-                    arr[i].get('isDeleted');
-                    arr[i].save();
-                }
-            }
         }
-    },
+    }
 });
 

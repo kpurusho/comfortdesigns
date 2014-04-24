@@ -84,8 +84,10 @@ App.OrdersEditController = Ember.ObjectController.extend({
                                     if (!matchFound) {
                                         App.Measurementhelper.cloneMeasurement(oMeasurement, self.store, function (newMeasurement) {
                                             App.Measurementhelper.saveMeasurement(newMeasurement, function() {
-                                                customer.get('measurements').pushObject(newMeasurement);
-                                                done();
+                                                customer.get('measurements').then(function(cm) {
+                                                    cm.pushObject(newMeasurement);
+                                                    done();
+                                                });
                                             });
                                         });
                                     }
@@ -196,11 +198,14 @@ App.OrdersEditController = Ember.ObjectController.extend({
                     var customer = customers.objectAt(0);
 
                     customer.get('measurements').then(function (measurements) {
-                        measurements.forEach(function (measurement) {
-                            App.Measurementhelper.cloneMeasurement(measurement, self.store, function(newMeasurement){
-                                order.get('measurements').pushObject(newMeasurement);
+                        var marr = measurements.toArray();
+                        for (var i = 0; i < marr.length; i++){
+                            App.Measurementhelper.cloneMeasurement(marr[i], self.store, function(newMeasurement){
+                                order.get('measurements').then(function(om) {
+                                    om.pushObject(newMeasurement);
+                                });
                             });
-                        });
+                        }
                     });
                 } else {
                     window.alert('No measurements found for customer with phone no ' + customerphno);

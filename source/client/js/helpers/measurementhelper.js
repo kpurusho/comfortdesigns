@@ -7,7 +7,6 @@ App.Measurementhelper = {
         measurement.get('measurementitems').then(function (items){
             var itemArr = items.toArray();
             clonedMeasurement.get('measurementitems').then(function (eitems){
-                eitems.clear();
                 for(var i = 0; i < itemArr.length; i++) {
                     eitems.pushObject(store.createRecord('measurementitem', itemArr[i].toJSON()));
                 }
@@ -86,6 +85,23 @@ App.Measurementhelper = {
                 measurement.save().then(function () {
                     callback();
                 });
+            });
+        });
+    },
+
+    saveMeasurementConfig : function(config, success, failure) {
+        success = success || function () {};
+        failure = failure || function () {};
+
+        config.get('measurementitems').then(function(items){
+            var itemArr = items.toArray();
+            var saveItems = new Array();
+            for(var i = 0; i < itemArr.length; i++) {
+                saveItems.push(itemArr[i].save());
+            }
+
+            Ember.RSVP.all(saveItems).then(function () {
+                config.save().then (success, failure);
             });
         });
     }

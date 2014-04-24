@@ -37,6 +37,10 @@
               {{/view}}
 
               {{#view App.NavView}}
+                {{#link-to "measurementconfigs"}}Measurement Config{{/link-to}}
+              {{/view}}
+
+              {{#view App.NavView}}
                 {{#link-to "tasks"}}Tasks Config{{/link-to}}
               {{/view}}
 
@@ -462,9 +466,12 @@
         <h4>Measurement details</h4>
 
         {{#each measurement in measurements}}
-            <div class="span5">
+            <div class="span3">
                 <table class="tablesorter">
                     <thead>
+                    <tr>
+                        <th>{{measurement.name}} : {{measurement.type}}</th>
+                    </tr>
                     <tr>
                         <th>Measurement</th>
                         <th>Value</th>
@@ -706,6 +713,155 @@
       </p>
   </script>
 
+  <script type="text/x-handlebars" data-template-name="measurementconfigs/index">
+      <div class="span12">
+          <p>{{#link-to "measurementconfigs.new"}}<img src="images/add-icon.png"/> New measurement type{{/link-to}}</p>
+      </div>
+      <div class="span12">
+          <table class="tablesorter">
+              <thead>
+              <tr>
+                  <th>Type</th>
+                  <th>Item Count</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+              </tr>
+              </thead>
+              <tbody>
+              {{#each config in controller itemController="measurementconfigsEdit"}}
+                  <tr {{bind-attr class="selected:warning"}}>
+                      <td>{{config.type}}</td>
+                      <td>{{config.measurementitems.length}}</td>
+                      <td>{{#link-to "measurementconfigs.edit" config}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
+                      <td><a href="#" {{action removeItem config}}><img src="images/delete-icon.png" border="0"/></a></td>
+                  </tr>
+              {{/each}}
+              </tbody>
+          </table>
+      </div>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="_measurementconfigsForm" >
+      <div class="row">
+          <div class="span12">
+              <form class="form-horizontal">
+                  <div class="control-group">
+                      <label class="control-label">Measurement Type</label>
+                      <div class="controls">
+                          {{view Ember.TextField valueBinding="type"}}
+                      </div>
+                  </div>
+              </form>
+          </div>
+          <div class="span12">
+              <div class="row">
+                  <p><a href="#" {{action createMeasurementItemConfig}}><img src="images/add-icon.png"/> New measurement item</a></p>
+                  {{#if measurementitems.length}}
+                  <table class="tablesorter">
+                      <thead>
+                          <tr>
+                              <th>Item Name</th>
+                              <th>Minimum Value</th>
+                              <th>Maximum Value</th>
+                              <th>Edit</th>
+                              <th>Delete</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                      {{#each item in measurementitems}}
+                          <tr>
+                              <td>{{item.itemname}}</td>
+                              <td>{{item.min}}</td>
+                              <td>{{item.max}}</td>
+                              <td><a href="#" {{action editMeasurementItemConfig item}}><img src="images/edit-icon.png"/></a></td>
+                              <td><a href="#" {{action removeMeasurementIemConfig item}}><img src="images/delete-icon.png" border="0"/></a></td>
+                          </tr>
+                      {{/each}}
+                      </tbody>
+                  </table>
+                  {{/if}}
+              </div>
+          </div>
+
+          <div class="span12 text-center">
+              {{#if controller.isNew}}
+              <button class="btn btn-large btn-primary" type="button" {{action updateMeasurementType this}}>Create measurement type</button>
+              {{else}}
+              <button class="btn btn-large btn-primary" type="button" {{action updateMeasurementType this}}>Update measurement type</button>
+              {{/if}}
+          </div>
+      </div>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="measurementconfigs/edit" >
+
+      {{#if controller.isNew}}
+        <h1>New Measurement Type</h1>
+      {{else}}
+        <h1>Edit Measurement Type</h1>
+      {{/if}}
+
+      {{partial "measurementconfigsForm"}}
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="measurementitemconfig">
+      <div class="modal-header">
+          <button type="button" class="close" {{action close target="view"}}>&times;</button>
+          <h4>Edit Measurement item config</h4>
+      </div>
+
+      <div class="modal-body">
+          <div class="span12">
+              <div class="row">
+                  <div class="span4">
+                      <form class="form-horizontal form-small">
+                          <div class="control-group">
+                              <label class="control-label">Name</label>
+                              <div class="controls">
+                                  {{view Ember.TextField  class="input-medium" valueBinding="itemname"}}
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+                  <div class="span4">
+                      <form class="form-horizontal form-small">
+                          <div class="control-group">
+                              <label class="control-label">Min</label>
+                              <div class="controls">
+                                  <div class="controls">
+                                      {{view Ember.TextField  class="input-medium" valueBinding="min"}}
+                                  </div>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+                  <div class="span4">
+                      <form class="form-horizontal form-small">
+                          <div class="control-group">
+                              <label class="control-label">Max</label>
+                              <div class="controls">
+                                  <div class="controls">
+                                      {{view Ember.TextField  class="input-medium" valueBinding="max"}}
+                                  </div>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="modal-footer">
+          <div class="span12 text-center">
+              <form class="form-horizontal">
+                  <button type="button" class="btn btn-default" {{action updateMeasurementItemConfig}}>Update</button>
+              </form>
+          </div>
+      </div>
+  </script>
+
+
+
   <script type="text/x-handlebars" data-template-name="measurement">
     <div class="modal-header">
       <button type="button" class="close" {{action close target="view"}}>&times;</button>
@@ -798,11 +954,15 @@
   <script src="js/helpers/measurementhelper.js"></script>
   <script src="js/ordersummaryservice.js"></script>
   <script src="js/routes/taskroute.js"></script>
+  <script src="js/routes/measurementconfigroute.js"></script>
   <script src="js/routes/customerroute.js"></script>
   <script src="js/routes/orderroute.js"></script>
   <script src="js/routes/applicationroute.js"></script>
   <script src="js/controller/tasksedit_controller.js"></script>
   <script src="js/controller/tasksindex_controller.js"></script>
+  <script src="js/controller/measurementitemconfig_controller.js"></script>
+  <script src="js/controller/measurementconfigsedit_controller.js"></script>
+  <script src="js/controller/measurementconfigsindex_controller.js"></script>
   <script src="js/controller/customersedit_controller.js"></script>
   <script src="js/controller/customersindex_controller.js"></script>
   <script src="js/controller/ordersedit_controller.js"></script>

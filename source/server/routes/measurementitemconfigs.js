@@ -42,7 +42,7 @@ exports.getAll = function (req, res) {
 };
 
 exports.getByMeasurementName = function (req, res) {
-    var Name = req.param('name', 'undefined');
+    var Name = req.param('itemname', 'undefined');
     logger.info('requesting measurement Name ' + Name);
     db.instance().collection('measurementitemconfigs', function (err, collection) {
         if (err) {
@@ -50,7 +50,7 @@ exports.getByMeasurementName = function (req, res) {
             res.send({ 'error': 'An error has occured - ' + err });
         }
         else {
-            collection.find({ 'name': Name }).toArray(function (err, items) {
+            collection.find({ 'itemname': Name }).toArray(function (err, items) {
                 var matchMeasurements = {
                     measurementitemconfigs: items
                 };
@@ -70,15 +70,15 @@ exports.getById = function (req, res) {
         }
         else {
             collection.findOne({ '_id': BSON.ObjectID(id) }, function (err, item) {
-                res.json({ measurement: item });
+                res.json({ measurementitemconfig: item });
             });
         }
     });
 };
 
 exports.add = function (req, res) {
-    var measurement = req.body.measurement;
-    logger.info('requesting add measurement - ' + measurement.name);
+    var measurement = req.body.measurementitemconfig;
+    logger.info('requesting add measurement - ' + measurement.itemname);
     db.instance().collection('measurementitemconfigs', function (err, collection) {
         collection.insert(measurement, { safe: true }, function (err, result) {
             if (err) {
@@ -87,7 +87,7 @@ exports.add = function (req, res) {
             }
             else {
                 logger.info('successfully added measurement - ' + measurement);
-                res.send({measurement: result[0]});
+                res.send({measurementitemconfig: result[0]});
             }
         });
     });
@@ -95,7 +95,7 @@ exports.add = function (req, res) {
 
 exports.update = function (req, res) {
     var measurementId = req.params.id;
-    var measurementInfo = req.body.measurement;
+    var measurementInfo = req.body.measurementitemconfig;
     logger.info('requesting update measurement with id ' + measurementId);
     logger.info(JSON.stringify(measurementInfo));
     db.instance().collection('measurementitemconfigs', function (err, collection) {
@@ -105,7 +105,7 @@ exports.update = function (req, res) {
                 res.send({ 'error': 'An error has occured - ' + err });
             } else {
                 logger.log('' + result + ' document(s) updated');
-                res.send({ measurement: result[0] });
+                res.send({ measurementitemconfig: result[0] });
             }
         });
     });

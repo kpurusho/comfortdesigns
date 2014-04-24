@@ -75,15 +75,15 @@ exports.getById = function (req, res) {
         }
         else {
             collection.findOne({ '_id': BSON.ObjectID(id) }, function (err, item) {
-                res.json({ measurement: item });
+                res.json({ measurementconfig: item });
             });
         }
     });
 };
 
 exports.add = function (req, res) {
-    var measurement = req.body.measurement;
-    logger.info('requesting add measurement - ' + measurement.name);
+    var measurement = req.body.measurementconfig;
+    logger.info('requesting add measurement - ' + measurement.type);
     db.instance().collection('measurementconfigs', function (err, collection) {
         collection.insert(measurement, { safe: true }, function (err, result) {
             if (err) {
@@ -92,16 +92,17 @@ exports.add = function (req, res) {
             }
             else {
                 logger.info('successfully added measurement - ' + measurement);
-                res.send({measurement: result[0]});
+                res.send({measurementconfig: result[0]});
             }
         });
     });
 };
 
 exports.update = function (req, res) {
+    logger.info('requesting measurementconfig update');
     var measurementId = req.params.id;
-    var measurementInfo = req.body.measurement;
-    logger.info('requesting update measurement with id ' + measurementId);
+    var measurementInfo = req.body.measurementconfig;
+    logger.info('requesting update measurementconfig with id ' + measurementId);
     logger.info(JSON.stringify(measurementInfo));
     db.instance().collection('measurementconfigs', function (err, collection) {
         collection.update({ '_id': new BSON.ObjectID(measurementId) }, measurementInfo, { safe: true }, function (err, result) {
@@ -109,8 +110,8 @@ exports.update = function (req, res) {
                 logger.error('Error updating measurement: ' + err);
                 res.send({ 'error': 'An error has occured - ' + err });
             } else {
-                logger.log('' + result + ' document(s) updated');
-                res.send({ measurement: result[0] });
+                logger.info('' + result + ' document(s) updated');
+                res.send({ measurementconfig: result[0] });
             }
         });
     });

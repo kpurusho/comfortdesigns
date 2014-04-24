@@ -9,6 +9,13 @@ App.Router.map(function () {
         //automatically generated - //url: tasks/index, template; tasks/index, Route: TasksIndexRoute, Controller: TasksIndexController
     });
 
+    this.resource('measurementconfigs', { path: 'measurementconfigs' }, function () {
+        console.log('Inside measurementconfigs....');
+        this.route('new', { path: '/new' });	//url : tasks/new, template: tasks/new, Route: TasksNewRoute, Controller: TasksNewController
+        this.route('edit', { path: '/:config_id' });	//url : tasks/:task_id, template: tasks/edit, Route: TasksEditRoute, Controller: TasksEditController
+        //automatically generated - //url: tasks/index, template; tasks/index, Route: TasksIndexRoute, Controller: TasksIndexController
+    });
+
     this.resource('customers', { path: 'customers' }, function () {
         console.log('Inside customers....');
         this.route('new', { path: '/new' });
