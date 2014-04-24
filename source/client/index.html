@@ -655,7 +655,7 @@
 
   <script type="text/x-handlebars" data-template-name="tasks/index">
     <div class="span12">
-        <p>{{#link-to "tasks.new"}}<img src="images/add-icon.png"/> New task{{/link-to}}</p>
+        <p><a href="#" {{action createTask}}><img src="images/add-icon.png"/>New task</a></p>
     </div>
     <div class="span12">
         <table class="tablesorter">
@@ -672,8 +672,8 @@
                     <tr {{bind-attr class="selected:warning"}}>
                     <td>{{task.seqid}}</td>
                     <td>{{task.taskname}}</td>
-                    <td>{{#link-to "tasks.edit" task}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
-                    <td><a href="#" {{action removeItem task}}><img src="images/delete-icon.png" border="0"/></a></td>
+                    <td><a href="#" {{action editTask task}}><img src="images/edit-icon.png"/></a></td>
+                    <td><a href="#" {{action removeTask task}}><img src="images/delete-icon.png" border="0"/></a></td>
                     </tr>
                 {{/each}}
             </tbody>
@@ -681,36 +681,48 @@
     </div>
   </script>
 
-  <script type="text/x-handlebars" data-template-name="_taskForm" >
-      <form class="form-horizontal">
-      <div class="control-group">
-        <label class="control-label" for="seqid">Sequence Id</label>
-        <div class="controls">
-          {{view Ember.TextField valueBinding="seqid"}}
-        </div>
+  <script type="text/x-handlebars" data-template-name="tasksEdit" >
+      <div class="modal-header">
+          <button type="button" class="close" {{action close target="view"}}>&times;</button>
+          <h4>Edit task</h4>
       </div>
-      <div class="control-group">
-        <label class="control-label" for="taskname">Task Name</label>
-        <div class="controls">
-          {{view Ember.TextField valueBinding="taskname"}}
-        </div>
+
+      <div class="modal-body">
+          <div class="span12">
+              <div class="row">
+                  <div class="span6">
+                      <form class="form-horizontal form-small">
+                          <div class="control-group">
+                              <label class="control-label">Sequence Id</label>
+                              <div class="controls">
+                                  {{view Ember.TextField  class="input-medium" valueBinding="seqid"}}
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+                  <div class="span6">
+                      <form class="form-horizontal form-small">
+                          <div class="control-group">
+                              <label class="control-label">Task Name</label>
+                              <div class="controls">
+                                  <div class="controls">
+                                      {{view Ember.TextField  class="input-medium" valueBinding="taskname"}}
+                                  </div>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
       </div>
-    </form>
-  </script>
 
-  <script type="text/x-handlebars" data-template-name="tasks/edit" >
-    
-    {{#if controller.isNew}}
-      <h1>New task</h1>
-    {{else}}
-      <h1>Edit task</h1>
-    {{/if}}
-
-      {{partial "taskForm"}}
-
-      <p>
-        <button {{action updateItem}}>Update record</button>
-      </p>
+      <div class="modal-footer">
+          <div class="span12 text-center">
+              <form class="form-horizontal">
+                  <button type="button" class="btn btn-default" {{action updateTask}}>Update</button>
+              </form>
+          </div>
+      </div>
   </script>
 
   <script type="text/x-handlebars" data-template-name="measurementconfigs/index">

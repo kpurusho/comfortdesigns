@@ -9,8 +9,17 @@ App.TasksIndexController = Ember.ArrayController.extend({
     }.property('editCounter'),
 
     actions: {
+        createTask: function () {
+            var model = this.get('model');
+            var item = this.store.createRecord('task')
+            this.send('openModal', 'tasksEdit', item, null, model, true);
+        },
 
-        removeItem: function (task) {
+        editTask : function (task) {
+            this.send('openModal', 'tasksEdit', task, null, null, false);
+        },
+
+        removeTask: function (task) {
             task.deleteRecord();
             task.get('isDeleted');
             task.save();

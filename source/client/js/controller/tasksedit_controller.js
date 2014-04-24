@@ -1,7 +1,15 @@
 App.TasksEditController = Ember.ObjectController.extend({
+    parentModel: null,
+    isNew: false,
+    originalModel: null,
+
+
     actions: {
-        updateItem: function () {
+        updateTask: function () {
             var task = this.get('model');
+            var parent = this.get('parentModel');
+            var isNew = this.get('isNew');
+            var self = this;
 
             var that = this;
             var onSuccess = function () {
@@ -15,12 +23,8 @@ App.TasksEditController = Ember.ObjectController.extend({
             }
 
             task.save().then(onSuccess, onFailure);
+            return this.send('closeModal');
         }
-    },
-
-  isNew: function() {
-    console.log("calculating isNew");
-    return this.get('model').get('id');
-  }.property() //.property() marks this function as property. check http://emberjs.com/api/classes/Function.html#method_property
+    }
 });
 
