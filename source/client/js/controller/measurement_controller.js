@@ -62,6 +62,7 @@
                     });
                 });
             }
+            this.set('measurementtype', '');
             return this.send('closeModal');
         }
     }
