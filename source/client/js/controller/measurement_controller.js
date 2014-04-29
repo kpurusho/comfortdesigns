@@ -1,20 +1,14 @@
-﻿App.MeasurementController = Ember.ObjectController.extend({
+﻿App.MeasurementController = Ember.ObjectController.extend(Ember.Validations.Mixin, {
     measurementtypes: [],
     measurementtype: '',
 
     init: function() {
         var self = this;
-        this.store.find('measurementconfig').then(function(configs) {
-            var types = [];
-            var configArr = configs.toArray();
-            var len = configArr.length;
-            if (len > 0) {
-               for (var i = 0; i < len; i++) {
-                    types.push(configArr[i].get('type'));
-                }
-                self.set('measurementtypes', types);
-            }
+        App.MeasurementConfigServiceInstance.findMeasurementTypes(function(types) {
+            self.set('measurementtypes', types);
         });
+
+        this._super();
     },
 
     selectionChanged: function () {
@@ -25,28 +19,14 @@
 
         if (type === '' || type === undefined || type === null || !isNew) return;
 
-        this.store.find('measurementconfig', {'type': type}).then (function (configs) {
-            if (configs.get('length') > 0) {
-                var config = configs.objectAt(0);
-
-                config.get('measurementitems').then(function (measurementitems) {
-                    var marr = measurementitems.toArray();
-                    var len = marr.length;
-                    var mitems = [];
-                    for (var i = 0; i < len; i++) {
-                        var newMeasurementitem = self.store.createRecord('measurementitem');
-                        newMeasurementitem.set('itemname', marr[i].get('itemname'));
-                        newMeasurementitem.set('itemvalue', marr[i].get('itemvalue'));
-                        mitems.push(newMeasurementitem);
-                    }
+        App.MeasurementConfigServiceInstance.createMeasurementItems(type, function(mitems) {
                     measurement.set('type', self.get('measurementtype'));
                     measurement.get('measurementitems').then(function(items) {
                         items.clear();
                         items.pushObjects(mitems);
                     });
                 });
-            }
-        });
+
     }.observes('measurementtype'),
 
     parentModel: null,
@@ -83,6 +63,14 @@
                 });
             }
             return this.send('closeModal');
+        }
+    }
+});
+
+App.MeasurementController.reopen({
+    validations: {
+        name: {
+            presence: true
         }
     }
 });

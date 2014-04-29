@@ -56,6 +56,8 @@ App.ApplicationAdapter = DS.RESTAdapter.extend({
     host: 'http://localhost:3000'
 });
 
+Ember.EasyForm.Config.registerInputType('mydate', App.DatePicker);
+
 App.Serializer = DS.RESTSerializer.extend({
     normalize: function (type, hash, property) {
 

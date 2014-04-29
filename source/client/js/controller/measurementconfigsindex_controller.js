@@ -1,4 +1,4 @@
-App.MeasurementConfigsIndexController = Ember.ArrayController.extend({
+App.MeasurementconfigsIndexController = Ember.ArrayController.extend({
     actions: {
         removeItem: function (config) {
             config.deleteRecord();

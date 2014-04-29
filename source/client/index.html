@@ -22,7 +22,6 @@
         <div class="navbar">
           <div class="navbar-inner">
             <ul class="nav">
-              
               {{#view App.NavView}}
                 <!--link-to actually links to route name in router.js-->
                 {{#link-to "index"}}Home{{/link-to}}
@@ -43,11 +42,6 @@
               {{#view App.NavView}}
                 {{#link-to "tasks"}}Tasks Config{{/link-to}}
               {{/view}}
-
-              {{#view App.NavView}}
-                {{#link-to "about"}}About{{/link-to}}
-              {{/view}}
-
             </ul>
           </div>
         </div>
@@ -61,10 +55,6 @@
   </script>
 
   <script type="text/x-handlebars" data-template-name="orders/index" >
-      {{partial "orderForm"}}
-  </script>
-
-  <script type="text/x-handlebars" data-template-name="_orderForm" >
     <div class="span12">
         <div class="row">
             <div class="span2">
@@ -203,85 +193,63 @@
         </div>
         <div class="span12">
                 <div class="row">
-                    <div class="span3">      
-                        <form class="form-horizontal form-small">
-                            <div class="control-group">
-                                <label class="control-label" for="orderno">Order No.</label>
+                    <div class="span3">
+                        <form class="form">
+                            <fieldset>
+                                <label class="control-label" >Order No.</label>
                                 <div class="controls">
-                                    {{view Ember.TextField disabled="true" class="input-medium" valueBinding="orderno"}}
+                                    {{view Ember.TextField disabled="true" valueBinding="orderno"}}
                                 </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="span3">      
-                        <form class="form-horizontal form-small">
-                            <div class="control-group">
-                                <label class="control-label" for="orderdate">Order Date</label>
-                                <div class="controls">
-                                    {{view App.DatePicker class="input-medium" dateBinding="orderdate"}}
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="span3">      
-                        <form class="form-horizontal form-small">
-                            <div class="control-group">
-                                <label class="control-label" for="duedate">Ready Date</label>
-                                <div class="controls">
-                                    {{view App.DatePicker class="input-medium" dateBinding="duedate"}}
-                                </div>
-                            </div>
+                            </fieldset>
                         </form>
                     </div>
                     <div class="span3">
-                        <form class="form-horizontal form-small">
-                            <div class="control-group">
-                                <label class="control-label" for="customerphoneno">Phone No</label>
+                        <form class="form">
+                            <fieldset>
+                                <label class="control-label" >Order Date</label>
                                 <div class="controls">
-                                    {{view App.TextFieldEx class="input-medium" valueBinding="customerphoneno" targetAction="updateCustomerDetails"}}
+                                    {{view App.DatePicker dateBinding="orderdate"}}
                                 </div>
-                            </div>
+                            </fieldset>
                         </form>
                     </div>
                     <div class="span3">
-                        <form class="form-horizontal form-small">
-                            <div class="control-group">
-                                <label class="control-label" for="customername">Name</label>
+                        <form class="form">
+                            <fieldset>
+                                <label class="control-label" >Ready Date</label>
                                 <div class="controls">
-                                    {{view Ember.TextField class="input-medium" valueBinding="customername"}}
+                                    {{view App.DatePicker dateBinding="duedate"}}
                                 </div>
-                            </div>
+                            </fieldset>
                         </form>
                     </div>
                     <div class="span3">
-                        <form class="form-horizontal form-small">
-                            <div class="control-group">
-                                <label class="control-label" for="customeremailid">Email Id</label>
-                                <div class="controls">
-                                    {{view Ember.TextField class="input-medium" valueBinding="customeremailid"}}
-                                </div>
-                            </div>
+                        <form class="form">
+                            <fieldset>
+                                <label class="control-label" >Phone No</label>
+                                {{view App.TextFieldEx valueBinding="customerphoneno" targetAction="updateCustomerDetails"}}
+                            </fieldset>
                         </form>
                     </div>
                     <div class="span3">
-                        <form class="form-horizontal form-small">
-                            <div class="control-group">
-                                <label class="control-label" for="nopieces">No. pieces</label>
-                                <div class="controls">
-                                    {{view Ember.TextField class="input-medium" valueBinding="nopieces"}}
-                                </div>
-                            </div>
-                        </form>
+                        {{#form-for controller}}
+                            {{input customername label="Name"}}
+                        {{/form-for}}
                     </div>
                     <div class="span3">
-                        <form class="form-horizontal form-small">
-                            <div class="control-group">
-                                <label class="control-label" for="status">Status</label>
-                                <div class="controls">
-                                    {{view Ember.Select class="input-medium" content=states valueBinding="status"}}
-                                </div>
-                            </div>
-                        </form>
+                        {{#form-for controller}}
+                            {{input customeremailid as="email" label="Email Id"}}
+                        {{/form-for}}
+                    </div>
+                    <div class="span3">
+                        {{#form-for controller}}
+                            {{input nopieces label="No. pieces"}}
+                        {{/form-for}}
+                    </div>
+                    <div class="span3">
+                        {{input status as='select'
+                            label="Status"
+                            collection="states"}}
                     </div>
                 </div>
             </div>
@@ -324,7 +292,7 @@
             <div class="span12">      
                 <form class="form-horizontal">
                     <div class="control-group">
-                        <label class="control-label" for="additionalnote">Measurement note</label>
+                        <label class="control-label" >Measurement note</label>
                         <div class="controls">
                             {{view Ember.TextArea  class="measurementnotetext" valueBinding="additionalnote"}}
                         </div>
@@ -569,49 +537,19 @@
     <div class="row">
         <div class="span12">
             <div class="row">
-                <div class="span6">      
-                    <form class="form-horizontal">
-                        <div class="control-group">
-                            <label class="control-label" for="name">Customer Name</label>
-                            <div class="controls">
-                                {{view Ember.TextField valueBinding="name"}}
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="phoneno">Phone Number</label>
-                            <div class="controls">
-                                {{view Ember.TextField valueBinding="phoneno"}}
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="emailid">Email Id</label>
-                            <div class="controls">
-                                {{view Ember.TextField valueBinding="emailid"}}
-                            </div>
-                        </div>
-                    </form>
+                <div class="span6">
+                    {{#form-for controller}}
+                        {{input name label="Customer Name"}}
+                        {{input phoneno label="Phone Number"}}
+                        {{input emailid as="email" label="Email Id"}}
+                    {{/form-for}}
                 </div>
                 <div class="span6">
-                    <form class="form-horizontal">
-                        <div class="control-group">
-                            <label class="control-label" for="addressline1">Address Line 1</label>
-                            <div class="controls">
-                                {{view Ember.TextField valueBinding="addressline1"}}
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="addressline2">Address Line 2</label>
-                            <div class="controls">
-                                {{view Ember.TextField valueBinding="addressline2"}}
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="addressline3">Address Line 3</label>
-                            <div class="controls">
-                                {{view Ember.TextField valueBinding="addressline3"}}
-                            </div>
-                        </div>
-                    </form>
+                    {{#form-for controller}}
+                        {{input addressline1 label="Address Line 1"}}
+                        {{input addressline2 label="Address Line 2"}}
+                        {{input addressline3 label="Address Line 3"}}
+                    {{/form-for}}
                 </div>
             </div>
         </div>
@@ -753,67 +691,47 @@
       </div>
   </script>
 
-  <script type="text/x-handlebars" data-template-name="_measurementconfigsForm" >
-      <div class="row">
-          <div class="span12">
-              <form class="form-horizontal">
-                  <div class="control-group">
-                      <label class="control-label">Measurement Type</label>
-                      <div class="controls">
-                          {{view Ember.TextField valueBinding="type"}}
-                      </div>
-                  </div>
-              </form>
-          </div>
-          <div class="span12">
-              <div class="row">
-                  <p><a href="#" {{action createMeasurementItemConfig}}><img src="images/add-icon.png"/> New measurement item</a></p>
-                  {{#if measurementitems.length}}
-                  <table class="tablesorter">
-                      <thead>
-                          <tr>
-                              <th>Item Name</th>
-                              <th>Minimum Value</th>
-                              <th>Maximum Value</th>
-                              <th>Edit</th>
-                              <th>Delete</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                      {{#each item in measurementitems}}
-                          <tr>
-                              <td>{{item.itemname}}</td>
-                              <td>{{item.min}}</td>
-                              <td>{{item.max}}</td>
-                              <td><a href="#" {{action editMeasurementItemConfig item}}><img src="images/edit-icon.png"/></a></td>
-                              <td><a href="#" {{action removeMeasurementIemConfig item}}><img src="images/delete-icon.png" border="0"/></a></td>
-                          </tr>
-                      {{/each}}
-                      </tbody>
-                  </table>
-                  {{/if}}
-              </div>
-          </div>
-
-          <div class="span12 text-center">
-              {{#if controller.isNew}}
-              <button class="btn btn-large btn-primary" type="button" {{action updateMeasurementType this}}>Create measurement type</button>
-              {{else}}
-              <button class="btn btn-large btn-primary" type="button" {{action updateMeasurementType this}}>Update measurement type</button>
-              {{/if}}
-          </div>
-      </div>
-  </script>
-
   <script type="text/x-handlebars" data-template-name="measurementconfigs/edit" >
+      <div class="span12">
+          {{#form-for controller}}
+              {{input type label="Measurement Type"}}
+          {{/form-for}}
+      </div>
+      <div class="span12">
+          <p><a href="#" {{action createMeasurementItemConfig}}><img src="images/add-icon.png"/> New measurement item</a></p>
+          {{#if measurementitems.length}}
+          <table class="tablesorter">
+              <thead>
+              <tr>
+                  <th>Item Name</th>
+                  <th>Minimum Value</th>
+                  <th>Maximum Value</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+              </tr>
+              </thead>
+              <tbody>
+              {{#each item in measurementitems}}
+              <tr>
+                  <td>{{item.itemname}}</td>
+                  <td>{{item.min}}</td>
+                  <td>{{item.max}}</td>
+                  <td><a href="#" {{action editMeasurementItemConfig item}}><img src="images/edit-icon.png"/></a></td>
+                  <td><a href="#" {{action removeMeasurementIemConfig item}}><img src="images/delete-icon.png" border="0"/></a></td>
+              </tr>
+              {{/each}}
+              </tbody>
+          </table>
+          {{/if}}
+      </div>
 
-      {{#if controller.isNew}}
-        <h1>New Measurement Type</h1>
-      {{else}}
-        <h1>Edit Measurement Type</h1>
-      {{/if}}
-
-      {{partial "measurementconfigsForm"}}
+      <div class="span12 text-center">
+          {{#if controller.isNew}}
+          <button class="btn btn-large btn-primary" type="button" {{action updateMeasurementType this}}>Create measurement type</button>
+          {{else}}
+          <button class="btn btn-large btn-primary" type="button" {{action updateMeasurementType this}}>Update measurement type</button>
+          {{/if}}
+      </div>
   </script>
 
   <script type="text/x-handlebars" data-template-name="measurementitemconfig">
@@ -872,8 +790,6 @@
       </div>
   </script>
 
-
-
   <script type="text/x-handlebars" data-template-name="measurement">
     <div class="modal-header">
       <button type="button" class="close" {{action close target="view"}}>&times;</button>
@@ -881,49 +797,45 @@
     </div>
 
     <div class="modal-body">
-    <div class="span12">
+        <div class="span12">
         <div class="row">
-            <div class="span4">      
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label" for="name">Name</label>
-                        <div class="controls">
-                            {{view Ember.TextField  class="input-medium" valueBinding="name"}}
-                        </div>
-                    </div>
-                </form>
+            <div class="span4">
+                {{#form-for controller}}
+                    {{input name label="Name"}}
+                {{/form-for}}
             </div>
             <div class="span4">
-                <form class="form-horizontal form-small">
-                    <div class="control-group">
-                        <label class="control-label">Type</label>
-                        <div class="controls">
-                            {{#if controller.isNew}}
-                                {{view Ember.Select class="input-medium" content=measurementtypes selection=measurementtype prompt="Select type"}}
-                            {{else}}
-                                <label class="control-label">{{type}}</label>
-                            {{/if}}
-                        </div>
-                    </div>
-                </form>
+                {{#form-for controller}}
+                {{#if controller.isNew}}
+                    {{input measurementtype as='select'
+                            label="Type"
+                            collection="measurementtypes"
+                            prompt="Select type"}}
+                {{else}}
+                    <label class="control-label">Type:</label>
+                    <label class="control-label">{{type}}</label>
+                {{/if}}
+                {{/form-for}}
             </div>
         </div>
     </div>
 
-    <div class="span12">
-        <div class="row">
-            {{#each measurementitem in measurementitems}}
-                <div class="span2">
-                    <form class="form-horizontal form-small">
-                        <div class="control-group">
-                            <label class="control-label">{{measurementitem.itemname}}</label>
-                            <div class="controls">
-                                {{view Ember.TextField  class="measurementtext" valueBinding="measurementitem.itemvalue"}}
-                            </div>
+        <div class="span12">
+            <div class="row">
+                {{#form-for controller}}
+                    {{#eachIndexed measurementitems itemController="measurementitem"}}
+                        {{#if row}}
+                        <div class="row">
+                        {{/if}}
+                        <div class="span2">
+                            {{input itemvalue label=itemname}}
                         </div>
-                    </form>
-                </div>
-            {{/each}}
+                        {{#if div}}
+                        </div>
+                        {{/if}}
+                    {{/eachIndexed}}
+                {{/form-for}}
+            </div>
         </div>
     </div>
 
@@ -935,10 +847,6 @@
         </form>
     </div>
     </div>
-  </script>
-
-  <script type="text/x-handlebars" data-template-name="about" >
-      <p>This is the about page.</p>
   </script>
 
   <script type="text/x-handlebars" data-template-name="modal_layout">
@@ -958,13 +866,17 @@
   <script src="js/lib/ember-data.js"></script>
   <script src="js/lib/bootstrap.js"></script>
   <script src="js/lib/bootstrap-datepicker.js"></script>
+  <script src="js/lib/ember-easyForm.js"></script>
+  <script src="js/mixins/ember-validations.js"></script>
   <script src="node_modules/async/lib/async.js"></script>
   <script src="js/application.js"></script>
   <script src="js/router.js"></script>
   <script src="js/helpers/handlebarhelper.js"></script>
   <script src="js/helpers/ordercustomercommonhelper.js"></script>
   <script src="js/helpers/measurementhelper.js"></script>
-  <script src="js/ordersummaryservice.js"></script>
+  <script src="js/mixins/measurementvalidator.js"></script>
+  <script src="js/services/ordersummaryservice.js"></script>
+  <script src="js/services/measurementconfigservice.js"></script>
   <script src="js/routes/taskroute.js"></script>
   <script src="js/routes/measurementconfigroute.js"></script>
   <script src="js/routes/customerroute.js"></script>
@@ -975,6 +887,7 @@
   <script src="js/controller/measurementitemconfig_controller.js"></script>
   <script src="js/controller/measurementconfigsedit_controller.js"></script>
   <script src="js/controller/measurementconfigsindex_controller.js"></script>
+  <script src="js/controller/measurementitem_controller.js"></script>
   <script src="js/controller/customersedit_controller.js"></script>
   <script src="js/controller/customersindex_controller.js"></script>
   <script src="js/controller/ordersedit_controller.js"></script>
@@ -991,7 +904,6 @@
   <script src="js/models/measurementcon.js"></script>
   <script src="js/views/navview.js"></script>
   <script src="js/views/modalview.js"></script>
-  <script src="js/views/radiobutton.js"></script>
   <script src="js/views/textfieldex.js"></script>
 </body>
 </html>

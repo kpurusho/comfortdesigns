@@ -10,6 +10,8 @@ App.Measurementitem = DS.Model.extend({
     itemvalue : DS.attr('number')
 });
 
+
+App.Measurement.reopen()
 App.Measurement.FIXTURES = [{
     id: 1,
     type: 'SK',

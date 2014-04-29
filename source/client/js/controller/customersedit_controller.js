@@ -1,4 +1,4 @@
-App.CustomersEditController = Ember.ObjectController.extend({
+App.CustomersEditController = Ember.ObjectController.extend(Ember.Validations.Mixin, {
 
     removedMeasurements: [],
 
@@ -90,3 +90,15 @@ App.CustomersEditController = Ember.ObjectController.extend({
   }.property(), //.property() marks this function as property. check http://emberjs.com/api/classes/Function.html#method_property
 });
 
+
+App.CustomersEditController.reopen({
+    validations: {
+        name: {
+            presence: true
+        },
+        phoneno: {
+            presence: true,
+            numericality: true
+        }
+    }
+});

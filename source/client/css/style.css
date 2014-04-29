@@ -173,3 +173,11 @@ table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSo
     background-color: #8dbdd8;
 }
 
+.error {
+    display: block;
+    color: #FF0000;
+ }
+
+.fieldWithErrors{
+    color: #FF0000;
+}

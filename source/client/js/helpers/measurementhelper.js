@@ -15,7 +15,7 @@ App.Measurementhelper = {
         });
     },
 
-    copyMeasurement : function(source, dest, callback) {
+    copyMeasurement : function(source, dest, store, callback) {
         callback = callback || function () {};
 
         dest.set('name', source.get('name'));
@@ -24,10 +24,23 @@ App.Measurementhelper = {
             var sitemArr = sitems.toArray();
             dest.get('measurementitems').then(function (ditems){
                 var ditemArr = ditems.toArray();
-                for(var i = 0; i < sitemArr.length; i++) {
-                    ditemArr[i].setProperties(sitemArr[i].toJSON());
-                }
-                callback();
+
+                async.forEach(sitemArr, function(item, done) {
+                    var found = false;
+                    for(var i = 0; i < ditemArr.length; i++) {
+                        if (ditemArr[i].get('itemname') === item.get('itemname') ) {
+                            ditemArr[i].setProperties(sitemArr[i].toJSON());
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        ditems.pushObject(store.createRecord('measurementitem', item.toJSON()))
+                    }
+                    done();
+                }, function done() {
+                    callback();
+                });
             });
         });
     },

@@ -1,4 +1,8 @@
 ﻿App.ApplicationRoute = Ember.Route.extend({
+    init : function() {
+        App.MeasurementConfigServiceInstance = App.MeasurementConfigService.create();
+        App.MeasurementConfigServiceInstance.set('store', this.store);
+    },
     actions: {
         openModal: function (modalName, model, originalModel, parentModel, isNew) {
             if (isNew != undefined) {

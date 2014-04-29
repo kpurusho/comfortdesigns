@@ -1,4 +1,4 @@
-App.OrdersEditController = Ember.ObjectController.extend({
+App.OrdersEditController = Ember.ObjectController.extend(Ember.Validations.Mixin, {
 
     states: [App.Consts.OrderState.New, App.Consts.OrderState.InProgress, App.Consts.OrderState.Done, App.Consts.OrderState.Delivered],
 
@@ -74,7 +74,7 @@ App.OrdersEditController = Ember.ObjectController.extend({
                                         if (cMeasurement.get('name') === oMeasurement.get('name') &&
                                             cMeasurement.get('type') === oMeasurement.get('type')) {
                                             matchFound = true;
-                                            App.Measurementhelper.copyMeasurement(oMeasurement, cMeasurement, function () {
+                                            App.Measurementhelper.copyMeasurement(oMeasurement, cMeasurement, self.store, function () {
                                                 App.Measurementhelper.saveMeasurement(cMeasurement, done);
                                             });
                                             break;
@@ -214,7 +214,7 @@ App.OrdersEditController = Ember.ObjectController.extend({
         }
     },
 
-  isNew: function() {
+    isNew: function() {
       console.log("calculating isNew");
       var id = this.get('content').get('id');
       return id;
@@ -222,3 +222,15 @@ App.OrdersEditController = Ember.ObjectController.extend({
 });
 
 
+App.OrdersEditController.reopen({
+    validations: {
+        customername: {
+            presence: true
+        },
+        nopieces: {
+            presence: true,
+            numericality: true
+        }
+
+    }
+});
