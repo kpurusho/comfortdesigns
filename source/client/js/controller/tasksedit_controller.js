@@ -1,4 +1,4 @@
-App.TasksEditController = Ember.ObjectController.extend({
+App.TasksEditController = Ember.ObjectController.extend(Ember.Validations.Mixin, {
     parentModel: null,
     isNew: false,
     originalModel: null,
@@ -28,3 +28,15 @@ App.TasksEditController = Ember.ObjectController.extend({
     }
 });
 
+
+App.TasksEditController.reopen({
+    validations: {
+        taskname: {
+            presence: true
+        },
+        seqid : {
+            presence: true,
+            numericality: true
+        }
+    }
+});

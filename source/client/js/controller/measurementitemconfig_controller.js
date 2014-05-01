@@ -1,7 +1,7 @@
 /**
  * Created by Karthik on 4/23/2014.
  */
-App.MeasurementitemconfigController = Ember.ObjectController.extend({
+App.MeasurementitemconfigController = Ember.ObjectController.extend(Ember.Validations.Mixin, {
     parentModel: null,
     isNew: false,
     originalModel: null,
@@ -20,4 +20,20 @@ App.MeasurementitemconfigController = Ember.ObjectController.extend({
         }
     }
 
+});
+
+App.MeasurementitemconfigController.reopen({
+    validations: {
+        itemname: {
+            presence: true
+        },
+        min : {
+            presence: true,
+            numericality: true
+        },
+        max : {
+            presence: true,
+            numericality: true
+        }
+    }
 });

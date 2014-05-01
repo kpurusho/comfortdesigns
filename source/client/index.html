@@ -5,6 +5,7 @@
 <meta charset="utf-8">
 <title>Comfort Designs</title>
   <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/datepicker.css" media="screen">
   <link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
   <link rel="stylesheet" href="css/bootstrap.min.css" media="print">
   <link rel="stylesheet" href="css/bootstrap-responsive.min.css" media="screen">
@@ -23,7 +24,6 @@
           <div class="navbar-inner">
             <ul class="nav">
               {{#view App.NavView}}
-                <!--link-to actually links to route name in router.js-->
                 {{#link-to "index"}}Home{{/link-to}}
               {{/view}}
 
@@ -619,35 +619,20 @@
 
   <script type="text/x-handlebars" data-template-name="tasksEdit" >
       <div class="modal-header">
-          <button type="button" class="close" {{action close target="view"}}>&times;</button>
           <h4>Edit task</h4>
       </div>
 
       <div class="modal-body">
           <div class="span12">
               <div class="row">
+                  {{#form-for controller}}
                   <div class="span6">
-                      <form class="form-horizontal form-small">
-                          <div class="control-group">
-                              <label class="control-label">Sequence Id</label>
-                              <div class="controls">
-                                  {{view Ember.TextField  class="input-medium" valueBinding="seqid"}}
-                              </div>
-                          </div>
-                      </form>
+                    {{input seqid label="Sequence Id"}}
                   </div>
                   <div class="span6">
-                      <form class="form-horizontal form-small">
-                          <div class="control-group">
-                              <label class="control-label">Task Name</label>
-                              <div class="controls">
-                                  <div class="controls">
-                                      {{view Ember.TextField  class="input-medium" valueBinding="taskname"}}
-                                  </div>
-                              </div>
-                          </div>
-                      </form>
+                    {{input taskname label="Task Name"}}
                   </div>
+                  {{/form-for}}
               </div>
           </div>
       </div>
@@ -734,47 +719,23 @@
 
   <script type="text/x-handlebars" data-template-name="measurementitemconfig">
       <div class="modal-header">
-          <button type="button" class="close" {{action close target="view"}}>&times;</button>
           <h4>Edit Measurement item config</h4>
       </div>
 
       <div class="modal-body">
           <div class="span12">
               <div class="row">
+                  {{#form-for controller}}
                   <div class="span4">
-                      <form class="form-horizontal form-small">
-                          <div class="control-group">
-                              <label class="control-label">Name</label>
-                              <div class="controls">
-                                  {{view Ember.TextField  class="input-medium" valueBinding="itemname"}}
-                              </div>
-                          </div>
-                      </form>
+                    {{input itemname label="Name"}}
                   </div>
                   <div class="span4">
-                      <form class="form-horizontal form-small">
-                          <div class="control-group">
-                              <label class="control-label">Min</label>
-                              <div class="controls">
-                                  <div class="controls">
-                                      {{view Ember.TextField  class="input-medium" valueBinding="min"}}
-                                  </div>
-                              </div>
-                          </div>
-                      </form>
+                    {{input min label="Min"}}
                   </div>
                   <div class="span4">
-                      <form class="form-horizontal form-small">
-                          <div class="control-group">
-                              <label class="control-label">Max</label>
-                              <div class="controls">
-                                  <div class="controls">
-                                      {{view Ember.TextField  class="input-medium" valueBinding="max"}}
-                                  </div>
-                              </div>
-                          </div>
-                      </form>
+                    {{input max label="Max"}}
                   </div>
+                  {{/form-for}}
               </div>
           </div>
       </div>
@@ -847,10 +808,6 @@
     </div>
   </script>
 
-  <script type="text/x-handlebars" data-template-name="about" >
-      <p>This is the about page.</p>
-  </script>
-
   <script type="text/x-handlebars" data-template-name="modal_layout">
     <div class="modal-backdrop fade">&nbsp;</div>  
     <div class="modal fade show" >
@@ -908,5 +865,6 @@
   <script src="js/views/modalview.js"></script>
   <script src="js/views/textfieldex.js"></script>
   <script src="js/views/radiobutton.js"></script>
+  <script src="js/views/datepicker.js"></script>
 </body>
 </html>

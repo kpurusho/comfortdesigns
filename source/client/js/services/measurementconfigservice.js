@@ -62,7 +62,7 @@ App.MeasurementConfigService = Ember.Object.extend({
                 callback(types);
             }
         });
-    },
+    }
 
 
 });
