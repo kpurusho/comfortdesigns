@@ -57,6 +57,7 @@ body {
   text-align: center;
   border-left: 1px solid rgba(255,255,255,.75);
   border-right: 1px solid rgba(0,0,0,.1);
+    cursor: pointer;
 }
 .navbar .nav li:first-child a {
   border-left: 0;
@@ -145,12 +146,12 @@ table.tablesorter thead tr th, table.tablesorter tfoot tr th {
     border: 1px solid #FFF;
     font-size: 10pt;
     padding: 4px;
+    cursor: pointer;
 }
 table.tablesorter thead tr .header {
     background-image: url(bg.gif);
     background-repeat: no-repeat;
     background-position: center right;
-    cursor: pointer;
 }
 table.tablesorter tbody td {
     color: #3D3D3D;
@@ -158,14 +159,15 @@ table.tablesorter tbody td {
     background-color: #FFF;
     vertical-align: top;
     border: 1px solid #eeeeee;
-
 }
+
 table.tablesorter tbody tr.odd td {
     background-color:#F0F0F6;
 }
 table.tablesorter thead tr .headerSortUp {
     background-image: url(asc.gif);
 }
+
 table.tablesorter thead tr .headerSortDown {
     background-image: url(desc.gif);
 }

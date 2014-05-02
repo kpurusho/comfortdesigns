@@ -23,35 +23,37 @@
         <div class="navbar">
           <div class="navbar-inner">
             <ul class="nav">
-              {{#view App.NavView}}
-                {{#link-to "index"}}Home{{/link-to}}
-              {{/view}}
+                {{#link-to "index" tagName="li"}}
+                    <a {{bindAttr href="view.href"}}>Home</a>
+                {{/link-to}}
 
-              {{#view App.NavView}}
-                {{#link-to "orders"}}Orders{{/link-to}}
-              {{/view}}
+                {{#link-to "orders" tagName="li"}}
+                    <a {{bindAttr href="view.href"}}>Orders</a>
+                {{/link-to}}
 
-              {{#view App.NavView}}
-                {{#link-to "customers"}}Customers{{/link-to}}
-              {{/view}}
+                {{#link-to "customers" tagName="li"}}
+                    <a {{bindAttr href="view.href"}}>Customers</a>
+                {{/link-to}}
 
-              {{#view App.NavView}}
-                {{#link-to "measurementconfigs"}}Measurement Config{{/link-to}}
-              {{/view}}
+                {{#link-to "measurementconfigs" tagName="li"}}
+                    <a {{bindAttr href="view.href"}}>Measurement Config</a>
+                {{/link-to}}
 
-              {{#view App.NavView}}
-                {{#link-to "tasks"}}Tasks Config{{/link-to}}
-              {{/view}}
+                {{#link-to "tasks" tagName="li"}}
+                    <a {{bindAttr href="view.href"}}>Tasks Config</a>
+                {{/link-to}}
             </ul>
           </div>
         </div>
     {{outlet}}
     {{outlet modal}}
   </div>
-  </script>  
+  </script>
 
   <script type="text/x-handlebars" data-template-name="index" >
-    <p>Welcome to Comfort Designs </p>
+      <div class="span12">
+        <h4>Welcome to Comfort Designs </h4>
+      </div>
   </script>
 
   <script type="text/x-handlebars" data-template-name="orders/index" >
@@ -861,7 +863,6 @@
   <script src="js/models/ordermodel.js"></script>
   <script src="js/models/ordersummarymodel.js"></script>
   <script src="js/models/measurementcon.js"></script>
-  <script src="js/views/navview.js"></script>
   <script src="js/views/modalview.js"></script>
   <script src="js/views/textfieldex.js"></script>
   <script src="js/views/radiobutton.js"></script>

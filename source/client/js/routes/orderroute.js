@@ -7,7 +7,7 @@
     setupController: function (controller, model) {
         this.controllerFor('orders.index').setProperties({
             model: model, filterByStatusNew: true, filterByStatusInProgress: true,
-            filterByStatusDone: true, filterByDueDate: "0"
+            filterByStatusDone: true, filterByStatusDelivered: false, filterByDueDate: "0"
         });
     },
 
