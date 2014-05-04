@@ -79,7 +79,6 @@ exports.update = function (req, res) {
 	var taskId = req.params.id;
 	var taskInfo = req.body.task;
 	logger.info('requesting update task with id ' + taskId);
-	logger.info(JSON.stringify(taskInfo));
 	db.instance().collection('tasks_master', function (err, collection) {
 		collection.update({ '_id': new BSON.ObjectID(taskId)}, taskInfo, {safe:true}, function(err,result){
 			 if (err) {

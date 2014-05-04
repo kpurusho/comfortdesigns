@@ -10,8 +10,8 @@ App.MeasurementconfigsEditController = Ember.ObjectController.extend({
             };
 
             var onFailure = function (error) {
-                window.alert('Failed to save..');
-                console.log(error.message);
+                window.alert('Failed to save. Reason: ' + error.responseJSON.message);
+                //console.log(error.message);
             }
 
             App.Measurementhelper.saveMeasurementConfig(config,onSuccess, onFailure);

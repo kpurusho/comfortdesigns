@@ -117,6 +117,9 @@ App.OrdersummaryService = Ember.Object.extend({
                 donecount: daysummary[key].donecount
             });
         }
+        daysummarytable.sort(function(a,b){
+            return a.duedate > b.duedate;
+        });
         this.set('daywisesummary', daysummarytable);
 
         for (var key in weeksummary){

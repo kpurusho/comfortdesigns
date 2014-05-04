@@ -141,8 +141,14 @@ App.Measurementhelper = {
                 function done(){
                     newConfig.get('measurementitems').then(function(nitems) {
                         nitems.pushObjects(newItems);
-                        newConfig.save();
-                        callback();
+                        newConfig.save().then( function() {
+                            callback();
+                        },
+                        function(error) {
+                            window.alert('Failed to save. Reason: ' + error.responseJSON.message);
+                            App.Measurementhelper.deleteMeasurementConfig(newConfig);
+                        }
+                        );
                 });
             });
         });

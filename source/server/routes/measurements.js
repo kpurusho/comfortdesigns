@@ -11,7 +11,8 @@ exports.getAll = function (req, res) {
     db.instance().collection('measurements', function (err, collection) {
         if (err) {
             logger.error('no table by name measurements found in db');
-            res.send({ 'error': 'An error has occured - ' + err });
+            res.send(500, { message: err });
+
         }
         else {
             if (ids) {
@@ -45,7 +46,8 @@ exports.getByMeasurementName = function (req, res) {
     db.instance().collection('measurements', function (err, collection) {
         if (err) {
             logger.error('no table by name measurements found in db');
-            res.send({ 'error': 'An error has occured - ' + err });
+            res.send(500, { message: err });
+
         }
         else {
             collection.find({ 'name': Name }).toArray(function (err, items) {
@@ -64,7 +66,8 @@ exports.getById = function (req, res) {
     db.instance().collection('measurements', function (err, collection) {
         if (err) {
             logger.error('no table by name measurements found in db');
-            res.send({ 'error': 'An error has occured - ' + err });
+            res.send(500, { message: err });
+
         }
         else {
             collection.findOne({ '_id': BSON.ObjectID(id) }, function (err, item) {
@@ -81,7 +84,8 @@ exports.add = function (req, res) {
         collection.insert(measurement, { safe: true }, function (err, result) {
             if (err) {
                 logger.error('failed to add measurement' + measurement);
-                res.send({ 'error': 'An error has occured - ' + err });
+                res.send(500, { message: err });
+
             }
             else {
                 logger.info('successfully added measurement - ' + measurement);
@@ -95,12 +99,12 @@ exports.update = function (req, res) {
     var measurementId = req.params.id;
     var measurementInfo = req.body.measurement;
     logger.info('requesting update measurement with id ' + measurementId);
-    logger.info(JSON.stringify(measurementInfo));
     db.instance().collection('measurements', function (err, collection) {
         collection.update({ '_id': new BSON.ObjectID(measurementId) }, measurementInfo, { safe: true }, function (err, result) {
             if (err) {
                 logger.error('Error updating measurement: ' + err);
-                res.send({ 'error': 'An error has occured - ' + err });
+                res.send(500, { message: err });
+
             } else {
                 logger.log('' + result + ' document(s) updated');
                 res.send({ measurement: result[0] });
@@ -116,7 +120,8 @@ exports.delete = function (req, res) {
         collection.remove({ '_id': new BSON.ObjectID(measurementId) }, { safe: true }, function (err, result) {
             if (err) {
                 logger.error('Error deleting Measurement: ' + err);
-                res.send({ 'error': 'An error has occured - ' + err });
+                res.send(500, { message: err });
+
             } else {
                 logger.log('' + result + ' document(s) deleted');
                 res.send(req.body);

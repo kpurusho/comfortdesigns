@@ -12,7 +12,8 @@ exports.getAll = function (req, res) {
     db.instance().collection('orders', function (err, collection) {
         if (err) {
             logger.error('no table by name orders found in db');
-            res.send({ 'error': 'An error has occured - ' + err });
+            res.send(500, { message: err });
+
         }
         else {
             if (status) {
@@ -42,7 +43,8 @@ exports.getByOrderName = function (req, res) {
     db.instance().collection('orders', function (err, collection) {
         if (err) {
             logger.error('no table by name orders found in db');
-            res.send({ 'error': 'An error has occured - ' + err });
+            res.send(500, { message: err });
+
         }
         else {
             collection.find({ 'name': Name }).toArray(function (err, items) {
@@ -61,7 +63,8 @@ exports.getById = function (req, res) {
     db.instance().collection('orders', function (err, collection) {
         if (err) {
             logger.error('no table by name orders found in db');
-            res.send({ 'error': 'An error has occured - ' + err });
+            res.send(500, { message: err });
+
         }
         else {
             collection.findOne({ '_id': BSON.ObjectID(id) }, function (err, item) {
@@ -85,7 +88,8 @@ exports.add = function (req, res) {
             collection.insert(order, { safe: true }, function (err, result) {
                 if (err) {
                     logger.error('failed to add order' + order);
-                    res.send({ 'error': 'An error has occured - ' + err });
+                    res.send(500, { message: err });
+
                 }
                 else {
                     logger.info('successfully added order - ' + order);
@@ -100,12 +104,12 @@ exports.update = function (req, res) {
     var orderId = req.params.id;
     var orderInfo = req.body.order;
     logger.info('requesting update order with id ' + orderId);
-    logger.info(JSON.stringify(orderInfo));
     db.instance().collection('orders', function (err, collection) {
         collection.update({ '_id': new BSON.ObjectID(orderId) }, orderInfo, { safe: true }, function (err, result) {
             if (err) {
                 logger.error('Error updating order: ' + err);
-                res.send({ 'error': 'An error has occured - ' + err });
+                res.send(500, { message: err });
+
             } else {
                 logger.log('' + result + ' document(s) updated');
                 //sendmail('karthik.purushothaman@gmail.com');
@@ -122,7 +126,8 @@ exports.delete = function (req, res) {
         collection.remove({ '_id': new BSON.ObjectID(orderId) }, { safe: true }, function (err, result) {
             if (err) {
                 logger.error('Error deleting Order: ' + err);
-                res.send({ 'error': 'An error has occured - ' + err });
+                res.send(500, { message: err });
+
             } else {
                 logger.log('' + result + ' document(s) deleted');
                 res.send(req.body);

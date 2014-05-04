@@ -76,7 +76,7 @@
             </div>
             <div class="span4 text-center">
                 <p>
-                    <marquee behavior="scroll" direction="right"><a href="#" {{action openModal 'ordersummary' ordersummary}}>Order summary : {{ordersummary.totalnewcount}} New, {{ordersummary.totalinprogresscount}} In Progress, {{ordersummary.totaldonecount}} Done</a></marquee>
+                    <a href="#" {{action openModal 'ordersummary' ordersummary}}>Order summary : {{ordersummary.totalnewcount}} New, {{ordersummary.totalinprogresscount}} In Progress, {{ordersummary.totaldonecount}} Done</a>
                 </p>
             </div>
         </div>
@@ -192,7 +192,7 @@
     <div class="row">
         <div class="span12 text-center">
             <p>
-                <marquee behavior="scroll" direction="right"><a href="#" {{action openModal 'ordersummary' ordersummary}}>Order summary : {{ordersummary.totalnewcount}} New, {{ordersummary.totalinprogresscount}} In Progress, {{ordersummary.totaldonecount}} Done</a></marquee>
+                <a href="#" {{action openModal 'ordersummary' ordersummary}}>Order summary : {{ordersummary.totalnewcount}} New, {{ordersummary.totalinprogresscount}} In Progress, {{ordersummary.totaldonecount}} Done</a>
             </p>
         </div>
         <div class="span12">
@@ -472,15 +472,12 @@
                 </div>
             </div>
          {{/each}}
+
         <div class="span12">
             <h4>Measurement Notes:</h4>
             {{additionalnote}}
         </div>
-        </div>
-    </div>
 
-
-    <div class="pagebreak">
         <div class="span12">
             <h4>Order Tracking:</h4>
             <table class="tablesorter">
@@ -502,9 +499,11 @@
                 </tbody>
             </table>
         </div>
+
         <div class="span12 text-center">
             <button class="btn btn-large btn-primary" type="button" {{action print}}>Print order</button>
             <button class="btn btn-large btn-primary" type="button" {{action close}}>Close</button>
+        </div>
         </div>
     </div>
 </script>
