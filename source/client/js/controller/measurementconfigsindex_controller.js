@@ -1,9 +1,11 @@
 App.MeasurementconfigsIndexController = Ember.ArrayController.extend({
     actions: {
         removeItem: function (config) {
-            config.deleteRecord();
-            config.get('isDeleted');
-            config.save();
-        }}
+            App.Measurementhelper.deleteMeasurementConfig(config);
+        },
+        copyItem: function (config) {
+            App.Measurementhelper.copyMeasurementConfig(config, this.store);
+        }
+    }
 });
 

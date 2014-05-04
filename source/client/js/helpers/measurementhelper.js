@@ -117,5 +117,60 @@ App.Measurementhelper = {
                 config.save().then (success, failure);
             });
         });
+    },
+
+    copyMeasurementConfig : function(config, store, callback) {
+        callback = callback || function () {};
+
+        var newConfig = store.createRecord('measurementconfig', {type: config.get('type') + '_new'});
+
+        config.get('measurementitems').then(function(items){
+            var itemArr = items.toArray();
+            var newItems = new Array();
+            for(var i = 0; i < itemArr.length; i++) {
+                var newItem = store.createRecord('measurementitemconfig', itemArr[i].toJSON());
+                newItems.push(newItem);
+            }
+
+            async.forEach(newItems,
+                function(newItem, done) {
+                    newItem.save().then(function () {
+                        done();
+                    });
+                },
+                function done(){
+                    newConfig.get('measurementitems').then(function(nitems) {
+                        nitems.pushObjects(newItems);
+                        newConfig.save();
+                        callback();
+                });
+            });
+        });
+
+    },
+
+    deleteMeasurementConfig : function(measurement, doSave, callback) {
+        if (doSave === undefined || doSave === null) {
+            doSave = true;
+        }
+        callback = callback || function () {};
+
+        measurement.get('measurementitems').then(function(items){
+            var itemArr = items.toArray();
+            for(var i = 0; i < itemArr.length; i++) {
+                var isNew = itemArr[i].get('isNew');
+                itemArr[i].deleteRecord();
+                if (doSave && !isNew) {
+                    itemArr[i].save();
+                }
+            }
+            var isNew = measurement.get('isNew');
+            measurement.deleteRecord();
+            if (doSave && !isNew) {
+                measurement.save();
+            }
+
+            callback();
+        });
     }
 }

@@ -2,61 +2,61 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>Comfort Designs</title>
-  <link rel="stylesheet" href="css/normalize.css">
+    <meta charset="utf-8">
+    <title>Comfort Designs</title>
+    <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/datepicker.css" media="screen">
-  <link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
-  <link rel="stylesheet" href="css/bootstrap.min.css" media="print">
-  <link rel="stylesheet" href="css/bootstrap-responsive.min.css" media="screen">
-  <link rel="stylesheet" href="css/style.css" media="screen">
-  <link rel="stylesheet" href="css/style.css" media="print">
+    <link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="css/bootstrap.min.css" media="print">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css" media="screen">
+    <link rel="stylesheet" href="css/style.css" media="screen">
+    <link rel="stylesheet" href="css/style.css" media="print">
 </head>
 <body>
 
 
-  <script type="text/x-handlebars" data-template-name="application">
+<script type="text/x-handlebars" data-template-name="application">
 
-  <div class="container">
-    <h1>Comfort Designs</h1>
+    <div class="container">
+        <h2>Comfort Designs</h2>
 
         <div class="navbar">
-          <div class="navbar-inner">
-            <ul class="nav">
-                {{#link-to "index" tagName="li"}}
+            <div class="navbar-inner">
+                <ul class="nav">
+                    {{#link-to "index" tagName="li"}}
                     <a {{bindAttr href="view.href"}}>Home</a>
-                {{/link-to}}
+                    {{/link-to}}
 
-                {{#link-to "orders" tagName="li"}}
+                    {{#link-to "orders" tagName="li"}}
                     <a {{bindAttr href="view.href"}}>Orders</a>
-                {{/link-to}}
+                    {{/link-to}}
 
-                {{#link-to "customers" tagName="li"}}
+                    {{#link-to "customers" tagName="li"}}
                     <a {{bindAttr href="view.href"}}>Customers</a>
-                {{/link-to}}
+                    {{/link-to}}
 
-                {{#link-to "measurementconfigs" tagName="li"}}
+                    {{#link-to "measurementconfigs" tagName="li"}}
                     <a {{bindAttr href="view.href"}}>Measurement Config</a>
-                {{/link-to}}
+                    {{/link-to}}
 
-                {{#link-to "tasks" tagName="li"}}
+                    {{#link-to "tasks" tagName="li"}}
                     <a {{bindAttr href="view.href"}}>Tasks Config</a>
-                {{/link-to}}
-            </ul>
-          </div>
+                    {{/link-to}}
+                </ul>
+            </div>
         </div>
-    {{outlet}}
-    {{outlet modal}}
-  </div>
-  </script>
+        {{outlet}}
+        {{outlet modal}}
+    </div>
+</script>
 
-  <script type="text/x-handlebars" data-template-name="index" >
-      <div class="span12">
+<script type="text/x-handlebars" data-template-name="index" >
+    <div class="span12">
         <h4>Welcome to Comfort Designs </h4>
-      </div>
-  </script>
+    </div>
+</script>
 
-  <script type="text/x-handlebars" data-template-name="orders/index" >
+<script type="text/x-handlebars" data-template-name="orders/index" >
     <div class="span12">
         <div class="row">
             <div class="span2">
@@ -88,10 +88,10 @@
             <div class="span2">
                 <form>
                     <fieldset>
-                        <span class="help-block">Filter by status:</span>
-                        
+                        <legend>Filter by status:</legend>
+
                         <label>
-                            {{view Ember.Checkbox checkedBinding="filterByStatusNew"}} 
+                            {{view Ember.Checkbox checkedBinding="filterByStatusNew"}}
                             New
                         </label>
                         <label>
@@ -107,9 +107,11 @@
                             Delivered
                         </label>
                     </fieldset>
+                </form>
 
+                <form>
                     <fieldset>
-                        <span class="help-block">Filter by due date:</span>
+                        <legend class="small">Filter by due date:</legend>
                         <label>
                             {{view Ember.RadioButton name="DueDateFilter" selectionBinding="filterByDueDate" value="0"}}
                             None
@@ -119,16 +121,16 @@
                             {{view Ember.RadioButton name="DueDateFilter" selectionBinding="filterByDueDate" value="1"}}
                             This week
                         </label>
-    
+
                         <label>
                             {{view Ember.RadioButton name="DueDateFilter" selectionBinding="filterByDueDate" value="2"}}
                             Next 2 weeks
-                        </label>                  
+                        </label>
 
                         <label>
                             {{view Ember.RadioButton name="DueDateFilter" selectionBinding="filterByDueDate" value="3"}}
                             Next 3 weeks
-                        </label>                  
+                        </label>
 
                         <label>
                             {{view Ember.RadioButton name="DueDateFilter" selectionBinding="filterByDueDate" value="4"}}
@@ -144,49 +146,49 @@
             </div>
             <div class="span10">
                 <div class="table-main">
-                <table class="tablesorter">
-                    <thead>
-                    <tr>
-                        <th {{action sortColumn 'orderno'}}>Order No</th>
-                        <th {{action sortColumn 'orderdate'}}>Order Date</th>
-                        <th {{action sortColumn 'customername'}}>Customer Name</th>
-                        <th {{action sortColumn 'customerphoneno'}}>Phone Number</th>
-                        <th {{action sortColumn 'duedate'}}>Due Date</th>
-                        <th {{action sortColumn 'nopieces'}}>Piece count</th>
-                        <th {{action sortColumn 'orderno'}}></th>
-                        <th {{action sortColumn 'status'}}>Status</th>
-                        <th></th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                        <th>Print</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {{#each order in controller itemController="ordersEdit"}}
+                    <table class="tablesorter">
+                        <thead>
                         <tr>
-                        <td>{{order.orderno}}</td>
-                        <td>{{format-date order.orderdate}}</td>
-                        <td>{{order.customername}}</td>
-                        <td>{{order.customerphoneno}}</td>
-                        <td>{{format-date order.duedate}}</td>
-                        <td>{{order.nopieces}}</td>
-                        <td><a href="#" {{action orderStatusPrevious order}}><img src="images/previous-icon.png"/></a></td>
-                        <td>{{order.status}}</td>
-                        <td><a href="#" {{action orderStatusNext order}}><img src="images/next-icon.png"/></a></td>
-                        <td>{{#link-to "orders.edit" order}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
-                        <td><a href="#" {{action removeItem order}}><img src="images/delete-icon.png" border="0"/></a></td>
-                        <td>{{#link-to "orders.print" order}}<img src="images/print-icon.png"/>{{/link-to}}</td>
+                            <th {{action sortColumn 'orderno'}}>Order No</th>
+                            <th {{action sortColumn 'orderdate'}}>Order Date</th>
+                            <th {{action sortColumn 'customername'}}>Customer Name</th>
+                            <th {{action sortColumn 'customerphoneno'}}>Phone Number</th>
+                            <th {{action sortColumn 'duedate'}}>Due Date</th>
+                            <th {{action sortColumn 'nopieces'}}>Piece count</th>
+                            <th {{action sortColumn 'orderno'}}></th>
+                            <th {{action sortColumn 'status'}}>Status</th>
+                            <th></th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                            <th>Print</th>
                         </tr>
-                    {{/each}}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        {{#each order in controller itemController="ordersEdit"}}
+                        <tr>
+                            <td>{{order.orderno}}</td>
+                            <td>{{format-date order.orderdate}}</td>
+                            <td>{{order.customername}}</td>
+                            <td>{{order.customerphoneno}}</td>
+                            <td>{{format-date order.duedate}}</td>
+                            <td>{{order.nopieces}}</td>
+                            <td><a href="#" {{action orderStatusPrevious order}}><img src="images/previous-icon.png"/></a></td>
+                            <td>{{order.status}}</td>
+                            <td><a href="#" {{action orderStatusNext order}}><img src="images/next-icon.png"/></a></td>
+                            <td>{{#link-to "orders.edit" order}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
+                            <td><a href="#" {{action removeItem order}}><img src="images/delete-icon.png" border="0"/></a></td>
+                            <td>{{#link-to "orders.print" order}}<img src="images/print-icon.png"/>{{/link-to}}</td>
+                        </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-    </script>
+</script>
 
-  <script type="text/x-handlebars" data-template-name="orders/edit" >
+<script type="text/x-handlebars" data-template-name="orders/edit" >
     <div class="row">
         <div class="span12 text-center">
             <p>
@@ -194,223 +196,223 @@
             </p>
         </div>
         <div class="span12">
-                <div class="row">
-                    <div class="span3">
-                        <form class="form">
-                            <fieldset>
-                                <label class="control-label" >Order No.</label>
-                                <div class="controls">
-                                    {{view Ember.TextField disabled="true" valueBinding="orderno"}}
-                                </div>
-                            </fieldset>
-                        </form>
-                    </div>
-                    <div class="span3">
-                        <form class="form">
-                            <fieldset>
-                                <label class="control-label" >Order Date</label>
-                                <div class="controls">
-                                    {{view App.DatePicker dateBinding="orderdate"}}
-                                </div>
-                            </fieldset>
-                        </form>
-                    </div>
-                    <div class="span3">
-                        <form class="form">
-                            <fieldset>
-                                <label class="control-label" >Ready Date</label>
-                                <div class="controls">
-                                    {{view App.DatePicker dateBinding="duedate"}}
-                                </div>
-                            </fieldset>
-                        </form>
-                    </div>
-                    <div class="span3">
-                        <form class="form">
-                            <fieldset>
-                                <label class="control-label" >Phone No</label>
-                                {{view App.TextFieldEx valueBinding="customerphoneno" targetAction="updateCustomerDetails"}}
-                            </fieldset>
-                        </form>
-                    </div>
-                    <div class="span3">
-                        {{#form-for controller}}
-                            {{input customername label="Name"}}
-                        {{/form-for}}
-                    </div>
-                    <div class="span3">
-                        {{#form-for controller}}
-                            {{input customeremailid as="email" label="Email Id"}}
-                        {{/form-for}}
-                    </div>
-                    <div class="span3">
-                        {{#form-for controller}}
-                            {{input nopieces label="No. pieces"}}
-                        {{/form-for}}
-                    </div>
-                    <div class="span3">
-                        {{input status as='select'
-                            label="Status"
-                            collection="states"}}
-                    </div>
+            <div class="row">
+                <div class="span3">
+                    <form class="form">
+                        <fieldset>
+                            <label class="control-label" >Order No.</label>
+                            <div class="controls">
+                                {{view Ember.TextField disabled="true" valueBinding="orderno"}}
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="span3">
+                    <form class="form">
+                        <fieldset>
+                            <label class="control-label" >Order Date</label>
+                            <div class="controls">
+                                {{view App.DatePicker dateBinding="orderdate"}}
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="span3">
+                    <form class="form">
+                        <fieldset>
+                            <label class="control-label" >Ready Date</label>
+                            <div class="controls">
+                                {{view App.DatePicker dateBinding="duedate"}}
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="span3">
+                    <form class="form">
+                        <fieldset>
+                            <label class="control-label" >Phone No</label>
+                            {{view App.TextFieldEx valueBinding="customerphoneno" targetAction="updateCustomerDetails"}}
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="span3">
+                    {{#form-for controller}}
+                    {{input customername label="Name"}}
+                    {{/form-for}}
+                </div>
+                <div class="span3">
+                    {{#form-for controller}}
+                    {{input customeremailid as="email" label="Email Id"}}
+                    {{/form-for}}
+                </div>
+                <div class="span3">
+                    {{#form-for controller}}
+                    {{input nopieces label="No. pieces"}}
+                    {{/form-for}}
+                </div>
+                <div class="span3">
+                    {{input status as='select'
+                    label="Status"
+                    collection="states"}}
                 </div>
             </div>
-            <div class="span12">
-                <div class="row">
-                    <div class="span3">
+        </div>
+        <div class="span12">
+            <div class="row">
+                <div class="span3">
                     <p><a href="#" {{action createMeasurement}}><img src="images/add-icon.png"/> New measurement</a></p>
-                    </div>
-                    <div class="span3">
+                </div>
+                <div class="span3">
                     <p><a href="#" {{action getMeasurement}}><img src="images/get-icon.png"/> Get recent measurement</a></p>
-                    </div>
-                    <div class="span6">
-                    </div>
-                    <div class="span12">
+                </div>
+                <div class="span6">
+                </div>
+                <div class="span12">
                     {{#if measurements.length}}
-                        <table class="tablesorter">
-                            <thead>
-                            <tr>
-                                <th>Measurement Name</th>
-                                <th>Measurement Type</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {{#each measurement in measurements}}
-                                <td>{{measurement.name}}</td>
-                                <td>{{measurement.type}}</td>
-                                <td><a href="#" {{action editMeasurement measurement}}><img src="images/edit-icon.png"/></a></td>
-                                <td><a href="#" {{action removeMeasurement measurement}}><img src="images/delete-icon.png" border="0"/></a></td>
-                                </tr>
-                            {{/each}}
-                            </tbody>
-                        </table>
+                    <table class="tablesorter">
+                        <thead>
+                        <tr>
+                            <th>Measurement Name</th>
+                            <th>Measurement Type</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each measurement in measurements}}
+                        <td>{{measurement.name}}</td>
+                        <td>{{measurement.type}}</td>
+                        <td><a href="#" {{action editMeasurement measurement}}><img src="images/edit-icon.png"/></a></td>
+                        <td><a href="#" {{action removeMeasurement measurement}}><img src="images/delete-icon.png" border="0"/></a></td>
+                        </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
                     {{/if}}
-                    </div>
-                </div>        
+                </div>
             </div>
+        </div>
 
-            <div class="span12">      
-                <form class="form-horizontal">
-                    <div class="control-group">
-                        <label class="control-label" >Measurement note</label>
-                        <div class="controls">
-                            {{view Ember.TextArea  class="measurementnotetext" valueBinding="additionalnote"}}
-                        </div>
+        <div class="span12">
+            <form class="form-horizontal">
+                <div class="control-group">
+                    <label class="control-label" >Measurement note</label>
+                    <div class="controls">
+                        {{view Ember.TextArea  class="measurementnotetext" valueBinding="additionalnote"}}
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
+        </div>
 
-        
+
         <div class="span12 text-center">
             {{#if controller.isNew}}
-                <button class="btn btn-large btn-primary" type="button" {{action updateOrder this}}>Create order</button>
+            <button class="btn btn-large btn-primary" type="button" {{action updateOrder this}}>Create order</button>
             {{else}}
-                <button class="btn btn-large btn-primary" type="button" {{action updateOrder this}}>Update order</button>
+            <button class="btn btn-large btn-primary" type="button" {{action updateOrder this}}>Update order</button>
             {{/if}}
             <button class="btn btn-large btn-primary" type="button" {{action cancelOrder this}}>Cancel</button>
         </div>
     </div>
-  </script>
+</script>
 
-  <script type="text/x-handlebars" data-template-name="ordersummary">
+<script type="text/x-handlebars" data-template-name="ordersummary">
     <div class="modal-header">
         <button type="button" class="close" {{action close target="view"}}>&times;</button>
         <h4>Order summary</h4>
     </div>
     <div class="modal-body">
-      <div class="span6">
-          <div class="row">
-              <div class="span6">
-                  <h5>Overall summary</h5>
-                  <table class="tablesorter">
-                      <thead>
-                      <tr>
-                          <th width="25%"></th>
-                          <th width="25%">New</th>
-                          <th width="25%">In Progress</th>
-                          <th width="25%">Done</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr>
-                          <td>Total</td>
-                          <td>{{model.totalnewcount}}</td>
-                          <td>{{model.totalinprogresscount}}</td>
-                          <td>{{model.totaldonecount}}</td>
-                      </tr>
-                      </tbody>
-                  </table>
-              </div>
-              <div class="span6">
-                  <h5>Week wise summary</h5>
-                  <div class="table-weeks">
-                  <table class="tablesorter">
-                      <thead>
-                      <tr>
-                          <th width="25%">Week</th>
-                          <th width="25%">New</th>
-                          <th width="25%">In Progress</th>
-                          <th width="25%">Done</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      {{#each rec in model.weekwisesummary}}
-                      <tr>
-                          <td>{{rec.week}}</td>
-                          <td>{{rec.newcount}}</td>
-                          <td>{{rec.inprogresscount}}</td>
-                          <td>{{rec.donecount}}</td>
-                      </tr>
-                      {{/each}}
-                      </tbody>
-                  </table>
-                  </div>
-              </div>
-          </div>
-      </div>
-    <div class="span6">
-        <h5>Day wise summary</h5>
-        <div class="table-days">
-            <table class="tablesorter">
-                <thead>
-                <tr>
-                    <th width="25%">Due Date</th>
-                    <th width="25%">New</th>
-                    <th width="25%">In Progress</th>
-                    <th width="25%">Done</th>
-                </tr>
-                </thead>
-                <tbody>
-                {{#each rec in model.daywisesummary}}
-                <tr>
-                    <td>{{format-date rec.duedate}}</td>
-                    <td>{{rec.newcount}}</td>
-                    <td>{{rec.inprogresscount}}</td>
-                    <td>{{rec.donecount}}</td>
-                </tr>
-                {{/each}}
-                </tbody>
-            </table>
+        <div class="span6">
+            <div class="row">
+                <div class="span6">
+                    <h5>Overall summary</h5>
+                    <table class="tablesorter">
+                        <thead>
+                        <tr>
+                            <th width="25%"></th>
+                            <th width="25%">New</th>
+                            <th width="25%">In Progress</th>
+                            <th width="25%">Done</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Total</td>
+                            <td>{{model.totalnewcount}}</td>
+                            <td>{{model.totalinprogresscount}}</td>
+                            <td>{{model.totaldonecount}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="span6">
+                    <h5>Week wise summary</h5>
+                    <div class="table-weeks">
+                        <table class="tablesorter">
+                            <thead>
+                            <tr>
+                                <th width="25%">Week</th>
+                                <th width="25%">New</th>
+                                <th width="25%">In Progress</th>
+                                <th width="25%">Done</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{#each rec in model.weekwisesummary}}
+                            <tr>
+                                <td>{{rec.week}}</td>
+                                <td>{{rec.newcount}}</td>
+                                <td>{{rec.inprogresscount}}</td>
+                                <td>{{rec.donecount}}</td>
+                            </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span6">
+            <h5>Day wise summary</h5>
+            <div class="table-days">
+                <table class="tablesorter">
+                    <thead>
+                    <tr>
+                        <th width="25%">Due Date</th>
+                        <th width="25%">New</th>
+                        <th width="25%">In Progress</th>
+                        <th width="25%">Done</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each rec in model.daywisesummary}}
+                    <tr>
+                        <td>{{format-date rec.duedate}}</td>
+                        <td>{{rec.newcount}}</td>
+                        <td>{{rec.inprogresscount}}</td>
+                        <td>{{rec.donecount}}</td>
+                    </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-    </div>
     <div class="modal-footer">
-    <div class="span12 text-center">
-        <form class="form-horizontal">
-            <button type="button" class="btn btn-default" {{action close}}>Close</button>
-        </form>
+        <div class="span12 text-center">
+            <form class="form-horizontal">
+                <button type="button" class="btn btn-default" {{action close}}>Close</button>
+            </form>
+        </div>
     </div>
-    </div>
-  </script>
+</script>
 
-  <script type="text/x-handlebars" data-template-name="orders/print" >
+<script type="text/x-handlebars" data-template-name="orders/print" >
     <div class="span12">
+        <div class="row">
         <h4>Order details</h4>
-
         <table class="tablesorter">
-        <thead>  
+            <thead>
             <tr>
                 <th>Order No</th>
                 <th>Order Date</th>
@@ -419,8 +421,8 @@
                 <th>Phone Number</th>
                 <th>Piece count</th>
             </tr>
-        </thead>  
-        <tbody>
+            </thead>
+            <tbody>
             <tr>
                 <td>{{orderno}}</td>
                 <td>{{format-date orderdate}}</td>
@@ -429,41 +431,55 @@
                 <td>{{customerphoneno}}</td>
                 <td>{{nopieces}}</td>
             </tr>
-        </tbody>
+            </tbody>
         </table>
+        </div>
     </div>
+
     <div class="span12">
+        <div class="row">
+
         <h4>Measurement details</h4>
 
-        {{#each measurement in measurements}}
-            <div class="span3">
-                <table class="tablesorter">
-                    <thead>
-                    <tr>
-                        <th>{{measurement.name}} : {{measurement.type}}</th>
-                    </tr>
-                    <tr>
-                        <th>Measurement</th>
-                        <th>Value</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {{#each measurementitem in measurement.measurementitems}}
-                    <tr>
-                        <td>{{measurementitem.itemname}}</td>
-                        <td>{{measurementitem.itemvalue}}</td>
-                    </tr>
-                    {{/each}}
-                    </tbody>
-                </table>
+        {{#each m in measurements}}
+            <div class="span12 borderedDiv">
+                <div class="row">
+                    <h5>
+                        {{m.name}} : {{m.type}}
+                    </h5>
+                    {{#eachIndexed m.measurementitems}}
+                    {{#if blockstart}}
+                    <div class="span2">
+                        <table class="tablesorter">
+                            <thead>
+                            <tr>
+                                <th>Measurement</th>
+                                <th>Value</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                        {{/if}}
+                            <tr>
+                                <td>{{itemname}}</td>
+                                <td>{{itemvalue}}</td>
+                            </tr>
+                        {{#if blockend}}
+                            </tbody>
+                        </table>
+                    </div>
+                    {{/if}}
+                    {{/eachIndexed}}
+                </div>
             </div>
-        {{/each}}
+         {{/each}}
+        <div class="span12">
+            <h4>Measurement Notes:</h4>
+            {{additionalnote}}
+        </div>
+        </div>
     </div>
-    <div class="span12">
-        <h4>Measurement Notes:</h4>
-        {{additionalnote}}
-    </div>
-    
+
+
     <div class="pagebreak">
         <div class="span12">
             <h4>Order Tracking:</h4>
@@ -477,11 +493,11 @@
                 </thead>
                 <tbody>
                 {{#each task in tasks}}
-                    <tr>
-                        <td>{{task.taskname}}</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                <tr>
+                    <td>{{task.taskname}}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
                 {{/each}}
                 </tbody>
             </table>
@@ -491,9 +507,9 @@
             <button class="btn btn-large btn-primary" type="button" {{action close}}>Close</button>
         </div>
     </div>
-  </script>
+</script>
 
-  <script type="text/x-handlebars" data-template-name="customers/index" >
+<script type="text/x-handlebars" data-template-name="customers/index" >
     <div class="span12">
         <div class="row">
             <div class="span2">
@@ -521,35 +537,35 @@
             </thead>
             <tbody>
             {{#each customer in controller itemController="customersEdit"}}
-                <tr {{bind-attr class="selected:warning"}}>
-                <td>{{customer.name}}</td>
-                <td>{{customer.phoneno}}</td>
-                <td>{{customer.emailid}}</td>
-                <td>{{customer.measurements.length}}</td>
-                <td>{{#link-to "customers.edit" customer}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
-                <td><a href="#" {{action removeItem customer}}><img src="images/delete-icon.png" border="0"/></a></td>
-                </tr>
+            <tr {{bind-attr class="selected:warning"}}>
+            <td>{{customer.name}}</td>
+            <td>{{customer.phoneno}}</td>
+            <td>{{customer.emailid}}</td>
+            <td>{{customer.measurements.length}}</td>
+            <td>{{#link-to "customers.edit" customer}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
+            <td><a href="#" {{action removeItem customer}}><img src="images/delete-icon.png" border="0"/></a></td>
+            </tr>
             {{/each}}
             </tbody>
         </table>
     </div>
-  </script>
+</script>
 
-  <script type="text/x-handlebars" data-template-name="customers/edit" >
+<script type="text/x-handlebars" data-template-name="customers/edit" >
     <div class="span12">
         <div class="row">
             <div class="span3">
                 {{#form-for controller}}
-                    {{input name label="Customer Name"}}
-                    {{input phoneno label="Phone Number"}}
-                    {{input emailid as="email" label="Email Id"}}
+                {{input name label="Customer Name"}}
+                {{input phoneno label="Phone Number"}}
+                {{input emailid as="email" label="Email Id"}}
                 {{/form-for}}
             </div>
             <div class="span3">
                 {{#form-for controller}}
-                    {{input addressline1 label="Address Line 1"}}
-                    {{input addressline2 label="Address Line 2"}}
-                    {{input addressline3 label="Address Line 3"}}
+                {{input addressline1 label="Address Line 1"}}
+                {{input addressline2 label="Address Line 2"}}
+                {{input addressline3 label="Address Line 3"}}
                 {{/form-for}}
             </div>
         </div>
@@ -558,260 +574,262 @@
         <div class="row">
             <p><a href="#" {{action createMeasurement}}><img src="images/add-icon.png"/> New measurement</a></p>
             {{#if measurements.length}}
-                <table class="tablesorter">
-                    <thead>
-                    <tr>
-                        <th>Measurement Name</th>
-                        <th>Measurement Type</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {{#each measurement in measurements}}
-                        <td>{{measurement.name}}</td>
-                        <td>{{measurement.type}}</td>
-                        <td><a href="#" {{action editMeasurement measurement}}><img src="images/edit-icon.png"/></a></td>
-                        <td><a href="#" {{action removeMeasurement measurement}}><img src="images/delete-icon.png" border="0"/></a></td>
-                        </tr>
-                    {{/each}}
-                    </tbody>
-                </table>
+            <table class="tablesorter">
+                <thead>
+                <tr>
+                    <th>Measurement Name</th>
+                    <th>Measurement Type</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each measurement in measurements}}
+                <td>{{measurement.name}}</td>
+                <td>{{measurement.type}}</td>
+                <td><a href="#" {{action editMeasurement measurement}}><img src="images/edit-icon.png"/></a></td>
+                <td><a href="#" {{action removeMeasurement measurement}}><img src="images/delete-icon.png" border="0"/></a></td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
             {{/if}}
         </div>
     </div>
 
     <div class="span12 text-center">
         {{#if controller.isNew}}
-            <button class="btn btn-large btn-primary" type="button" {{action updateCustomer this}}>Create customer</button>
+        <button class="btn btn-large btn-primary" type="button" {{action updateCustomer this}}>Create customer</button>
         {{else}}
-            <button class="btn btn-large btn-primary" type="button" {{action updateCustomer this}}>Update customer</button>
+        <button class="btn btn-large btn-primary" type="button" {{action updateCustomer this}}>Update customer</button>
         {{/if}}
         <button class="btn btn-large btn-primary" type="button" {{action cancelCustomer this}}>Cancel</button>
     </div>
-  </script>
+</script>
 
-  <script type="text/x-handlebars" data-template-name="tasks/index">
+<script type="text/x-handlebars" data-template-name="tasks/index">
     <div class="span12">
         <p><a href="#" {{action createTask}}><img src="images/add-icon.png"/>New task</a></p>
     </div>
     <div class="span12">
         <table class="tablesorter">
             <thead>
-                <tr>
-                    <th>Sequence Id</th>
-                    <th>Task Name</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </tr>
+            <tr>
+                <th>Sequence Id</th>
+                <th>Task Name</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
             </thead>
             <tbody>
-                {{#each task in controller itemController="tasksEdit"}}
-                    <tr {{bind-attr class="selected:warning"}}>
-                    <td>{{task.seqid}}</td>
-                    <td>{{task.taskname}}</td>
-                    <td><a href="#" {{action editTask task}}><img src="images/edit-icon.png"/></a></td>
-                    <td><a href="#" {{action removeTask task}}><img src="images/delete-icon.png" border="0"/></a></td>
-                    </tr>
-                {{/each}}
+            {{#each task in controller itemController="tasksEdit"}}
+            <tr {{bind-attr class="selected:warning"}}>
+            <td>{{task.seqid}}</td>
+            <td>{{task.taskname}}</td>
+            <td><a href="#" {{action editTask task}}><img src="images/edit-icon.png"/></a></td>
+            <td><a href="#" {{action removeTask task}}><img src="images/delete-icon.png" border="0"/></a></td>
+            </tr>
+            {{/each}}
             </tbody>
-      </table>
+        </table>
     </div>
-  </script>
+</script>
 
-  <script type="text/x-handlebars" data-template-name="tasksEdit" >
-      <div class="modal-header">
-          <h4>Edit task</h4>
-      </div>
-
-      <div class="modal-body">
-          <div class="span12">
-              <div class="row">
-                  {{#form-for controller}}
-                  <div class="span6">
-                    {{input seqid label="Sequence Id"}}
-                  </div>
-                  <div class="span6">
-                    {{input taskname label="Task Name"}}
-                  </div>
-                  {{/form-for}}
-              </div>
-          </div>
-      </div>
-
-      <div class="modal-footer">
-          <div class="span12 text-center">
-              <form class="form-horizontal">
-                  <button type="button" class="btn btn-default" {{action updateTask}}>Update</button>
-              </form>
-          </div>
-      </div>
-  </script>
-
-  <script type="text/x-handlebars" data-template-name="measurementconfigs/index">
-      <div class="span12">
-          <p>{{#link-to "measurementconfigs.new"}}<img src="images/add-icon.png"/> New measurement type{{/link-to}}</p>
-      </div>
-      <div class="span12">
-          <table class="tablesorter">
-              <thead>
-              <tr>
-                  <th>Type</th>
-                  <th>Item Count</th>
-                  <th>Edit</th>
-                  <th>Delete</th>
-              </tr>
-              </thead>
-              <tbody>
-              {{#each config in controller itemController="measurementconfigsEdit"}}
-                  <tr {{bind-attr class="selected:warning"}}>
-                      <td>{{config.type}}</td>
-                      <td>{{config.measurementitems.length}}</td>
-                      <td>{{#link-to "measurementconfigs.edit" config}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
-                      <td><a href="#" {{action removeItem config}}><img src="images/delete-icon.png" border="0"/></a></td>
-                  </tr>
-              {{/each}}
-              </tbody>
-          </table>
-      </div>
-  </script>
-
-  <script type="text/x-handlebars" data-template-name="measurementconfigs/edit" >
-      <div class="span12">
-          {{#form-for controller}}
-              {{input type label="Measurement Type"}}
-          {{/form-for}}
-      </div>
-      <div class="span12">
-          <p><a href="#" {{action createMeasurementItemConfig}}><img src="images/add-icon.png"/> New measurement item</a></p>
-          {{#if measurementitems.length}}
-          <table class="tablesorter">
-              <thead>
-              <tr>
-                  <th>Item Name</th>
-                  <th>Minimum Value</th>
-                  <th>Maximum Value</th>
-                  <th>Edit</th>
-                  <th>Delete</th>
-              </tr>
-              </thead>
-              <tbody>
-              {{#each item in measurementitems}}
-              <tr>
-                  <td>{{item.itemname}}</td>
-                  <td>{{item.min}}</td>
-                  <td>{{item.max}}</td>
-                  <td><a href="#" {{action editMeasurementItemConfig item}}><img src="images/edit-icon.png"/></a></td>
-                  <td><a href="#" {{action removeMeasurementIemConfig item}}><img src="images/delete-icon.png" border="0"/></a></td>
-              </tr>
-              {{/each}}
-              </tbody>
-          </table>
-          {{/if}}
-      </div>
-
-      <div class="span12 text-center">
-          {{#if controller.isNew}}
-          <button class="btn btn-large btn-primary" type="button" {{action updateMeasurementType this}}>Create measurement type</button>
-          {{else}}
-          <button class="btn btn-large btn-primary" type="button" {{action updateMeasurementType this}}>Update measurement type</button>
-          {{/if}}
-      </div>
-  </script>
-
-  <script type="text/x-handlebars" data-template-name="measurementitemconfig">
-      <div class="modal-header">
-          <h4>Edit Measurement item config</h4>
-      </div>
-
-      <div class="modal-body">
-          <div class="span12">
-              <div class="row">
-                  {{#form-for controller}}
-                  <div class="span4">
-                    {{input itemname label="Name"}}
-                  </div>
-                  <div class="span4">
-                    {{input min label="Min"}}
-                  </div>
-                  <div class="span4">
-                    {{input max label="Max"}}
-                  </div>
-                  {{/form-for}}
-              </div>
-          </div>
-      </div>
-
-      <div class="modal-footer">
-          <div class="span12 text-center">
-              <form class="form-horizontal">
-                  <button type="button" class="btn btn-default" {{action updateMeasurementItemConfig}}>Update</button>
-              </form>
-          </div>
-      </div>
-  </script>
-
-  <script type="text/x-handlebars" data-template-name="measurement">
+<script type="text/x-handlebars" data-template-name="tasksEdit" >
     <div class="modal-header">
-      <button type="button" class="close" {{action close target="view"}}>&times;</button>
-        <h4>Edit Measurement</h4>
+        <h4>Edit task</h4>
     </div>
 
     <div class="modal-body">
         <div class="span12">
-        <div class="row">
-            <div class="span4">
-                {{#form-for controller}}
-                    {{input name label="Name"}}
-                {{/form-for}}
-            </div>
-            <div class="span4">
-                {{#form-for controller}}
-                {{#if controller.isNew}}
-                    {{input measurementtype as='select'
-                            label="Type"
-                            collection="measurementtypes"
-                            prompt="Select type"}}
-                {{else}}
-                    <label class="control-label">Type:</label>
-                    <label class="control-label">{{type}}</label>
-                {{/if}}
-                {{/form-for}}
-            </div>
-        </div>
-    </div>
-
-        <div class="span12">
             <div class="row">
                 {{#form-for controller}}
-                    {{#eachIndexed measurementitems itemController="measurementitem"}}
-                        {{#if row}}
-                        <div class="row">
-                        {{/if}}
-                        <div class="span2">
-                            {{input itemvalue label=itemname}}
-                        </div>
-                        {{#if div}}
-                        </div>
-                        {{/if}}
-                    {{/eachIndexed}}
+                <div class="span6">
+                    {{input seqid label="Sequence Id"}}
+                </div>
+                <div class="span6">
+                    {{input taskname label="Task Name"}}
+                </div>
                 {{/form-for}}
             </div>
         </div>
     </div>
 
     <div class="modal-footer">
-    <div class="span12 text-center">
-        <form class="form-horizontal">
-            <button type="button" class="btn btn-default" {{action updateMeasurement}}>Update measurement</button>
-            <button type="button" class="btn btn-default" {{action close}}>Cancel</button>
-        </form>
+        <div class="span12 text-center">
+            <form class="form-horizontal">
+                <button type="button" class="btn btn-default" {{action updateTask}}>Update</button>
+            </form>
+        </div>
     </div>
-    </div>
-  </script>
+</script>
 
-  <script type="text/x-handlebars" data-template-name="modal_layout">
-    <div class="modal-backdrop fade">&nbsp;</div>  
+<script type="text/x-handlebars" data-template-name="measurementconfigs/index">
+    <div class="span12">
+        <p>{{#link-to "measurementconfigs.new"}}<img src="images/add-icon.png"/> New measurement type{{/link-to}}</p>
+    </div>
+    <div class="span12">
+        <table class="tablesorter">
+            <thead>
+            <tr>
+                <th>Type</th>
+                <th>Item Count</th>
+                <th>Edit</th>
+                <th>Copy</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each config in controller itemController="measurementconfigsEdit"}}
+            <tr {{bind-attr class="selected:warning"}}>
+            <td>{{config.type}}</td>
+            <td>{{config.measurementitems.length}}</td>
+            <td>{{#link-to "measurementconfigs.edit" config}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
+            <td><a href="#" {{action copyItem config}}><img src="images/copy-icon.png" border="0"/></a></td>
+            <td><a href="#" {{action removeItem config}}><img src="images/delete-icon.png" border="0"/></a></td>
+            </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
+</script>
+
+<script type="text/x-handlebars" data-template-name="measurementconfigs/edit" >
+    <div class="span12">
+        {{#form-for controller}}
+        {{input type label="Measurement Type"}}
+        {{/form-for}}
+    </div>
+    <div class="span12">
+        <p><a href="#" {{action createMeasurementItemConfig}}><img src="images/add-icon.png"/> New measurement item</a></p>
+        {{#if measurementitems.length}}
+        <table class="tablesorter">
+            <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Minimum Value</th>
+                <th>Maximum Value</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each item in measurementitems}}
+            <tr>
+                <td>{{item.itemname}}</td>
+                <td>{{item.min}}</td>
+                <td>{{item.max}}</td>
+                <td><a href="#" {{action editMeasurementItemConfig item}}><img src="images/edit-icon.png"/></a></td>
+                <td><a href="#" {{action removeMeasurementIemConfig item}}><img src="images/delete-icon.png" border="0"/></a></td>
+            </tr>
+            {{/each}}
+            </tbody>
+        </table>
+        {{/if}}
+    </div>
+
+    <div class="span12 text-center">
+        {{#if controller.isNew}}
+        <button class="btn btn-large btn-primary" type="button" {{action updateMeasurementType this}}>Create measurement type</button>
+        {{else}}
+        <button class="btn btn-large btn-primary" type="button" {{action updateMeasurementType this}}>Update measurement type</button>
+        {{/if}}
+    </div>
+</script>
+
+<script type="text/x-handlebars" data-template-name="measurementitemconfig">
+    <div class="modal-header">
+        <h4>Edit Measurement item config</h4>
+    </div>
+
+    <div class="modal-body">
+        <div class="span12">
+            <div class="row">
+                {{#form-for controller}}
+                <div class="span4">
+                    {{input itemname label="Name"}}
+                </div>
+                <div class="span4">
+                    {{input min label="Min"}}
+                </div>
+                <div class="span4">
+                    {{input max label="Max"}}
+                </div>
+                {{/form-for}}
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <div class="span12 text-center">
+            <form class="form-horizontal">
+                <button type="button" class="btn btn-default" {{action updateMeasurementItemConfig}}>Update</button>
+            </form>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-handlebars" data-template-name="measurement">
+    <div class="modal-header">
+        <button type="button" class="close" {{action close target="view"}}>&times;</button>
+        <h4>Edit Measurement</h4>
+    </div>
+
+    <div class="modal-body">
+        <div class="span12">
+            <div class="row">
+                <div class="span4">
+                    {{#form-for controller}}
+                    {{input name label="Name"}}
+                    {{/form-for}}
+                </div>
+                <div class="span4">
+                    {{#form-for controller}}
+                    {{#if controller.isNew}}
+                    {{input measurementtype as='select'
+                    label="Type"
+                    collection="measurementtypes"
+                    prompt="Select type"}}
+                    {{else}}
+                    <label class="control-label">Type:</label>
+                    <label class="control-label">{{type}}</label>
+                    {{/if}}
+                    {{/form-for}}
+                </div>
+            </div>
+        </div>
+
+        <div class="span12">
+            <div class="row">
+                {{#form-for controller}}
+                {{#eachIndexed measurementitems itemController="measurementitem"}}
+                {{#if blockStart}}
+                <div class="row">
+                {{/if}}
+                    <div class="span2">
+                        {{input itemvalue label=itemname}}
+                    </div>
+                {{#if blockEnd}}
+                </div>
+                {{/if}}
+                {{/eachIndexed}}
+                {{/form-for}}
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <div class="span12 text-center">
+            <form class="form-horizontal">
+                <button type="button" class="btn btn-default" {{action updateMeasurement}}>Update measurement</button>
+                <button type="button" class="btn btn-default" {{action close}}>Cancel</button>
+            </form>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-handlebars" data-template-name="modal_layout">
+    <div class="modal-backdrop fade">&nbsp;</div>
     <div class="modal fade show" >
         <div class="modal-dialog">
             <div class="modal-content">
@@ -819,53 +837,53 @@
             </div>
         </div>
     </div>
-  </script>
+</script>
 
-  <script src="js/lib/jquery-1.10.2.js"></script>
-  <script src="js/lib/handlebars-1.1.2.js"></script>
-  <script src="js/lib/ember.js"></script>
-  <script src="js/lib/ember-data.js"></script>
-  <script src="js/lib/bootstrap.js"></script>
-  <script src="js/lib/bootstrap-datepicker.js"></script>
-  <script src="js/lib/ember-easyForm.js"></script>
-  <script src="js/mixins/ember-validations.js"></script>
-  <script src="node_modules/async/lib/async.js"></script>
-  <script src="js/application.js"></script>
-  <script src="js/router.js"></script>
-  <script src="js/helpers/handlebarhelper.js"></script>
-  <script src="js/helpers/ordercustomercommonhelper.js"></script>
-  <script src="js/helpers/measurementhelper.js"></script>
-  <script src="js/mixins/measurementvalidator.js"></script>
-  <script src="js/services/ordersummaryservice.js"></script>
-  <script src="js/services/measurementconfigservice.js"></script>
-  <script src="js/routes/taskroute.js"></script>
-  <script src="js/routes/measurementconfigroute.js"></script>
-  <script src="js/routes/customerroute.js"></script>
-  <script src="js/routes/orderroute.js"></script>
-  <script src="js/routes/applicationroute.js"></script>
-  <script src="js/controller/tasksedit_controller.js"></script>
-  <script src="js/controller/tasksindex_controller.js"></script>
-  <script src="js/controller/measurementitemconfig_controller.js"></script>
-  <script src="js/controller/measurementconfigsedit_controller.js"></script>
-  <script src="js/controller/measurementconfigsindex_controller.js"></script>
-  <script src="js/controller/measurementitem_controller.js"></script>
-  <script src="js/controller/customersedit_controller.js"></script>
-  <script src="js/controller/customersindex_controller.js"></script>
-  <script src="js/controller/ordersedit_controller.js"></script>
-  <script src="js/controller/ordersprint_controller.js"></script>
-  <script src="js/controller/ordersindex_controller.js"></script>
-  <script src="js/controller/measurement_controller.js"></script>
-  <script src="js/controller/ordersummary_controller.js"></script>
-  <script src="js/models/customermodel.js"></script>
-  <script src="js/models/measurementmodel.js"></script>
-  <script src="js/models/measurementconfigmodel.js"></script>
-  <script src="js/models/taskmodel.js"></script>
-  <script src="js/models/ordermodel.js"></script>
-  <script src="js/models/ordersummarymodel.js"></script>
-  <script src="js/models/measurementcon.js"></script>
-  <script src="js/views/modalview.js"></script>
-  <script src="js/views/textfieldex.js"></script>
-  <script src="js/views/radiobutton.js"></script>
-  <script src="js/views/datepicker.js"></script>
+<script src="js/lib/jquery-1.10.2.js"></script>
+<script src="js/lib/handlebars-1.1.2.js"></script>
+<script src="js/lib/ember.js"></script>
+<script src="js/lib/ember-data.js"></script>
+<script src="js/lib/bootstrap.js"></script>
+<script src="js/lib/bootstrap-datepicker.js"></script>
+<script src="js/lib/ember-easyForm.js"></script>
+<script src="js/mixins/ember-validations.js"></script>
+<script src="node_modules/async/lib/async.js"></script>
+<script src="js/application.js"></script>
+<script src="js/router.js"></script>
+<script src="js/helpers/handlebarhelper.js"></script>
+<script src="js/helpers/ordercustomercommonhelper.js"></script>
+<script src="js/helpers/measurementhelper.js"></script>
+<script src="js/mixins/measurementvalidator.js"></script>
+<script src="js/services/ordersummaryservice.js"></script>
+<script src="js/services/measurementconfigservice.js"></script>
+<script src="js/routes/taskroute.js"></script>
+<script src="js/routes/measurementconfigroute.js"></script>
+<script src="js/routes/customerroute.js"></script>
+<script src="js/routes/orderroute.js"></script>
+<script src="js/routes/applicationroute.js"></script>
+<script src="js/controller/tasksedit_controller.js"></script>
+<script src="js/controller/tasksindex_controller.js"></script>
+<script src="js/controller/measurementitemconfig_controller.js"></script>
+<script src="js/controller/measurementconfigsedit_controller.js"></script>
+<script src="js/controller/measurementconfigsindex_controller.js"></script>
+<script src="js/controller/measurementitem_controller.js"></script>
+<script src="js/controller/customersedit_controller.js"></script>
+<script src="js/controller/customersindex_controller.js"></script>
+<script src="js/controller/ordersedit_controller.js"></script>
+<script src="js/controller/ordersprint_controller.js"></script>
+<script src="js/controller/ordersindex_controller.js"></script>
+<script src="js/controller/measurement_controller.js"></script>
+<script src="js/controller/ordersummary_controller.js"></script>
+<script src="js/models/customermodel.js"></script>
+<script src="js/models/measurementmodel.js"></script>
+<script src="js/models/measurementconfigmodel.js"></script>
+<script src="js/models/taskmodel.js"></script>
+<script src="js/models/ordermodel.js"></script>
+<script src="js/models/ordersummarymodel.js"></script>
+<script src="js/models/measurementcon.js"></script>
+<script src="js/views/modalview.js"></script>
+<script src="js/views/textfieldex.js"></script>
+<script src="js/views/radiobutton.js"></script>
+<script src="js/views/datepicker.js"></script>
 </body>
 </html>

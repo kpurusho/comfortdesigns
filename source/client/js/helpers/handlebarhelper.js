@@ -17,6 +17,8 @@ Ember.Handlebars.registerHelper('eachIndexed', function eachHelper(path, options
     var keywordName = 'item',
         fn;
 
+    var blockSize = 6;
+
     // Process arguments (either #earchIndexed bar, or #earchIndexed foo in bar)
     if (arguments.length === 4) {
         Ember.assert('If you pass more than one argument to the eachIndexed helper, it must be in the form #eachIndexed foo in bar', arguments[1] === 'in');
@@ -50,8 +52,8 @@ Ember.Handlebars.registerHelper('eachIndexed', function eachHelper(path, options
         keywords['last'] = (index + 1 === len);
         keywords['even'] = (index % 2 === 0);
         keywords['odd'] = !keywords['even'];
-        keywords['row'] = (index % 6 === 0);
-        keywords['div'] = (keywords['last'] || (index > 0 && (index+1) % 6 === 0));
+        keywords['blockstart'] = (index % blockSize === 0);
+        keywords['blockend'] = (keywords['last'] || (index > 0 && (index+1) % blockSize === 0));
         arguments[1].data.keywords = keywords;
 
         return fn.apply(this, arguments);

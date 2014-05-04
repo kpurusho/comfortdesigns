@@ -1,15 +1,15 @@
-body {
+/*body {
   padding-top: 20px;
   padding-bottom: 60px;
-}
+}*/
 
 /* Custom container */
-.container {
+/*.container {
   max-width: 1170px;
 }
 .container > hr {
   margin: 40px 0;
-}
+}*/
 
 /* Main marketing message and sign up button */
 .jumbotron {
@@ -39,6 +39,7 @@ body {
 
 
 /* Customize the navbar links to be fill the entire space of the .navbar */
+
 .navbar .navbar-inner {
   padding: 0;
 }
@@ -182,4 +183,12 @@ table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSo
 
 .fieldWithErrors{
     color: #FF0000;
+}
+
+legend {
+    font-size: 17px;
+}
+
+div.borderedDiv {
+    outline: 1px solid darkgray;
 }
