@@ -182,7 +182,32 @@ App.OrdersEditController = Ember.ObjectController.extend(Ember.Validations.Mixin
             self.send('openModal', 'measurement', measurement, null, order, true);
         },
 
-        getMeasurement: function () {
+        getAllPreviousMeasurement: function () {
+            var customerphno = this.get('customerphoneno');
+
+            if (!customerphno) {
+                window.alert('Enter customer phone numbers to get measurements');
+                return;
+            }
+
+            var order = this.get('model');
+            var self = this;
+
+            this.store.find('order', { customerphoneno: customerphno, status: App.Consts.OrderState.Delivered }).then(function (orders) {
+
+                if (orders.get('length') > 0) {
+                    var orderArr = orders.toArray();
+                    orderArr.sort(function(a,b){
+                        return a.get('orderdate') < b.get('orderdate');
+                    });
+                    self.send('openModal', 'measurementSelect', orderArr, null, order, false);
+                } else {
+                    window.alert('No measurements found for customer with phone no ' + customerphno);
+                }
+            });
+        },
+
+        getRecentMeasurement: function () {
             var customerphno = this.get('customerphoneno');
 
             if (!customerphno) {
@@ -212,6 +237,7 @@ App.OrdersEditController = Ember.ObjectController.extend(Ember.Validations.Mixin
                 }
             });
         }
+
     },
 
     isNew: function() {

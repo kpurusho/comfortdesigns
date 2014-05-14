@@ -1,7 +1,6 @@
 ﻿var logger = require('../log/log').logger;
 var db = require('../db/db').db;
 var BSON = require('mongodb').BSONPure;
-//var print = require('../../../../../js/jslearning/printprops.js');
 
 
 //get methods

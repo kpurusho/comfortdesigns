@@ -4,6 +4,7 @@
     customername: DS.attr('string'),
     customerphoneno: DS.attr('string'),
     customeremailid: DS.attr('string'),
+    readydate: DS.attr('date'),
     duedate: DS.attr('date'),
     nopieces: DS.attr('number'),
     status: DS.attr('string'),

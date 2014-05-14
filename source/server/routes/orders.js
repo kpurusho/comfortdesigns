@@ -2,13 +2,13 @@
 var db = require('../db/db').db;
 var BSON = require('mongodb').BSONPure;
 var nodemailer = require('nodemailer');
-//var print = require('../../../../../js/jslearning/printprops.js');
 
 
 //get methods
 exports.getAll = function (req, res) {
     logger.info('requesting all orders');
     var status = req.query.status;
+    var phno = req.query.customerphoneno;
     db.instance().collection('orders', function (err, collection) {
         if (err) {
             logger.error('no table by name orders found in db');
@@ -16,8 +16,23 @@ exports.getAll = function (req, res) {
 
         }
         else {
-            if (status) {
+            if (status && phno) {
+                collection.find({ 'status': status, 'customerphoneno': phno}).sort({ orderno: 1 }).toArray(function (err, items) {
+                    var allOrders = {
+                        orders: items
+                    };
+                    res.send(allOrders);
+                });
+            }
+            else if (status) {
                 collection.find({ 'status': { $in: status }}).sort({ orderno: 1 }).toArray(function (err, items) {
+                    var allOrders = {
+                        orders: items
+                    };
+                    res.send(allOrders);
+                });
+            } else if (phno) {
+                collection.find({ 'customerphoneno':{$in: phno}}).sort({ orderno: 1 }).toArray(function (err, items) {
                     var allOrders = {
                         orders: items
                     };
