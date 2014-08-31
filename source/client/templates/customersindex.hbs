@@ -1,0 +1,39 @@
+<div class="span12">
+    <div class="row">
+        <div class="span2">
+            <p>{{#link-to "customers.new"}}<img src="images/add-icon.png"/> New customer{{/link-to}}</p>
+        </div>
+        <div class="span3">
+            <div class="search-bar">
+                {{input type="text" placeholder="Search by name or phone no." value=searchcustomer}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="span12">
+    <table class="tablesorter">
+        <thead>
+        <tr>
+            <th>Customer Name</th>
+            <th>Phone Number</th>
+            <th>Email Id</th>
+            <th>Measurement count</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each customer in controller itemController="customersEdit"}}
+            <tr {{bind-attr class="selected:warning"}}>
+                <td>{{customer.name}}</td>
+                <td>{{customer.phoneno}}</td>
+                <td>{{customer.emailid}}</td>
+                <td>{{customer.measurements.length}}</td>
+                <td>{{#link-to "customers.edit" customer}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
+                <td><a href="#" {{action removeItem customer}}><img src="images/delete-icon.png" border="0"/></a></td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>

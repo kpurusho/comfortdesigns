@@ -1,0 +1,138 @@
+<div class="row">
+    <div class="span12 text-center">
+        <p>
+            <a href="#" {{action openModal 'ordersummary' ordersummary}}>Order summary : {{ordersummary.totalnewcount}} New, {{ordersummary.totalinprogresscount}} In Progress, {{ordersummary.totaldonecount}} Done</a>
+        </p>
+    </div>
+    <div class="span12">
+        <div class="row">
+            <div class="span3">
+                <form class="form">
+                    <fieldset>
+                        <label class="control-label" >Order No.</label>
+                        <div class="controls">
+                            {{view Ember.TextField disabled="true" valueBinding="orderno"}}
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="span3">
+                <form class="form">
+                    <fieldset>
+                        <label class="control-label" >Order Date</label>
+                        <div class="controls">
+                            {{view App.DatePicker dateBinding="orderdate"}}
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="span3">
+                <form class="form">
+                    <fieldset>
+                        <label class="control-label" >Ready Date</label>
+                        <div class="controls">
+                            {{view App.DatePicker dateBinding="readydate"}}
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="span3">
+                <form class="form">
+                    <fieldset>
+                        <label class="control-label" >Delivery Date</label>
+                        <div class="controls">
+                            {{view App.DatePicker dateBinding="duedate"}}
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="span3">
+                <form class="form">
+                    <fieldset>
+                        <label class="control-label" >Phone No</label>
+                        {{view App.TextFieldEx valueBinding="customerphoneno" targetAction="updateCustomerDetails"}}
+                    </fieldset>
+                </form>
+            </div>
+            <div class="span3">
+                {{#form-for controller}}
+                    {{input customername label="Name"}}
+                {{/form-for}}
+            </div>
+            <div class="span3">
+                {{#form-for controller}}
+                    {{input customeremailid as="email" label="Email Id"}}
+                {{/form-for}}
+            </div>
+            <div class="span3">
+                {{#form-for controller}}
+                    {{input nopieces label="No. pieces"}}
+                {{/form-for}}
+            </div>
+            <div class="span3">
+                {{input status as='select'
+                label="Status"
+                collection="states"}}
+            </div>
+        </div>
+    </div>
+    <div class="span12">
+        <div class="row">
+            <div class="span3">
+                <p><a href="#" {{action createMeasurement}}><img src="images/add-icon.png"/> New measurement</a></p>
+            </div>
+            <div class="span3">
+                <p><a href="#" {{action getRecentMeasurement}}><img src="images/get-icon.png"/> Get last measurement</a></p>
+            </div>
+            <div class="span3">
+                <p><a href="#" {{action getAllPreviousMeasurement}}><img src="images/get-icon.png"/> Get all previous measurements</a></p>
+            </div>
+            <div class="span6">
+            </div>
+            <div class="span12">
+                {{#if measurements.length}}
+                    <table class="tablesorter">
+                        <thead>
+                        <tr>
+                            <th>Measurement Name</th>
+                            <th>Measurement Type</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each measurement in measurements}}
+                            <td>{{measurement.name}}</td>
+                            <td>{{measurement.type}}</td>
+                            <td><a href="#" {{action editMeasurement measurement}}><img src="images/edit-icon.png"/></a></td>
+                            <td><a href="#" {{action removeMeasurement measurement}}><img src="images/delete-icon.png" border="0"/></a></td>
+                            </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+
+    <div class="span12">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label" >Measurement note</label>
+                <div class="controls">
+                    {{view Ember.TextArea  class="measurementnotetext" valueBinding="additionalnote"}}
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="span12 text-center">
+        {{#if controller.isNew}}
+            <button class="btn btn-large btn-primary" type="button" {{action updateOrder this}}>Create order</button>
+        {{else}}
+            <button class="btn btn-large btn-primary" type="button" {{action updateOrder this}}>Update order</button>
+        {{/if}}
+        <button class="btn btn-large btn-primary" type="button" {{action cancelOrder this}}>Cancel</button>
+    </div>
+</div>

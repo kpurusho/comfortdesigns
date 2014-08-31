@@ -1,0 +1,98 @@
+<div class="span12">
+    <div class="row">
+        <h4>Order details</h4>
+        <table class="tablesorter">
+            <thead>
+            <tr>
+                <th>Order No</th>
+                <th>Order Date</th>
+                <th>Ready Date</th>
+                <th>Customer Name</th>
+                <th>Phone Number</th>
+                <th>Piece count</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{orderno}}</td>
+                <td>{{format-date orderdate}}</td>
+                <td>{{format-date readydate}}</td>
+                <td>{{customername}}</td>
+                <td>{{customerphoneno}}</td>
+                <td>{{nopieces}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="span12">
+    <div class="row">
+
+        <h4>Measurement details</h4>
+
+        {{#each m in measurements}}
+            <div class="span12 borderedDiv">
+                <div class="row">
+                    <h5>
+                        {{m.name}} : {{m.type}}
+                    </h5>
+                    {{#eachIndexed m.measurementitems}}
+                        {{#if blockstart}}
+                        <div class="span2">
+                        <table class="tablesorter">
+                            <thead>
+                            <tr>
+                                <th>Measurement</th>
+                                <th>Value</th>
+                            </tr>
+                            </thead>
+                        <tbody>
+                        {{/if}}
+                    <tr>
+                        <td>{{itemname}}</td>
+                        <td>{{itemvalue}}</td>
+                    </tr>
+                        {{#if blockend}}
+                        </tbody>
+                        </table>
+                        </div>
+                        {{/if}}
+                    {{/eachIndexed}}
+                </div>
+            </div>
+        {{/each}}
+
+        <div class="span12">
+            <h4>Measurement Notes:</h4>
+            {{additionalnote}}
+        </div>
+
+        <div class="span12">
+            <h4>Order Tracking:</h4>
+            <table class="tablesorter">
+                <thead>
+                <tr>
+                    <th>Work Step</th>
+                    <th>Completed Date</th>
+                    <th>Completed by</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each task in tasks}}
+                    <tr>
+                        <td>{{task.taskname}}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="span12 text-center">
+            <button class="btn btn-large btn-primary" type="button" {{action print}}>Print order</button>
+            <button class="btn btn-large btn-primary" type="button" {{action close}}>Close</button>
+        </div>
+    </div>
+</div>

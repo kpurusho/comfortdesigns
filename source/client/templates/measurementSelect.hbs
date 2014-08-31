@@ -1,0 +1,39 @@
+<div class="modal-header">
+    <h4>Select measurement</h4>
+</div>
+
+<div class="modal-body">
+    <div class="span12">
+        <table class="tablesorter">
+            <thead>
+            <tr>
+                <th>Select</th>
+                <th>Date</th>
+                <th>Measurement Name</th>
+                <th>Measurement Type</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each order in model}}
+                {{#each measurement in order.measurements}}
+                    <tr >
+                        <td>{{view Ember.Checkbox checkedBinding="measurement.selected"}}</td>
+                        <td>{{format-date order.orderdate}}</td>
+                        <td>{{measurement.name}}</td>
+                        <td>{{measurement.type}}</td>
+                    </tr>
+                {{/each}}
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <div class="span12 text-center">
+        <form class="form-horizontal">
+            <button type="button" class="btn btn-default" {{action ok}}>Ok</button>
+            <button type="button" class="btn btn-default" {{action cancel}}>Cancel</button>
+        </form>
+    </div>
+</div>

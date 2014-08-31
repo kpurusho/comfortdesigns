@@ -1,0 +1,131 @@
+<div class="span12">
+    <div class="row">
+        <div class="span2">
+            <p>{{#link-to "orders.new"}}<img src="images/add-icon.png"/> New order{{/link-to}}</p>
+        </div>
+
+        <div class="span3">
+            <div class="search-bar">
+                {{input type="text" placeholder="Search by order number" value=searchorder}}
+            </div>
+        </div>
+
+        <div class="span3">
+            <div class="search-bar">
+                {{input type="text" placeholder="Search by name or phone no." value=searchcustomer}}
+            </div>
+        </div>
+        <div class="span4 text-center">
+            <p>
+                <a href="#" {{action openModal 'ordersummary' ordersummary}}>Order summary : {{ordersummary.totalnewcount}} New, {{ordersummary.totalinprogresscount}} In Progress, {{ordersummary.totaldonecount}} Done</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+
+<div class="span12">
+    <div class="row">
+        <div class="span2">
+            <form>
+                <fieldset>
+                    <legend>Filter by status:</legend>
+
+                    <label>
+                        {{view Ember.Checkbox checkedBinding="filterByStatusNew"}}
+                        New
+                    </label>
+                    <label>
+                        {{view Ember.Checkbox checkedBinding="filterByStatusInProgress"}}
+                        In Progress
+                    </label>
+                    <label>
+                        {{view Ember.Checkbox checkedBinding="filterByStatusDone"}}
+                        Done
+                    </label>
+                    <label>
+                        {{view Ember.Checkbox checkedBinding="filterByStatusDelivered"}}
+                        Delivered
+                    </label>
+                </fieldset>
+            </form>
+
+            <form>
+                <fieldset>
+                    <legend class="small">Filter by delivery date:</legend>
+                    <label>
+                        {{view Ember.RadioButton name="DueDateFilter" selectionBinding="filterByDueDate" value="0"}}
+                        None
+                    </label>
+
+                    <label>
+                        {{view Ember.RadioButton name="DueDateFilter" selectionBinding="filterByDueDate" value="1"}}
+                        This week
+                    </label>
+
+                    <label>
+                        {{view Ember.RadioButton name="DueDateFilter" selectionBinding="filterByDueDate" value="2"}}
+                        Next 2 weeks
+                    </label>
+
+                    <label>
+                        {{view Ember.RadioButton name="DueDateFilter" selectionBinding="filterByDueDate" value="3"}}
+                        Next 3 weeks
+                    </label>
+
+                    <label>
+                        {{view Ember.RadioButton name="DueDateFilter" selectionBinding="filterByDueDate" value="4"}}
+                        Next 4 weeks
+                    </label>
+
+                    <label>
+                        {{view Ember.RadioButton name="DueDateFilter" selectionBinding="filterByDueDate" value="-1"}}
+                        Past
+                    </label>
+                </fieldset>
+            </form>
+        </div>
+        <div class="span10">
+            <div class="table-main">
+                <table class="tablesorter">
+                    <thead>
+                    <tr>
+                        <th {{action sortColumn 'orderno'}}>Order No</th>
+                        <th {{action sortColumn 'orderdate'}}>Order Date</th>
+                        <th {{action sortColumn 'customername'}}>Customer Name</th>
+                        <th {{action sortColumn 'customerphoneno'}}>Phone Number</th>
+                        <th {{action sortColumn 'readydate'}}>Ready Date</th>
+                        <th {{action sortColumn 'duedate'}}>Delivery Date</th>
+                        <th {{action sortColumn 'nopieces'}}>Piece count</th>
+                        <th {{action sortColumn 'orderno'}}></th>
+                        <th {{action sortColumn 'status'}}>Status</th>
+                        <th></th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                        <th>Print</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each order in controller itemController="ordersEdit"}}
+                        <tr>
+                            <td>{{order.orderno}}</td>
+                            <td>{{format-date order.orderdate}}</td>
+                            <td>{{order.customername}}</td>
+                            <td>{{order.customerphoneno}}</td>
+                            <td>{{format-date order.readydate}}</td>
+                            <td>{{format-date order.duedate}}</td>
+                            <td>{{order.nopieces}}</td>
+                            <td><a href="#" {{action orderStatusPrevious order}}><img src="images/previous-icon.png"/></a></td>
+                            <td>{{order.status}}</td>
+                            <td><a href="#" {{action orderStatusNext order}}><img src="images/next-icon.png"/></a></td>
+                            <td>{{#link-to "orders.edit" order}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
+                            <td><a href="#" {{action removeItem order}}><img src="images/delete-icon.png" border="0"/></a></td>
+                            <td>{{#link-to "orders.print" order}}<img src="images/print-icon.png"/>{{/link-to}}</td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

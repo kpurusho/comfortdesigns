@@ -1,0 +1,29 @@
+<div class="modal-header">
+    <h4>Edit Measurement item config</h4>
+</div>
+
+<div class="modal-body">
+    <div class="span12">
+        <div class="row">
+            {{#form-for controller}}
+                <div class="span4">
+                    {{input itemname label="Name"}}
+                </div>
+                <div class="span4">
+                    {{input min label="Min"}}
+                </div>
+                <div class="span4">
+                    {{input max label="Max"}}
+                </div>
+            {{/form-for}}
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <div class="span12 text-center">
+        <form class="form-horizontal">
+            <button type="button" class="btn btn-default" {{action updateMeasurementItemConfig}}>Update</button>
+        </form>
+    </div>
+</div>

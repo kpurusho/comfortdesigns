@@ -1,0 +1,27 @@
+<div class="span12">
+    <p>{{#link-to "measurementconfigs.new"}}<img src="images/add-icon.png"/> New measurement type{{/link-to}}</p>
+</div>
+<div class="span12">
+    <table class="tablesorter">
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Item Count</th>
+            <th>Edit</th>
+            <th>Copy</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each config in controller itemController="measurementconfigsEdit"}}
+            <tr {{bind-attr class="selected:warning"}}>
+                <td>{{config.type}}</td>
+                <td>{{config.measurementitems.length}}</td>
+                <td>{{#link-to "measurementconfigs.edit" config}}<img src="images/edit-icon.png"/>{{/link-to}}</td>
+                <td><a href="#" {{action copyItem config}}><img src="images/copy-icon.png" border="0"/></a></td>
+                <td><a href="#" {{action removeItem config}}><img src="images/delete-icon.png" border="0"/></a></td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>

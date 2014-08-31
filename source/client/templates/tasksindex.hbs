@@ -1,0 +1,25 @@
+<div class="span12">
+    <p><a href="#" {{action createTask}}><img src="images/add-icon.png"/>New task</a></p>
+</div>
+<div class="span12">
+    <table class="tablesorter">
+        <thead>
+        <tr>
+            <th>Sequence Id</th>
+            <th>Task Name</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each task in controller itemController="tasksEdit"}}
+            <tr {{bind-attr class="selected:warning"}}>
+                <td>{{task.seqid}}</td>
+                <td>{{task.taskname}}</td>
+                <td><a href="#" {{action editTask task}}><img src="images/edit-icon.png"/></a></td>
+                <td><a href="#" {{action removeTask task}}><img src="images/delete-icon.png" border="0"/></a></td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>

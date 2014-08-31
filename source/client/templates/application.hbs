@@ -1,0 +1,31 @@
+<div class="container">
+    <h2>Comfort Designs</h2>
+
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                {{#link-to "index" tagName="li"}}
+                    <a {{bindAttr href="view.href"}}>Home</a>
+                {{/link-to}}
+
+                {{#link-to "orders" tagName="li"}}
+                    <a {{bindAttr href="view.href"}}>Orders</a>
+                {{/link-to}}
+
+                {{#link-to "customers" tagName="li"}}
+                    <a {{bindAttr href="view.href"}}>Customers</a>
+                {{/link-to}}
+
+                {{#link-to "measurementconfigs" tagName="li"}}
+                    <a {{bindAttr href="view.href"}}>Measurement Config</a>
+                {{/link-to}}
+
+                {{#link-to "tasks" tagName="li"}}
+                    <a {{bindAttr href="view.href"}}>Tasks Config</a>
+                {{/link-to}}
+            </ul>
+        </div>
+    </div>
+    {{outlet}}
+    {{outlet modal}}
+</div>

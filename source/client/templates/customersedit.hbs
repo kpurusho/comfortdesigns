@@ -1,0 +1,53 @@
+<div class="span12">
+    <div class="row">
+        <div class="span3">
+            {{#form-for controller}}
+                {{input name label="Customer Name"}}
+                {{input phoneno label="Phone Number"}}
+                {{input emailid as="email" label="Email Id"}}
+            {{/form-for}}
+        </div>
+        <div class="span3">
+            {{#form-for controller}}
+                {{input addressline1 label="Address Line 1"}}
+                {{input addressline2 label="Address Line 2"}}
+                {{input addressline3 label="Address Line 3"}}
+            {{/form-for}}
+        </div>
+    </div>
+</div>
+<div class="span12">
+    <div class="row">
+        <p><a href="#" {{action createMeasurement}}><img src="images/add-icon.png"/> New measurement</a></p>
+        {{#if measurements.length}}
+            <table class="tablesorter">
+                <thead>
+                <tr>
+                    <th>Measurement Name</th>
+                    <th>Measurement Type</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each measurement in measurements}}
+                    <td>{{measurement.name}}</td>
+                    <td>{{measurement.type}}</td>
+                    <td><a href="#" {{action editMeasurement measurement}}><img src="images/edit-icon.png"/></a></td>
+                    <td><a href="#" {{action removeMeasurement measurement}}><img src="images/delete-icon.png" border="0"/></a></td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        {{/if}}
+    </div>
+</div>
+
+<div class="span12 text-center">
+    {{#if controller.isNew}}
+        <button class="btn btn-large btn-primary" type="button" {{action updateCustomer this}}>Create customer</button>
+    {{else}}
+        <button class="btn btn-large btn-primary" type="button" {{action updateCustomer this}}>Update customer</button>
+    {{/if}}
+    <button class="btn btn-large btn-primary" type="button" {{action cancelCustomer this}}>Cancel</button>
+</div>

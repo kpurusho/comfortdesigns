@@ -1,10 +1,19 @@
 {
-	"name": "comfort-designs-client",
-	"description": "comfort design client",
-	"version": "0.0.1",
-	"private": true,
-	"dependencies": {
-		"async": "*"
-	}
+  "name": "comfort-designs-client",
+  "description": "comfort design client",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "async": "*"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-uglify": "^0.5.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "handlebars": "^1.3.0",
+    "ember-template-compiler": "^1.6.1",
+    "grunt-ember-templates": "^0.4.21"
+  }
 }
-
