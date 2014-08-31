@@ -266,5 +266,3 @@ App.OrdersEditController.reopen({
 
     }
 });
-
-App.OrdersNewController = App.OrdersEditController.extend();

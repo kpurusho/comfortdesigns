@@ -38,7 +38,7 @@ App.CustomersNewRoute = Ember.Route.extend({
     },
 
     setupController: function (controller, model) {
-        this.controllerFor('customers.edit').setProperties({ isNew: true, model: model, editableMeasurement: null });
+        this.controllerFor('customers.new').setProperties({ isNew: true, model: model, editableMeasurement: null });
     },
 
     renderTemplate: function () {

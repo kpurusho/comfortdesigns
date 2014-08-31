@@ -1,0 +1,1 @@
+App.OrdersNewController = App.OrdersEditController.extend();
