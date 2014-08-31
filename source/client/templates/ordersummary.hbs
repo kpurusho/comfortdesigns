@@ -1,0 +1,88 @@
+<div class="modal-header">
+    <button type="button" class="close" {{action close target="view"}}>&times;</button>
+    <h4>Order summary</h4>
+</div>
+<div class="modal-body">
+    <div class="span6">
+        <div class="row">
+            <div class="span6">
+                <h5>Overall summary</h5>
+                <table class="tablesorter">
+                    <thead>
+                    <tr>
+                        <th width="25%"></th>
+                        <th width="25%">New</th>
+                        <th width="25%">In Progress</th>
+                        <th width="25%">Done</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Total</td>
+                        <td>{{model.totalnewcount}}</td>
+                        <td>{{model.totalinprogresscount}}</td>
+                        <td>{{model.totaldonecount}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="span6">
+                <h5>Week wise summary</h5>
+                <div class="table-weeks">
+                    <table class="tablesorter">
+                        <thead>
+                        <tr>
+                            <th width="25%">Week</th>
+                            <th width="25%">New</th>
+                            <th width="25%">In Progress</th>
+                            <th width="25%">Done</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each rec in model.weekwisesummary}}
+                            <tr>
+                                <td>{{rec.week}}</td>
+                                <td>{{rec.newcount}}</td>
+                                <td>{{rec.inprogresscount}}</td>
+                                <td>{{rec.donecount}}</td>
+                            </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="span6">
+        <h5>Day wise summary</h5>
+        <div class="table-days">
+            <table class="tablesorter">
+                <thead>
+                <tr>
+                    <th width="25%">Delivery Date</th>
+                    <th width="25%">New</th>
+                    <th width="25%">In Progress</th>
+                    <th width="25%">Done</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each rec in model.daywisesummary}}
+                    <tr>
+                        <td>{{format-date rec.duedate}}</td>
+                        <td>{{rec.newcount}}</td>
+                        <td>{{rec.inprogresscount}}</td>
+                        <td>{{rec.donecount}}</td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="span12 text-center">
+        <form class="form-horizontal">
+            <button type="button" class="btn btn-default" {{action close}}>Close</button>
+        </form>
+    </div>
+</div>

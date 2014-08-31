@@ -1,0 +1,40 @@
+<div class="span12">
+    {{#form-for controller}}
+        {{input type label="Measurement Type"}}
+    {{/form-for}}
+</div>
+<div class="span12">
+    <p><a href="#" {{action createMeasurementItemConfig}}><img src="images/add-icon.png"/> New measurement item</a></p>
+    {{#if measurementitems.length}}
+        <table class="tablesorter">
+            <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Minimum Value</th>
+                <th>Maximum Value</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each item in measurementitems}}
+                <tr>
+                    <td>{{item.itemname}}</td>
+                    <td>{{item.min}}</td>
+                    <td>{{item.max}}</td>
+                    <td><a href="#" {{action editMeasurementItemConfig item}}><img src="images/edit-icon.png"/></a></td>
+                    <td><a href="#" {{action removeMeasurementIemConfig item}}><img src="images/delete-icon.png" border="0"/></a></td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    {{/if}}
+</div>
+
+<div class="span12 text-center">
+    {{#if controller.isNew}}
+        <button class="btn btn-large btn-primary" type="button" {{action updateMeasurementType this}}>Create measurement type</button>
+    {{else}}
+        <button class="btn btn-large btn-primary" type="button" {{action updateMeasurementType this}}>Update measurement type</button>
+    {{/if}}
+</div>

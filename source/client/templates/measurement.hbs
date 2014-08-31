@@ -1,0 +1,56 @@
+<div class="modal-header">
+    <button type="button" class="close" {{action close target="view"}}>&times;</button>
+    <h4>Edit Measurement</h4>
+</div>
+
+<div class="modal-body">
+    <div class="span12">
+        <div class="row">
+            <div class="span4">
+                {{#form-for controller}}
+                    {{input name label="Name"}}
+                {{/form-for}}
+            </div>
+            <div class="span4">
+                {{#form-for controller}}
+                    {{#if controller.isNew}}
+                        {{input measurementtype as='select'
+                        label="Type"
+                        collection="measurementtypes"
+                        prompt="Select type"}}
+                    {{else}}
+                        <label class="control-label">Type:</label>
+                        <label class="control-label">{{type}}</label>
+                    {{/if}}
+                {{/form-for}}
+            </div>
+        </div>
+    </div>
+
+    <div class="span12">
+        <div class="row">
+            {{#form-for controller}}
+                {{#eachIndexed measurementitems itemController="measurementitem"}}
+                    {{#if blockStart}}
+                    <div class="row">
+                    {{/if}}
+                    <div class="span2">
+                        {{input itemvalue label=itemname}}
+                    </div>
+                    {{#if blockEnd}}
+                    </div>
+                    {{/if}}
+                {{/eachIndexed}}
+            {{/form-for}}
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <div class="span12 text-center">
+        <form class="form-horizontal">
+            <button type="button" class="btn btn-default" {{action updateMeasurement}}>Update measurement</button>
+            <button type="button" class="btn btn-default" {{action close}}>Cancel</button>
+        </form>
+    </div>
+</div>
