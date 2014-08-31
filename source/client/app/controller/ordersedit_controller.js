@@ -67,6 +67,10 @@ App.OrdersEditController = Ember.ObjectController.extend(Ember.Validations.Mixin
 
                                 function(oMeasurement, done) {
 
+                                    var saveFunction = function (cMeasurement) {
+                                        App.Measurementhelper.saveMeasurement(cMeasurement, done);
+                                    };
+
                                     var matchFound = false;
                                     for (var cIdx = 0; cIdx < customerMeasurements.length; cIdx++) {
                                         var cMeasurement = customerMeasurements[cIdx];
@@ -74,9 +78,8 @@ App.OrdersEditController = Ember.ObjectController.extend(Ember.Validations.Mixin
                                         if (cMeasurement.get('name') === oMeasurement.get('name') &&
                                             cMeasurement.get('type') === oMeasurement.get('type')) {
                                             matchFound = true;
-                                            App.Measurementhelper.copyMeasurement(oMeasurement, cMeasurement, self.store, function () {
-                                                App.Measurementhelper.saveMeasurement(cMeasurement, done);
-                                            });
+                                            App.Measurementhelper.copyMeasurement(oMeasurement, cMeasurement,
+                                                self.store, saveFunction);
                                             break;
                                         }
                                     }
@@ -224,12 +227,15 @@ App.OrdersEditController = Ember.ObjectController.extend(Ember.Validations.Mixin
 
                     customer.get('measurements').then(function (measurements) {
                         var marr = measurements.toArray();
-                        for (var i = 0; i < marr.length; i++){
-                            App.Measurementhelper.cloneMeasurement(marr[i], self.store, function(newMeasurement){
-                                order.get('measurements').then(function(om) {
-                                    om.pushObject(newMeasurement);
-                                });
+
+                        var pushFunction = function(newMeasurement){
+                            order.get('measurements').then(function(om) {
+                                om.pushObject(newMeasurement);
                             });
+                        };
+
+                        for (var i = 0; i < marr.length; i++){
+                            App.Measurementhelper.cloneMeasurement(marr[i], self.store, pushFunction);
                         }
                     });
                 } else {

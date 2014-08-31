@@ -39,7 +39,7 @@ App.Measurementhelper = {
                     }
                     done();
                 }, function done() {
-                    callback();
+                    callback(dest);
                 });
             });
         });

@@ -9,6 +9,7 @@ Ember.Validations.validators.local.MeasurementValidator = Ember.Validations.vali
         var self = this;
 
         App.MeasurementConfigServiceInstance.findMeasurementItemConfig(measurementtype, itemname, function(item) {
+            if (item === undefined || item === null) return;
             if (value < item.get('min') || value > item.get('max')) {
                 self.errors.pushObject("Value should be between [" + item.get('min') + "-" + item.get('max') + "]");
             }
